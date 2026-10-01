@@ -1,0 +1,94 @@
+/* MFA & OAuth Authentication Styling */
+
+.mfa-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.mfa-digit-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.mfa-digit-input {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+.mfa-digit-input:focus {
+  border-color: #01a5d6;
+  box-shadow: 0 0 0 4px rgba(1, 165, 214, 0.18);
+  background-color: #ffffff;
+  outline: none;
+}
+
+.mfa-digit-input.has-value {
+  border-color: #0891b2;
+  background-color: #f0fdfa;
+}
+
+.mfa-timer-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 0.35rem;
+}
+
+.mfa-timer-badge.active {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.mfa-timer-badge.warning {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.qr-code-box {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.qr-code-box img {
+  max-width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.secret-key-display {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.callback-progress-box {
+  padding: 2rem;
+  text-align: center;
+}

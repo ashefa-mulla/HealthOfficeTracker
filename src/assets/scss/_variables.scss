@@ -1,0 +1,31 @@
+// HO Tracker SCSS Variables
+
+$primary: #01a5d6;
+$secondary: #74788d;
+$success: #34c38f;
+$info: #50a5f1;
+$warning: #f1b44c;
+$danger: #f46a6a;
+$dark: #343a40;
+$light: #f8f9fa;
+
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
+$headings-font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+
+$body-bg: #f8f9fa;
+$body-color: #495057;
+
+$link-color: $primary;
+$link-decoration: none;
+$link-hover-color: darken($primary, 10%);
+$link-hover-decoration: underline;
+
+$card-border-width: 0;
+$card-border-radius: 0.75rem;
+$card-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+$input-btn-padding-y: 0.65rem;
+$input-btn-padding-x: 1rem;
+$input-border-radius: 0.5rem;
+$input-focus-border-color: $primary;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba(1, 165, 214, 0.25);

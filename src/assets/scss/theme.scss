@@ -1,0 +1,22 @@
+// Theme SCSS for HO Tracker
+@import "variables";
+@import "bootstrap/scss/bootstrap";
+
+// Custom styles matching reference architecture
+body {
+  font-family: $font-family-sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $headings-font-family;
+  font-weight: 600;
+}
+
+.auth-full-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

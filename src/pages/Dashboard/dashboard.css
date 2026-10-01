@@ -1,0 +1,231 @@
+/* Dashboard Page Styling */
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, #01a5d6 0%, #0891b2 50%, #0f172a 100%);
+  border-radius: 16px;
+  color: #ffffff;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 25px rgba(1, 165, 214, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.welcome-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  max-width: 600px;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.stat-icon-blue {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.stat-icon-teal {
+  background: #ccfbf1;
+  color: #0d9488;
+}
+
+.stat-icon-amber {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.stat-icon-emerald {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.stat-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.stat-trend {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  gap: 0.25rem;
+}
+
+.stat-trend.positive {
+  color: #10b981;
+}
+
+.stat-trend.neutral {
+  color: #64748b;
+}
+
+/* Card components */
+.content-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.card-header-custom {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+.card-title-custom {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Activity Table */
+.custom-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.custom-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.85rem 1.25rem;
+  border-top: none;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.custom-table td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 0.35rem;
+}
+
+.status-active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-break {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.status-offline {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.quick-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #1e293b;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.quick-action-btn:hover {
+  border-color: #01a5d6;
+  background: #f0f9ff;
+  color: #01a5d6;
+  transform: translateX(4px);
+}
+
+.quick-action-btn i {
+  font-size: 1.4rem;
+  color: #01a5d6;
+}
