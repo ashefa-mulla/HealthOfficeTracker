@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Custom\EmployeeMatrix\**" />
+    <Compile Remove="Custom\EmployeeTemplate\**" />
+    <Compile Remove="Custom\Employer Form\**" />
+    <Compile Remove="Custom\Employer\**" />
+    <Compile Remove="Custom\Employer_FirstLevel_Detail\**" />
+    <Compile Remove="Custom\TaskActivity\**" />
+    <EmbeddedResource Remove="Custom\EmployeeMatrix\**" />
+    <EmbeddedResource Remove="Custom\EmployeeTemplate\**" />
+    <EmbeddedResource Remove="Custom\Employer Form\**" />
+    <EmbeddedResource Remove="Custom\Employer\**" />
+    <EmbeddedResource Remove="Custom\Employer_FirstLevel_Detail\**" />
+    <EmbeddedResource Remove="Custom\TaskActivity\**" />
+    <None Remove="Custom\EmployeeMatrix\**" />
+    <None Remove="Custom\EmployeeTemplate\**" />
+    <None Remove="Custom\Employer Form\**" />
+    <None Remove="Custom\Employer\**" />
+    <None Remove="Custom\Employer_FirstLevel_Detail\**" />
+    <None Remove="Custom\TaskActivity\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessData\BusinessData.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Custom\TrackerProject\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+
+  </ItemGroup>
+
+</Project>
