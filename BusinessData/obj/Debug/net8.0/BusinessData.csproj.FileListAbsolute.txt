@@ -1,0 +1,29 @@
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\bin\Debug\net8.0\BusinessData.deps.json
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\bin\Debug\net8.0\BusinessData.runtimeconfig.json
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\bin\Debug\net8.0\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\bin\Debug\net8.0\BusinessData.pdb
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.csproj.AssemblyReference.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.GeneratedMSBuildEditorConfig.editorconfig
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.AssemblyInfoInputs.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.AssemblyInfo.cs
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.csproj.CoreCompileInputs.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.sourcelink.json
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\refint\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.pdb
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\BusinessData.genruntimeconfig.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API\BusinessData\obj\Debug\net8.0\ref\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\bin\Debug\net8.0\BusinessData.deps.json
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\bin\Debug\net8.0\BusinessData.runtimeconfig.json
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\bin\Debug\net8.0\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\bin\Debug\net8.0\BusinessData.pdb
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.csproj.AssemblyReference.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.GeneratedMSBuildEditorConfig.editorconfig
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.AssemblyInfoInputs.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.AssemblyInfo.cs
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.csproj.CoreCompileInputs.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\refint\BusinessData.dll
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.pdb
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\BusinessData.genruntimeconfig.cache
+D:\Rangsoft Project\GitHub Project\HO Tracker\API React\BusinessData\obj\Debug\net8.0\ref\BusinessData.dll

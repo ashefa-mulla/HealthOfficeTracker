@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace BusinessData.DataContext;
+
+[Keyless]
+[Table("Tbl_PODetails_03072021")]
+public partial class TblPodetails03072021
+{
+    [Column("ID")]
+    public int Id { get; set; }
+
+    [Column("Company_ID")]
+    public int? CompanyId { get; set; }
+
+    [Column("PODate", TypeName = "datetime")]
+    public DateTime? Podate { get; set; }
+
+    [StringLength(10)]
+    public string Code { get; set; }
+
+    [Column("PO_Type")]
+    [StringLength(10)]
+    public string PoType { get; set; }
+
+    [Column("Category_ID")]
+    public int? CategoryId { get; set; }
+
+    [Column("Vendor_ID")]
+    public int? VendorId { get; set; }
+
+    [Column("Vendor_Account_No")]
+    public int? VendorAccountNo { get; set; }
+
+    [Column("No_of_Qty", TypeName = "decimal(5, 2)")]
+    public decimal? NoOfQty { get; set; }
+
+    [Column("PO_Amount", TypeName = "decimal(9, 2)")]
+    public decimal? PoAmount { get; set; }
+
+    [StringLength(200)]
+    public string Payby { get; set; }
+
+    [Column("Check_CC_Detail")]
+    [StringLength(50)]
+    public string CheckCcDetail { get; set; }
+
+    [Column("Bank_CC_Name")]
+    [StringLength(50)]
+    public string BankCcName { get; set; }
+
+    public string Remarks { get; set; }
+
+    public string Weblink { get; set; }
+
+    public int? Paytype { get; set; }
+
+    public bool Active { get; set; }
+
+    [Column("Order_By")]
+    public int? OrderBy { get; set; }
+
+    [Column("updated_by")]
+    public int? UpdatedBy { get; set; }
+
+    [Column("updated_date", TypeName = "datetime")]
+    public DateTime? UpdatedDate { get; set; }
+
+    [Column("CostCentreID")]
+    public int? CostCentreId { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? PaymentDueDate { get; set; }
+
+    public int? ProcessMethod { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? StartDate { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? EndDate { get; set; }
+
+    [Column("Online_Access")]
+    public string OnlineAccess { get; set; }
+
+    [StringLength(250)]
+    public string Why { get; set; }
+
+    [StringLength(250)]
+    public string Accountable { get; set; }
+
+    [Column("Online_Access_Username")]
+    [StringLength(100)]
+    public string OnlineAccessUsername { get; set; }
+
+    [Column("Online_Access_Password")]
+    [StringLength(100)]
+    public string OnlineAccessPassword { get; set; }
+
+    public string Workflow { get; set; }
+}
