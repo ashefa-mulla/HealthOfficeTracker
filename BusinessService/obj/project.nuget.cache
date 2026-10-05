@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4XY8L4j3uVc=",
+  "dgSpecHash": "+t+v9LEVxC8=",
   "success": true,
-  "projectFilePath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessService\\BusinessService.csproj",
+  "projectFilePath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
@@ -64,9 +64,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Microsoft.Data.SqlClient' 5.1.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
-      "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessService\\BusinessService.csproj",
+      "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessService\\BusinessService.csproj",
+      "filePath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj",
       "libraryId": "Microsoft.Data.SqlClient",
       "targetGraphs": [
         "net8.0"

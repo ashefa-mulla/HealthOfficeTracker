@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessData\\BusinessData.csproj": {}
+    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj": {}
   },
   "projects": {
-    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessData\\BusinessData.csproj": {
+    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessData\\BusinessData.csproj",
+        "projectUniqueName": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj",
         "projectName": "BusinessData",
-        "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessData\\BusinessData.csproj",
+        "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\Git API React\\BusinessData\\obj\\",
+        "outputPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

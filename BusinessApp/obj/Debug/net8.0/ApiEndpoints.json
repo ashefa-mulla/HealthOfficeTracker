@@ -1,0 +1,5011 @@
+[
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "SendmailAsync",
+    "RelativePath": "api/Account",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmailTo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailCc",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailFrom",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailSubject",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailBody",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "lstattachment",
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "GenrateAuthToken",
+    "RelativePath": "api/Account/authtoken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "ChangeUserTimezone",
+    "RelativePath": "api/Account/changeusertimezone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.UserTimezoneModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/Account/forgotpassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.ResetPassword",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ResetPassword",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "Login",
+    "RelativePath": "api/Account/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Account/resetpassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.ResetPassword",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ResetPassword",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "Test",
+    "RelativePath": "api/Account/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountController",
+    "Method": "VerifyLink",
+    "RelativePath": "api/Account/verifylink",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ResetPassword",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountCategoryController",
+    "Method": "AddEditAccountCategory",
+    "RelativePath": "api/AccountCategory/addeditAccountCategory",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.AccountCategory",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.AccountCategory",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountCategoryController",
+    "Method": "DeleteAccountCategory",
+    "RelativePath": "api/AccountCategory/deleteaccountaategory/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountCategoryController",
+    "Method": "GetAllAccountCategory",
+    "RelativePath": "api/AccountCategory/GetAccountCategory",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllAccountCategory_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountCategoryController",
+    "Method": "GetAllAccountCategoryList",
+    "RelativePath": "api/AccountCategory/GetAllAccountCategoryList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllAccountCategory_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AccountCategoryController",
+    "Method": "Get",
+    "RelativePath": "api/AccountCategory/GetCategory/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.AccountCategory",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AuthController",
+    "Method": "Logout",
+    "RelativePath": "api/Auth/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AuthController",
+    "Method": "GetProfile",
+    "RelativePath": "api/Auth/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.AuthController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/Auth/refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.RefreshTokenRequest",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.BankMasterController",
+    "Method": "AddEditbankMaster",
+    "RelativePath": "api/BankMaster/addeditBankMaster",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.BankMasterModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.BankMasterModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.BankMasterController",
+    "Method": "DeletebankMaster",
+    "RelativePath": "api/BankMaster/deleteBankMaster/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.BankMasterController",
+    "Method": "GetAllBankList",
+    "RelativePath": "api/BankMaster/GetAllBankList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllBankList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.BankMasterController",
+    "Method": "GetAllbankMaster",
+    "RelativePath": "api/BankMaster/GetAllBankMaster",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllBankDetail_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.BankMasterController",
+    "Method": "Get",
+    "RelativePath": "api/BankMaster/GetBankMaster/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.BankMasterModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ChequeRequestController",
+    "Method": "SendmailAsync",
+    "RelativePath": "api/ChequeRequest",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmailTo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailCc",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailFrom",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailSubject",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailBody",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "lstattachment",
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ChequeRequestController",
+    "Method": "AddEditCheck",
+    "RelativePath": "api/ChequeRequest/addeditChequeRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.ChequeRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ChequeRequestModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ChequeRequestController",
+    "Method": "DeleteCheck",
+    "RelativePath": "api/ChequeRequest/deleteChequeRequest/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ChequeRequestController",
+    "Method": "GetAllChequeRequest",
+    "RelativePath": "api/ChequeRequest/GetAllChequeRequest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllChequeRequest_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ChequeRequestController",
+    "Method": "Get",
+    "RelativePath": "api/ChequeRequest/GetCheck/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ChequeRequestModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "SendmailAsync",
+    "RelativePath": "api/DailyTodo",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmailTo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailCc",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailFrom",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailSubject",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmailBody",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "lstattachment",
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "AddEditTodo",
+    "RelativePath": "api/DailyTodo/AddEditTodo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.PunchDetailTodo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblToptrackerTask",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "GetDailyEvents",
+    "RelativePath": "api/DailyTodo/GetDailyEvents",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "s_mm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "s_yy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "callid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPunchDetailTodoByEmpID_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "GetDailySummary",
+    "RelativePath": "api/DailyTodo/GetDailySummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPunchDetailTodoByEmpID_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "GetTodotasklist",
+    "RelativePath": "api/DailyTodo/GetDailyTask/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_gettodotasklist_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "Gettasklistforall",
+    "RelativePath": "api/DailyTodo/getdailytaskforall",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_gettasklistforall_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DailyTodoController",
+    "Method": "Get",
+    "RelativePath": "api/DailyTodo/GetTodo/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblPunchDetailTodo",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetGraphReport",
+    "RelativePath": "api/Dashborad/clientgraphreport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.getclientgraphreport_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetAdminProjectReport",
+    "RelativePath": "api/Dashborad/clientprojectsummerybyperson",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "start",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getadminprojectsummaryfordashboard_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetEmployeeTaskSummaryForYesterday",
+    "RelativePath": "api/Dashborad/employeetaskdummaryforyesterday",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_GetEmployeeTaskSummary_Yesterday_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetBelow3HrEmployeeDailyDuration",
+    "RelativePath": "api/Dashborad/GetBelow3HrEmployeeDailyDuration",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getbelow3hremployeedailyduration_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetCurrentMonthOutstanding",
+    "RelativePath": "api/Dashborad/GetCurrentMonthOutstanding",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_getcurrentmonthOutstandingByAdmin_Results",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetEmployeesNotTrackedYesterday",
+    "RelativePath": "api/Dashborad/GetEmployeesNotTrackedYesterday",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetMentionPointsSummary",
+    "RelativePath": "api/Dashborad/GetMentionPointsSummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.getfeedbackformmentionpointssummary, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetNotification",
+    "RelativePath": "api/Dashborad/GetNotification",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUserLogNotification_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetTeamMambers",
+    "RelativePath": "api/Dashborad/GetTaem",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GeTeamList_Results",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetTodayLeaveList",
+    "RelativePath": "api/Dashborad/GetTodayLeaveList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTodayLeaveList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DashboradController",
+    "Method": "GetOnlineEmployeeDashboard",
+    "RelativePath": "api/Dashborad/onlineemployeedashboard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userIds",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getonlineemployeedashboardsummary_Result, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "AddEditEmployee",
+    "RelativePath": "api/Employee/AddEditEmployee",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Data.EmployeeFormModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Data.EmployeeFormModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "AddEditEvaluationQuestion",
+    "RelativePath": "api/Employee/addeditevaluationquestion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.EvaluationQuestionModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "AddEditEvaluationSubmission",
+    "RelativePath": "api/Employee/addeditevaluationsubmission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.EvaluationSubmissionModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.EvaluationSubmissionModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "AddEditLabTests",
+    "RelativePath": "api/Employee/addeditfeedbackform",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "models",
+        "Type": "System.Collections.Generic.List\u00601[[BusinessApp.Models.Matrix4teamAnswerModel, BusinessApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "AddEditEvaluations",
+    "RelativePath": "api/Employee/addmonthlyevaluationsubmission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "models",
+        "Type": "System.Collections.Generic.List\u00601[[BusinessApp.Models.EvaluationSubmissionModel, BusinessApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Employee/changepassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.ChangePassword",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ChangePassword",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "ChangeUserName",
+    "RelativePath": "api/Employee/Changeusername",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.ChangeUserName",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ChangePassword",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "Delete",
+    "RelativePath": "api/Employee/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "DeleteEvaluationQuestion",
+    "RelativePath": "api/Employee/deleteevaluationquestion/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "deleteProfileFile",
+    "RelativePath": "api/Employee/deleteFile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "fieldname",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "Get",
+    "RelativePath": "api/Employee/get/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Data.EmployeeModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetEvaluationQuestionById",
+    "RelativePath": "api/Employee/getevaluationquestionbyid/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.EvaluationQuestionModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetEvaluationQuestions",
+    "RelativePath": "api/Employee/getevaluationquestions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessApp.Models.EvaluationQuestionModel, BusinessApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetEvaluationQuestionsByEmployee",
+    "RelativePath": "api/Employee/getevaluationquestionsbyemployee/{empId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getevaluationquestionsbyemployee_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetEvaluationsForEdit",
+    "RelativePath": "api/Employee/getevaluationsforedit",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessApp.Data.sp_getevaluationsubmissionsforedit_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "Getlast8EvaluationsSummary",
+    "RelativePath": "api/Employee/getlast8evaluationssummary/{empId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getlast8evaluationssummary_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetMonthlyEvaluationReportSummary",
+    "RelativePath": "api/Employee/getmonthlyevaluationreportsummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "month",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getmonthlyevaluationreportsummary_Results, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetMonthlyEvaluationSummary",
+    "RelativePath": "api/Employee/getmonthlyevaluationsummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "evalYear",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "evalMonth",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.sp_getmonthlyevaluationsummary_Result, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "Getquestionsforfeedback",
+    "RelativePath": "api/Employee/getquestionsforfeedbackform",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_get_questionsforfeedbackform_Results",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "GetUserList",
+    "RelativePath": "api/Employee/getuserlist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "Getuserforfeedback",
+    "RelativePath": "api/Employee/getusersforfeedbackform",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_get_userforfeedbackform_Results",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "AddEditEvaluationLock",
+    "RelativePath": "api/Employee/lockevaluation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.EvaluationLockModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.EmployeeController",
+    "Method": "ToggleEvaluationQuestionStatus",
+    "RelativePath": "api/Employee/toggleevaluationquestionstatus/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveMasterController",
+    "Method": "AddEditLeave",
+    "RelativePath": "api/LeaveMaster/AddEditLeave",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.LeaveMaster",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.LeaveMaster",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveMasterController",
+    "Method": "DeleteLeave",
+    "RelativePath": "api/LeaveMaster/deleteLeave/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveMasterController",
+    "Method": "GetAllLeave",
+    "RelativePath": "api/LeaveMaster/GetAllLeave",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetLeaveMasterList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveMasterController",
+    "Method": "Get",
+    "RelativePath": "api/LeaveMaster/GetLeaveMaster/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.LeaveMaster",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveMasterController",
+    "Method": "GetLeaveMasterListbyEmpID",
+    "RelativePath": "api/LeaveMaster/GetLeaveMasterListbyEmpID/{empid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetLeaveMasterList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveTransactionController",
+    "Method": "AddEditLeaveTransaction",
+    "RelativePath": "api/LeaveTransaction/AddEditLeaveTransaction",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.LeaveTransaction",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.LeaveTransaction",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveTransactionController",
+    "Method": "DeleteLeaveTransaction",
+    "RelativePath": "api/LeaveTransaction/DeleteLeaveTransaction/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveTransactionController",
+    "Method": "GetLeaveEmployeeTransactionList",
+    "RelativePath": "api/LeaveTransaction/GetLeaveEmployeeTransactionList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetLeaveTransactionList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveTransactionController",
+    "Method": "Get",
+    "RelativePath": "api/LeaveTransaction/GetLeaveTransaction/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.LeaveTransaction",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.LeaveTransactionController",
+    "Method": "GetLeaveTransactionList",
+    "RelativePath": "api/LeaveTransaction/GetLeaveTransactionList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "month",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "currentyear",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetLeaveTransactionList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.MfaController",
+    "Method": "DisableMfa",
+    "RelativePath": "api/Mfa/disable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.DisableMfaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.MfaController",
+    "Method": "EnableMfa",
+    "RelativePath": "api/Mfa/enable",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.VerifyMfaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.MfaController",
+    "Method": "GenerateMfaSetup",
+    "RelativePath": "api/Mfa/setup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.MfaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.MfaController",
+    "Method": "VerifyMfa",
+    "RelativePath": "api/Mfa/verify",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.VerifyMfaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "HandleOAuthCallback",
+    "RelativePath": "api/OAuth/callback",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.OAuthCallbackRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "InitializeOAuth",
+    "RelativePath": "api/OAuth/init/{provider}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "provider",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "Login",
+    "RelativePath": "api/OAuth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "Logout",
+    "RelativePath": "api/OAuth/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "GetProfile",
+    "RelativePath": "api/OAuth/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/OAuth/refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.RefreshTokenRequest",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthController",
+    "Method": "GetOAuthStatus",
+    "RelativePath": "api/OAuth/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthWebApiController",
+    "Method": "Authorize",
+    "RelativePath": "api/OAuthWebApi/authorize",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.OAuthAuthorizeRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthWebApiController",
+    "Method": "ExchangeCodeForToken",
+    "RelativePath": "api/OAuthWebApi/token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.OAuthTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.OAuthWebApiController",
+    "Method": "GetUserProfile",
+    "RelativePath": "api/OAuthWebApi/user/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.Profile",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PunchDetailController",
+    "Method": "AddEditPunchDetail",
+    "RelativePath": "api/PunchDetail/AddEditPunchDetail",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.PunchDetail",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.PunchDetail",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PunchDetailController",
+    "Method": "ClockedInOut",
+    "RelativePath": "api/PunchDetail/clockinout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.UserClockInModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.UserClockInModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PunchDetailController",
+    "Method": "GetCompanyBranchListByCompanyID",
+    "RelativePath": "api/PunchDetail/GetCompanyBranchListByCompanyID/{companyid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetCompanyBranchListByCompanyID_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PunchDetailController",
+    "Method": "GetUserInOutvalue",
+    "RelativePath": "api/PunchDetail/GetUserInOutvalue/{userid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetEmployeeByUserID_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PunchDetailController",
+    "Method": "GetUserLogWithCaptureImg",
+    "RelativePath": "api/PunchDetail/GetUserLogWithCaptureImg",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUserLogWithCaptureImg_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "addeditPurchasehorder",
+    "RelativePath": "api/PurchaseOrder/addeditPurchasehorder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.PurchaseOrderModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.PurchaseOrderModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "deleteFile",
+    "RelativePath": "api/PurchaseOrder/deleteFile/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "DeletePurchasehorder",
+    "RelativePath": "api/PurchaseOrder/deletePurchasehorder/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetAllCostCentre",
+    "RelativePath": "api/PurchaseOrder/GetAllCostCentre",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllCostCentre_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPopayby",
+    "RelativePath": "api/PurchaseOrder/GetPopayby",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPOPayBy_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "Get",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseorder/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.PurchaseOrderModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetDailyEvents",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderDueDateEvents",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "mon",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPOPaymentDueDate_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderDueDateList",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderDueDateList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "mon",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPOPaymentDueDate_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderDueDateNotification",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderDueDateNotification",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_getpopaymentduedatenotification",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderList",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderList/{compnayid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "compnayid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPurchaseOrderList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderListbyFilter",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderListbyFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "compnayid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "active",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPurchaseOrderListbyFilter_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderParaList",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderParaList/{compnayid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "compnayid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPurchaseOrderList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderRefDocList",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderRefDocList/{PID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPurchaseOrderRefDocList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetPurchaseOrderReport",
+    "RelativePath": "api/PurchaseOrder/GetPurchaseOrderReport/{PID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPurchaseOrderReport_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.PurchaseOrderController",
+    "Method": "GetSnailMail",
+    "RelativePath": "api/PurchaseOrder/GetSnailMail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetSnailMail_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetCompanyIncomeVSCompanycost",
+    "RelativePath": "api/Reports/companyincomevscompanycost",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "subprojectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetCompanyincomevsCompanycost_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintemployeecostReport",
+    "RelativePath": "api/Reports/employeereport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "eid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUtilizationReportDetailwithProjectbyEmployee_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetActiveLogOfEmployee",
+    "RelativePath": "api/Reports/GetActiveLogOfEmployee",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetActiveLogOfEmployee_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetBillabletotalHoursAndAmountByProject",
+    "RelativePath": "api/Reports/GetBillabletotalHoursAndAmountByProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.GetBillableHoursAndAmountByProject_Result, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetEmployeeBreakupsTaskSummaryByDate",
+    "RelativePath": "api/Reports/GetEmployeeBreakupsTaskSummaryByDate",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetEmployeeBreakupsTaskSummaryByDate_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetReportDetailwithProjectbyEmployee",
+    "RelativePath": "api/Reports/GetReportDetailwithEmployee",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "eid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "projid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUtilizationReportDetailwithProjectbyEmployee_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetTrackerProjectwithprojectid",
+    "RelativePath": "api/Reports/GetTrackerProjectwithprojectid/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTrackerProjectwithprojectid_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetTrackerSummarybyMonth",
+    "RelativePath": "api/Reports/GetTrackerSummarybyMonth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "invoiceactive",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTrackerSummarybyMonth_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetTrackerTaskbyMonth",
+    "RelativePath": "api/Reports/GetTrackerTaskbyMonth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "invoiceactive",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTrackerTaskbyMonth_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetUtilizationReportwithDetailProject",
+    "RelativePath": "api/Reports/GetUtilizationReportDetailwithProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "subprojectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUtilizationReportDetailwithProject_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrientGetUserLogReport",
+    "RelativePath": "api/Reports/PrientUserLogReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUserLogReport_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetUserLogReportByEmpID",
+    "RelativePath": "api/Reports/PrientUserLogReportByEmpID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUserLogReportByEmpID_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintAttendance",
+    "RelativePath": "api/Reports/PrintAttendance/{month}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "month",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAttendanceReport_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetUserTrackerTaskwithAmount",
+    "RelativePath": "api/Reports/PrintGetUserTrackerTaskwithAmount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUserTrackerTaskbyMonth_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintPurchaseOrderReport",
+    "RelativePath": "api/Reports/PrintPurchaseOrderReport/{poid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "poid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.POPaymentDueDateStmnt_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintUserUtilizationReport",
+    "RelativePath": "api/Reports/PrintUserUtilizationReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetEmployeeTaskSummaryByDate_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintUserUtilizationwithperReport",
+    "RelativePath": "api/Reports/PrintUserUtilizationwithperReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.sp_GetEmployeeTaskSummaryByDate_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "GetUtilizationReportwithDetailProject",
+    "RelativePath": "api/Reports/PrintUtilizationReportwithProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "subprojectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetUtilizationReportDetailwithProject_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintUtilizationUserTaskReport",
+    "RelativePath": "api/Reports/PrintUtilizationUserTaskReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetSummaryOfEmployeeTask_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "UpdateActualIncome",
+    "RelativePath": "api/Reports/updateactualincome",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "month",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.UpdateTrackerSummarybyMonth_ProjectedvsActual_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "AddEditActualincome",
+    "RelativePath": "api/Reports/updateprojectedvsactualincome",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.ProjectedvsActualModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.ProjectedvsActualModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TaskActivityController",
+    "Method": "AddEditbankMaster",
+    "RelativePath": "api/TaskActivity/addeditBankMaster",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TaskActivityController",
+    "Method": "GetActivityData",
+    "RelativePath": "api/TaskActivity/GetActivityData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromdate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetActiveLogOfEmployee_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TaskActivityController",
+    "Method": "GetActivitylog",
+    "RelativePath": "api/TaskActivity/GetActivitylog",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromdate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetActiveLogOfEmployee_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TaskActivityController",
+    "Method": "Get",
+    "RelativePath": "api/TaskActivity/GetTrackerTask/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "AddEditTrackerTask",
+    "RelativePath": "api/Top10TaskList/addEditTrackerTask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "button",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.AccountCategory",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "AddEditTaskList",
+    "RelativePath": "api/Top10TaskList/AddorEditTaskList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.TaskList",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.AccountCategory",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "DeleteTask",
+    "RelativePath": "api/Top10TaskList/DeleteTask/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "GetEmployerName",
+    "RelativePath": "api/Top10TaskList/GetEmployerName",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetEmployerName_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "Get",
+    "RelativePath": "api/Top10TaskList/GetTaskbyID/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblTaskList",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "GetTaskListDetail",
+    "RelativePath": "api/Top10TaskList/GetTaskListDetail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTaskListDetail_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "GetTaskListForUser",
+    "RelativePath": "api/Top10TaskList/gettasklistforuser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmpID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTaskListForUser_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "GetTaskListForUserPandingList",
+    "RelativePath": "api/Top10TaskList/gettasklistforuserpendinglist/{EmpID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmpID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTaskListForUserPendingList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.Top10TaskListController",
+    "Method": "GetTaskListForUserPegination",
+    "RelativePath": "api/Top10TaskList/gettasklistforuserwithpegination",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmpID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerProjectController",
+    "Method": "AddEditTrackerProject",
+    "RelativePath": "api/TrackerProject/addeditTrackerProject",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.TrackerProjectModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerProjectModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerProjectController",
+    "Method": "DeleteTrackerProject",
+    "RelativePath": "api/TrackerProject/deleteTrackerProject/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerProjectController",
+    "Method": "GetAllTrackerProject",
+    "RelativePath": "api/TrackerProject/GetAllTrackerProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTrackerProject_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerProjectController",
+    "Method": "GetCompanies",
+    "RelativePath": "api/TrackerProject/GetCompanies",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetCompanies_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerProjectController",
+    "Method": "Get",
+    "RelativePath": "api/TrackerProject/GetTrackerProject/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerProjectModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "AddEditSubProject",
+    "RelativePath": "api/TrackerSubProject/addeditSubProject",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.TrackerSubProjectModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerSubProjectModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "DeleteTrackerProject",
+    "RelativePath": "api/TrackerSubProject/deleteSubProject/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "GetCompanies",
+    "RelativePath": "api/TrackerSubProject/GetCompanies",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetCompanies_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "GetProjectCategoryList",
+    "RelativePath": "api/TrackerSubProject/GetProjectCategoryList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblProjectCategory",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "GetProjectsList",
+    "RelativePath": "api/TrackerSubProject/GetProjects",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetProjectsList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "Get",
+    "RelativePath": "api/TrackerSubProject/GetTrackerSubProject/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerSubProjectModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "GetTrackerSubProjectList",
+    "RelativePath": "api/TrackerSubProject/GetTrackerSubProject/{projectid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerSubProjectModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectController",
+    "Method": "GetTrackerSubProjectList",
+    "RelativePath": "api/TrackerSubProject/GetTrackerSubProjectList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetPurchaseOrderRefDocList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "AddEditSubProjectCategory",
+    "RelativePath": "api/TrackerSubProjectCategory/addeditSubProjectCategory",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.TrackerSubProjectCategoryModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerSubProjectCategoryModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "DeleteTrackerProjectCategory",
+    "RelativePath": "api/TrackerSubProjectCategory/deleteSubProjectCategory/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "GetTrackerProject",
+    "RelativePath": "api/TrackerSubProjectCategory/GetTrackerProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "branchid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblTrackerSubProject",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "Get",
+    "RelativePath": "api/TrackerSubProjectCategory/GetTrackerSubProjectCategorybyID/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.TrackerSubProjectCategoryModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "GetTrackerSubProjectcategoryList",
+    "RelativePath": "api/TrackerSubProjectCategory/GetTrackerSubProjectCategoryList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTrackerSubProjectcategory_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "GetTrackerSubProjectcategoryWithProject",
+    "RelativePath": "api/TrackerSubProjectCategory/GetTrackerSubProjectcategoryWithProjectList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTrackerSubProjectcategoryWithProject_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.TrackerSubProjectCategoryController",
+    "Method": "GetTrackerSubProjectList",
+    "RelativePath": "api/TrackerSubProjectCategory/GetTrackerSubProjectList/{projectid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblTrackerSubProject",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "AddEditTrackerTask",
+    "RelativePath": "api/UtilizationTracker/AddEditTrackerTask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblToptrackerTask",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "AddWatcherTrackertask",
+    "RelativePath": "api/UtilizationTracker/addwatchertrackertask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "CloneTask",
+    "RelativePath": "api/UtilizationTracker/CloneTask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model1",
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblToptrackerTask",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "DeActivateTrackertask",
+    "RelativePath": "api/UtilizationTracker/DeActivateTrackertask/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "DeleteTrackerTask",
+    "RelativePath": "api/UtilizationTracker/deleteTrackerTask/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "EditTrackertask",
+    "RelativePath": "api/UtilizationTracker/EditTrackertask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.UtilizationTrackerModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "EditTrackertask",
+    "RelativePath": "api/UtilizationTracker/EditTrackertask/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblToptrackerTask",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetActiveLogOfClientProject",
+    "RelativePath": "api/UtilizationTracker/GetActiveLogOfClientProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "FromDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "EID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "AdminID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.GetActiveLogOfEmployee_VC_Result, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetActiveLogOfEmployee",
+    "RelativePath": "api/UtilizationTracker/GetActiveLogOfEmployee",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "FromDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "EID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetActiveLogOfEmployee_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetActiveLogOfEmployeeclient",
+    "RelativePath": "api/UtilizationTracker/GetActiveLogOfEmployeeclient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "FromDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "EID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetActiveLogOfEmployee_VC_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetEmployeeList",
+    "RelativePath": "api/UtilizationTracker/GetEmployeeList/{Companyid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Companyid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetEmployerList_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetProjectTask",
+    "RelativePath": "api/UtilizationTracker/GetProjectTask/{empid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetProjectTaskWithDuration_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetTopTrackerTaskEntry",
+    "RelativePath": "api/UtilizationTracker/GetTopTrackerTaskEntry",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTopTrackerTaskEntry_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetTopTrackerTaskEntryList",
+    "RelativePath": "api/UtilizationTracker/GetTopTrackerTaskEntryList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTopTrackerTaskEntry_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetTrackerProject",
+    "RelativePath": "api/UtilizationTracker/GetTrackerProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "branchid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "adminId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessData.DataContext.TblTrackerProject, BusinessData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetTrackerProjectclient",
+    "RelativePath": "api/UtilizationTracker/GetTrackerProjectclient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "branchid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblTrackerProject",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetTrackerSubProject",
+    "RelativePath": "api/UtilizationTracker/GetTrackerSubProject/{projectid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblTrackerSubProject",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "GetTrackerSubProjectCategory",
+    "RelativePath": "api/UtilizationTracker/GetTrackerSubProjectCategory",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "subprojectcategoryid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.TblTrackerSubProjectCategory",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.UtilizationTrackerController",
+    "Method": "Get",
+    "RelativePath": "api/UtilizationTracker/GetTrackerTask/{empid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetTopTrackerTaskEntry_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ValuesController",
+    "Method": "Get",
+    "RelativePath": "api/Values",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ValuesController",
+    "Method": "Post",
+    "RelativePath": "api/Values",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ValuesController",
+    "Method": "Get",
+    "RelativePath": "api/Values/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ValuesController",
+    "Method": "Put",
+    "RelativePath": "api/Values/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ValuesController",
+    "Method": "Delete",
+    "RelativePath": "api/Values/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "addeditGetVendorAccountNumber",
+    "RelativePath": "api/VendorAccount/addeditGetVendorAccountNumber",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.VandorAccountNumber",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.VandorAccountNumber",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "AddEditVendorAccount",
+    "RelativePath": "api/VendorAccount/addeditvendoraccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.VendorAccountModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.VendorAccountModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "DeleteVendorAccount",
+    "RelativePath": "api/VendorAccount/deletevendoraccount/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "GetAllVendorAccount",
+    "RelativePath": "api/VendorAccount/GetAllVendorAccount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllVandorAccount_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "GetAllVendorAccount",
+    "RelativePath": "api/VendorAccount/GetAllVendorAccountbyCategoryID/{cid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetAllVandorAccount_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "GetVendorAccountNumberByVendorID",
+    "RelativePath": "api/VendorAccount/GetVendorAccountNumberByVendorID/{vid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "vid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetVendorAccountNumberByVendorID_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VendorAccountController",
+    "Method": "Get",
+    "RelativePath": "api/VendorAccount/GetVendorAccounts/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.VendorAccountModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VOUpcomingEventsController",
+    "Method": "AddEditEvents",
+    "RelativePath": "api/VOUpcomingEvents/addeditEvents",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "BusinessApp.Models.VOUpcomingEventsModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.VOUpcomingEventsModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VOUpcomingEventsController",
+    "Method": "DeleteEvents",
+    "RelativePath": "api/VOUpcomingEvents/deleteEvents/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VOUpcomingEventsController",
+    "Method": "GetVOUpcomingEvents",
+    "RelativePath": "api/VOUpcomingEvents/GetAllVOUpcomingEvents",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessData.DataContext.GetVOUpcomingEvents_Result",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.VOUpcomingEventsController",
+    "Method": "Get",
+    "RelativePath": "api/VOUpcomingEvents/GetVOUpcomingEvents/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessApp.Models.VOUpcomingEventsModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
