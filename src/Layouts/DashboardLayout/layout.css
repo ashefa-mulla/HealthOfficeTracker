@@ -79,6 +79,7 @@
   margin-bottom: 0.25rem;
 }
 
+.sidebar-menu > li > a,
 .menu-link {
   display: flex;
   align-items: center;
@@ -91,6 +92,7 @@
   transition: all 0.2s ease;
 }
 
+.sidebar-menu > li > a i,
 .menu-link i {
   font-size: 1.25rem;
   margin-right: 0.85rem;
@@ -100,15 +102,18 @@
   text-align: center;
 }
 
+.sidebar-menu > li > a:hover,
 .menu-link:hover {
   background: rgba(255, 255, 255, 0.05);
   color: #ffffff;
 }
 
+.sidebar-menu > li > a:hover i,
 .menu-link:hover i {
   color: #01a5d6;
 }
 
+.sidebar-menu > li > a.active,
 .menu-link.active {
   background: linear-gradient(135deg, #01a5d6 0%, #0891b2 100%);
   color: #ffffff;
@@ -116,6 +121,7 @@
   box-shadow: 0 4px 12px rgba(1, 165, 214, 0.3);
 }
 
+.sidebar-menu > li > a.active i,
 .menu-link.active i {
   color: #ffffff;
 }

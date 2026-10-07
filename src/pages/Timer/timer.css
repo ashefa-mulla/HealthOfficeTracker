@@ -1,0 +1,548 @@
+/* ==========================================================================
+   Timer & Punch Clock Styles
+   Matching Angular VO_Tracker Area Timer with clean modern aesthetics
+   ========================================================================== */
+
+.timer-wrapper,
+.timer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Page Header & Status */
+.timer-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.timer-title-group .timer-main-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.timer-title-group .timer-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.timer-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.gps-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 30px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  transition: all 0.25s ease;
+}
+
+.gps-badge.gps-active {
+  background: #ecfdf5;
+  color: #059669;
+  border-color: #a7f3d0;
+}
+
+.gps-badge.gps-denied {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.gps-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: gpsPulse 2s infinite;
+}
+
+@keyframes gpsPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* ==========================================================================
+   Left Card: PIN Keypad Form
+   ========================================================================== */
+.pin-input-container {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.pin-input-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1e293b;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pin-display-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pin-display-input {
+  width: 100%;
+  height: 50px;
+  font-family: 'Outfit', -apple-system, monospace;
+  font-size: 1.4rem;
+  letter-spacing: 6px;
+  text-align: center;
+  padding: 0 45px 0 45px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  color: #0f172a;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.pin-display-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #01a5d6;
+  box-shadow: 0 0 0 3px rgba(1, 165, 214, 0.15);
+}
+
+.pin-display-input.is-invalid {
+  border-color: #ef4444;
+  background: #fff5f5;
+}
+
+.pin-action-icon-left {
+  position: absolute;
+  left: 14px;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.pin-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.pin-toggle-btn:hover {
+  color: #01a5d6;
+}
+
+/* Keypad Grid (3x4 Layout) */
+.timer-keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.keypad-btn {
+  height: 58px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.keypad-btn:hover {
+  background: #f0f9ff;
+  border-color: #01a5d6;
+  color: #01a5d6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(1, 165, 214, 0.15);
+}
+
+.keypad-btn:active {
+  transform: translateY(1px);
+  background: #e0f2fe;
+}
+
+.keypad-btn.btn-clear {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.keypad-btn.btn-clear:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+.keypad-btn.btn-punch-action {
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn-punch-in {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  border-color: #059669;
+}
+
+.btn-punch-in:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  border-color: #047857;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.btn-punch-out {
+  background: linear-gradient(135deg, #dc2626 0%, #f43f5e 100%);
+  border-color: #dc2626;
+}
+
+.btn-punch-out:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  border-color: #b91c1c;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+}
+
+.keypad-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Right Card: Live Digital Clock & Activity Logs
+   ========================================================================== */
+.timer-dashboard-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.digital-clock-banner {
+  background: linear-gradient(135deg, #0b1329 0%, #0f172a 50%, #1e293b 100%);
+  padding: 1.75rem 1.5rem;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.clock-date-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+.clock-digital-display {
+  font-family: 'Outfit', 'Courier New', monospace;
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.clock-colon {
+  animation: colonBlink 1s infinite;
+  color: #38bdf8;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.clock-timezone-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  color: #38bdf8;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* Activity Logs */
+.activity-logs-section {
+  padding: 1.5rem;
+}
+
+.activity-logs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.activity-logs-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logs-search-input {
+  width: 240px;
+  padding: 0.45rem 0.85rem 0.45rem 2.2rem;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.logs-search-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #01a5d6;
+  box-shadow: 0 0 0 3px rgba(1, 165, 214, 0.12);
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #94a3b8;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* Punch Table */
+.punch-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+}
+
+.punch-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.punch-table td {
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.88rem;
+}
+
+.punch-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+.employee-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.emp-avatar-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #01a5d6 0%, #0891b2 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.emp-name-text {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.timestamp-text {
+  font-family: 'Outfit', monospace;
+  font-size: 0.85rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.status-pill-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+}
+
+.status-pill-out {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+}
+
+/* Pagination Bar */
+.punch-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #f0f9ff;
+  border-color: #01a5d6;
+  color: #01a5d6;
+}
+
+.page-btn.active {
+  background: #01a5d6;
+  border-color: #01a5d6;
+  color: #ffffff;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-size-selector {
+  height: 34px;
+  padding: 0 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.page-size-selector:focus {
+  outline: none;
+  border-color: #01a5d6;
+}

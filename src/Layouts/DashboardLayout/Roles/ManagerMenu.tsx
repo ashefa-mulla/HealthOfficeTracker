@@ -82,6 +82,15 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
             </li>
             <li>
               <NavLink
+                to="/timer"
+                className={({ isActive }) => `sub-menu-link ${isActive || location.pathname === '/timer' || location.search.includes('clock') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Time Clock (Timer)')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/attendance?tab=live"
                 className={() => `sub-menu-link ${location.search.includes('live') ? 'active' : ''}`}
                 onClick={onItemClick}

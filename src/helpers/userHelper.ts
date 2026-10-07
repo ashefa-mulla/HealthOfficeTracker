@@ -78,3 +78,100 @@ export const getUserAvatarUrl = (profileInfo?: any): string | null => {
   const cleanBaseUrl = fileBaseUrl.replace(/\/+$/, '');
   return `${cleanBaseUrl}/${normalizedPath}`;
 };
+
+/**
+ * Extract numeric database User ID (matching Angular this.userid)
+ */
+export const getNumericUserId = (profileInfo?: any, user?: any): number => {
+  // 1. Direct profileInfo fields (userId, UserId, userid, employeeId, entityId)
+  if (profileInfo) {
+    const raw =
+      profileInfo.userId ??
+      profileInfo.UserId ??
+      profileInfo.userid ??
+      profileInfo.employeeId ??
+      profileInfo.EmployeeId ??
+      profileInfo.entityId ??
+      profileInfo.id;
+    if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+      return Number(raw);
+    }
+  }
+
+  // 2. Check localStorage 'userid' (matching Angular localStorage.getItem('userid'))
+  const lsUserId = localStorage.getItem('userid');
+  if (lsUserId) {
+    if (!isNaN(Number(lsUserId)) && Number(lsUserId) > 0) {
+      return Number(lsUserId);
+    }
+    try {
+      const parsed = JSON.parse(lsUserId);
+      if (Array.isArray(parsed) && parsed.length > 0 && !isNaN(Number(parsed[0]))) {
+        return Number(parsed[0]);
+      }
+      if (!isNaN(Number(parsed)) && Number(parsed) > 0) {
+        return Number(parsed);
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 3. Check localStorage 'userProfile'
+  const userProfileStr = localStorage.getItem('userProfile');
+  if (userProfileStr) {
+    try {
+      const p = JSON.parse(userProfileStr);
+      const raw =
+        p.userId ??
+        p.UserId ??
+        p.userid ??
+        p.employeeId ??
+        p.EmployeeId ??
+        p.entityId ??
+        p.id;
+      if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+        return Number(raw);
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 4. Check localStorage 'employeeid'
+  const lsEmpId = localStorage.getItem('employeeid');
+  if (lsEmpId && !isNaN(Number(lsEmpId)) && Number(lsEmpId) > 0) {
+    return Number(lsEmpId);
+  }
+
+  // 5. Check user object for numeric userId
+  if (user) {
+    const raw = user.userId ?? user.UserId ?? user.userid;
+    if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+      return Number(raw);
+    }
+    if (user.id && !isNaN(Number(user.id)) && Number(user.id) > 0) {
+      return Number(user.id);
+    }
+  }
+
+  // 6. Check authUser in localStorage
+  const authUserStr = localStorage.getItem('authUser');
+  if (authUserStr) {
+    try {
+      const u = JSON.parse(authUserStr);
+      const raw = u.userId ?? u.UserId ?? u.userid;
+      if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+        return Number(raw);
+      }
+      if (u.id && !isNaN(Number(u.id)) && Number(u.id) > 0) {
+        return Number(u.id);
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  return 0;
+};
+

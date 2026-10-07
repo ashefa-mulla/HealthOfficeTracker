@@ -6,6 +6,7 @@ import OAuthCallback from '../pages/Authentication/OAuthCallback';
 import Dashboard from '../pages/Dashboard';
 import Employees from '../pages/Employees';
 import Attendance from '../pages/Attendance';
+import Timer from '../pages/Timer';
 import Tasks from '../pages/Tasks';
 import Locations from '../pages/Locations';
 import Reports from '../pages/Reports';
@@ -28,6 +29,9 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/dashboard', component: <Dashboard /> },
   { path: '/employees', component: <Employees /> },
   { path: '/attendance', component: <Attendance /> },
+  { path: '/timer', component: <Timer /> },
+  { path: '/area/timer', component: <Timer /> },
+  { path: '/clock-in', component: <Timer /> },
   { path: '/tasks', component: <Tasks /> },
   { path: '/locations', component: <Locations /> },
   { path: '/reports', component: <Reports /> },

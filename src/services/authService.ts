@@ -95,6 +95,14 @@ class AuthService {
       if (profile) {
         useAuthStore.getState().setProfileInfo(profile);
         localStorage.setItem('userProfile', JSON.stringify(profile));
+        const numUid = profile.userId ?? profile.UserId ?? profile.employeeId ?? profile.id;
+        if (numUid) {
+          localStorage.setItem('userid', String(numUid));
+        }
+        const numCid = profile.companyId ?? profile.CompanyId ?? profile.employerId;
+        if (numCid) {
+          localStorage.setItem('companyid', String(numCid));
+        }
       }
 
       return normalized;
@@ -176,6 +184,14 @@ class AuthService {
       if (profile) {
         useAuthStore.getState().setProfileInfo(profile);
         localStorage.setItem('userProfile', JSON.stringify(profile));
+        const numUid = profile.userId ?? profile.UserId ?? profile.employeeId ?? profile.id;
+        if (numUid) {
+          localStorage.setItem('userid', String(numUid));
+        }
+        const numCid = profile.companyId ?? profile.CompanyId ?? profile.employerId;
+        if (numCid) {
+          localStorage.setItem('companyid', String(numCid));
+        }
       }
 
       return normalized;
