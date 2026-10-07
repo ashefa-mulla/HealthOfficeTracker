@@ -23,7 +23,7 @@ namespace BusinessApp.Settings
         public async Task SendMail(string sendgridkey, string EmailTo, string EmailCc, string EmailFrom, string EmailSubject, string EmailBody, List<string> lstattachment = null)
         {
 
-            //var key ="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";
+           
             var key = sendgridkey;
             var client = new SendGridClient(key);
 
