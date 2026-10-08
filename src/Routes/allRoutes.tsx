@@ -8,6 +8,7 @@ import Employees from '../pages/Employees';
 import Attendance from '../pages/Attendance';
 import Timer from '../pages/Timer';
 import Tasks, { Top10TaskList, Top10TaskCreate } from '../pages/Tasks';
+import TaskActivityList from '../pages/Activities';
 import Locations from '../pages/Locations';
 import Reports from '../pages/Reports';
 import Settings from '../pages/Settings';
@@ -40,6 +41,11 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/area/top10task/edit/:id', component: <Top10TaskCreate /> },
   { path: '/area/top10task/top10task/edit/:id', component: <Top10TaskCreate /> },
   { path: '/module/area/top10task/list', component: <Top10TaskList /> },
+  { path: '/area/taskactivity', component: <TaskActivityList /> },
+  { path: '/area/taskactivity/list', component: <TaskActivityList /> },
+  { path: '/taskactivity', component: <TaskActivityList /> },
+  { path: '/activities', component: <TaskActivityList /> },
+  { path: '/my-activities', component: <TaskActivityList /> },
   { path: '/locations', component: <Locations /> },
   { path: '/reports', component: <Reports /> },
   { path: '/settings', component: <Settings /> },

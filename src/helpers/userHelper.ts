@@ -137,7 +137,7 @@ export const getNumericUserId = (profileInfo?: any, user?: any): number => {
   }
 
   // 4. Check localStorage 'employeeid'
-  const lsEmpId = localStorage.getItem('employeeid');
+  const lsEmpId = localStorage.getItem('employerId');
   if (lsEmpId && !isNaN(Number(lsEmpId)) && Number(lsEmpId) > 0) {
     return Number(lsEmpId);
   }
@@ -182,11 +182,7 @@ export const getNumericEmployeeId = (profileInfo?: any, user?: any): number => {
   if (profileInfo) {
     const empFields = [
       profileInfo.employeeId,
-      profileInfo.EmployeeId,
-      profileInfo.employeeid,
       profileInfo.entityId,
-      profileInfo.EntityId,
-      profileInfo.entityid,
     ];
     for (const val of empFields) {
       if (val !== undefined && val !== null && !isNaN(Number(val)) && Number(val) > 0) {

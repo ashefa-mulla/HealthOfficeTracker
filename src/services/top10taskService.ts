@@ -54,7 +54,6 @@ class Top10TaskService {
         {
           params: {
             EmpID: empId,
-            employeeid: empId,
             status,
             pageNumber,
             pageSize,
@@ -62,22 +61,105 @@ class Top10TaskService {
         }
       );
 
-      if (response.data && Array.isArray(response.data.data)) {
-        return {
-          data: response.data.data,
-          totalCount: response.data.totalCount || response.data.data.length,
-        };
-      } else if (Array.isArray(response.data)) {
-        return {
-          data: response.data,
-          totalCount: response.data.length,
-        };
-      } else {
-        return {
-          data: response.data?.items || response.data?.list || [],
-          totalCount: response.data?.totalCount || response.data?.totalRecords || 0,
-        };
+      let rawItems: any[] = [];
+      let total = 0;
+
+      // Check X-Pagination header
+      const xPagination =
+        response.headers?.['x-pagination'] ||
+        response.headers?.['X-Pagination'];
+      if (xPagination) {
+        try {
+          const parsedHeader =
+            typeof xPagination === 'string'
+              ? JSON.parse(xPagination)
+              : xPagination;
+          total = Number(
+            parsedHeader.totalRecords ??
+              parsedHeader.TotalRecords ??
+              parsedHeader.totalCount ??
+              parsedHeader.TotalCount ??
+              0
+          );
+        } catch {
+          // ignore json parse error
+        }
       }
+
+      if (response.data && Array.isArray(response.data.data)) {
+        rawItems = response.data.data;
+        if (!total) {
+          total = Number(
+            response.data.totalCount ??
+              response.data.TotalCount ??
+              response.data.totalRecords ??
+              response.data.TotalRecords ??
+              response.data.total ??
+              response.data.Total ??
+              response.data.count ??
+              response.data.Count ??
+              response.data.xpage?.totalRecords ??
+              0
+          );
+        }
+      } else if (Array.isArray(response.data)) {
+        rawItems = response.data;
+      } else if (response.data && typeof response.data === 'object') {
+        rawItems =
+          response.data.items ||
+          response.data.list ||
+          response.data.data ||
+          response.data.results ||
+          [];
+        if (!total) {
+          total = Number(
+            response.data.totalCount ??
+              response.data.TotalCount ??
+              response.data.totalRecords ??
+              response.data.TotalRecords ??
+              response.data.total ??
+              response.data.Total ??
+              response.data.count ??
+              response.data.Count ??
+              0
+          );
+        }
+      }
+
+      // Check if items contain TotalCount property from SQL stored procedure (e.g. COUNT(*) OVER() AS TotalCount)
+      if (!total && rawItems.length > 0) {
+        const first = rawItems[0];
+        const itemTotal =
+          first.TotalCount ??
+          first.totalCount ??
+          first.TotalRecords ??
+          first.totalRecords ??
+          first.Total ??
+          first.total ??
+          first.Total_Count ??
+          first.total_count ??
+          first.RecordCount ??
+          first.recordCount ??
+          first.TotalRows ??
+          first.totalRows;
+        if (
+          itemTotal !== undefined &&
+          itemTotal !== null &&
+          !isNaN(Number(itemTotal)) &&
+          Number(itemTotal) > 0
+        ) {
+          total = Number(itemTotal);
+        }
+      }
+
+      if (!total) {
+        total = rawItems.length;
+      }
+
+      return {
+        data: rawItems,
+        totalCount: total,
+      };
     } catch (error) {
       throw axiosErrorToApiError(error);
     }
@@ -213,6 +295,37 @@ class Top10TaskService {
         }
       );
       return response.data || [];
+    } catch (error) {
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
+   * GET /api/UtilizationTracker/GetTrackerTask/{empId}
+   */
+  async getTrackerTask(empId: number): Promise<any> {
+    try {
+      const response = await axiosInstance.get<any>(
+        `${BASE_UTILIZATION}/GetTrackerTask/${empId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
+   * POST /api/UtilizationTracker/AddEditTrackerTask
+   */
+  async addEditTrackerTask(
+    data: any
+  ): Promise<SaveResponse | any> {
+    try {
+      const response = await axiosInstance.post<SaveResponse>(
+        `${BASE_UTILIZATION}/AddEditTrackerTask`,
+        data
+      );
+      return response.data;
     } catch (error) {
       throw axiosErrorToApiError(error);
     }

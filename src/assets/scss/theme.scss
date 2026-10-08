@@ -293,6 +293,86 @@ h6 {
   color: #dc2626;
 }
 
+.task-action-icon.timer-btn-active {
+  color: #ef4444;
+  animation: activeTimerGlow 1.8s infinite alternate;
+}
+
+@keyframes activeTimerGlow {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* In-Row Live Timer & Countdown Badges */
+.timer-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+  animation: timerDotPulse 1.5s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes timerDotPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 5px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.timer-live-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timer-running-text {
+  font-family: monospace;
+  font-weight: 700;
+  color: #15803d;
+  font-size: 0.88rem;
+  letter-spacing: 0.5px;
+}
+
+.timer-countdown-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.timer-countdown-badge.remaining-positive {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.timer-countdown-badge.remaining-negative {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
 /* Generic Pagination */
 .pagination-controls-wrap {
   display: flex;
@@ -574,4 +654,122 @@ h6 {
 .btn-form-action-save:hover {
   background-color: #083b77;
   color: #ffffff;
+}
+
+/* ==========================================================================
+   My Activities Screen Styles (Exact Match to Screenshot)
+   ========================================================================== */
+
+.activity-page-wrapper {
+  padding: 1.5rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.activity-filter-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.activity-filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-filter-label {
+  font-size: 0.8rem;
+  color: #4b5563;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.activity-filter-input {
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #1f2937;
+  background-color: #ffffff;
+  outline: none;
+  min-width: 160px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #0b4d9c;
+    box-shadow: 0 0 0 2px rgba(11, 77, 156, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.activity-filter-date-input {
+  min-width: 220px;
+}
+
+.btn-activity-clear-pill {
+  height: 36px;
+  width: 64px;
+  border-radius: 18px;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #e2e8f0;
+    color: #1e293b;
+    border-color: #cbd5e1;
+  }
+}
+
+.btn-activity-print {
+  height: 36px;
+  border-radius: 18px;
+  background-color: #0b4d9c;
+  color: #ffffff !important;
+  border: none;
+  padding: 0 34px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(11, 77, 156, 0.2);
+  transition: background-color 0.2s ease;
+  margin-left: auto;
+
+  &:hover {
+    background-color: #083b77;
+    color: #ffffff;
+  }
+}
+
+.activity-table-action-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1rem;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #0b4d9c;
+  }
 }

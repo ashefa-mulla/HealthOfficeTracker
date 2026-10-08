@@ -11,7 +11,11 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
   const location = useLocation();
   const [openSubMenus, setOpenSubMenus] = useState<{ [key: string]: boolean }>({
     attendance: location.pathname.startsWith('/attendance'),
-    tasks: location.pathname.startsWith('/tasks'),
+    tasks:
+      location.pathname.startsWith('/tasks') ||
+      location.pathname.startsWith('/area/top10task') ||
+      location.pathname.startsWith('/area/taskactivity') ||
+      location.pathname.startsWith('/activities'),
   });
 
   const toggleSubMenu = (key: string, e: React.MouseEvent) => {
@@ -106,7 +110,13 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
       <li className={`menu-item has-submenu ${openSubMenus.tasks ? 'mm-active' : ''}`}>
         <a
           href="#tasks"
-          className={`menu-link has-arrow ${location.pathname.startsWith('/tasks') ? 'active' : ''}`}
+          className={`menu-link has-arrow ${
+            location.pathname.startsWith('/tasks') ||
+            location.pathname.startsWith('/area/top10task') ||
+            location.pathname.startsWith('/area/taskactivity')
+              ? 'active'
+              : ''
+          }`}
           onClick={(e) => toggleSubMenu('tasks', e)}
           title={collapsed ? t('Task Assignments') : undefined}
         >
@@ -120,6 +130,24 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
         </a>
         {!collapsed && openSubMenus.tasks && (
           <ul className="sub-menu">
+            <li>
+              <NavLink
+                to="/area/top10task/list"
+                className={({ isActive }) => `sub-menu-link ${isActive ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('My Tracker Task')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/taskactivity"
+                className={({ isActive }) => `sub-menu-link ${isActive ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('My Activities')}
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to="/tasks"

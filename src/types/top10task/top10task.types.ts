@@ -110,3 +110,31 @@ export interface Top10TaskQueryParams {
   pageSize?: number;
   search?: string;
 }
+
+export interface UtilizationTrackerModel {
+  id: number;
+  companyid: number;
+  branchid: number;
+  employeeid: number;
+  projectId: number;
+  subProjectId: number;
+  activity: string;
+  startTime?: string | Date | null;
+  endTime?: string | Date | null;
+  duration?: string | null;
+  updateddate?: string | Date | null;
+  button?: string | null;
+  subProjectCategoryId: number;
+  taskListid?: number | null;
+  activeInvoice: boolean;
+  cloneID: number;
+  isAdmin?: boolean | null;
+  nonBillable?: boolean | null;
+  watcherAppTitle?: string | null;
+  updatedBy?: number | null;
+  [key: string]: any;
+}
+
+export type UtilizationTrackerTaskPayload = UtilizationTrackerModel;
+
+

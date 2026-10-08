@@ -1,11 +1,15 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { RootState } from '@/slices';
 import TableContainer from '@/Components/Common/TableContainer';
 import DeleteModal from '@/Components/Common/DeleteModal';
-import { Top10TaskListItem } from '@/types/top10task/top10task.types';
+import {
+  Top10TaskListItem,
+  Top10TaskModel,
+  UtilizationTrackerModel,
+} from '@/types/top10task/top10task.types';
 import {
   fetchTaskListWithPagination,
   fetchTaskListForUser,
@@ -15,6 +19,8 @@ import {
   setDefaultStatus,
   setSearchQuery,
 } from '../../../slices/top10task/top10taskSlice';
+import top10TaskService from '../../../services/top10taskService';
+import toastService from '@/services/toastService';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { getNumericEmployeeId } from '../../../helpers/userHelper';
 import { formatDateOnly } from '@/helpers/dateHelper';
@@ -57,24 +63,184 @@ const Top10TaskList: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize_Local, setPageSize_Local] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedDeleteId, setSelectedDeleteId] = useState<number | null>(null);
+
+  // In-Row Live Timer States
+  const [activeTimerTaskId, setActiveTimerTaskId] = useState<number | null>(null);
+  const [isTimerPaused, setIsTimerPaused] = useState<boolean>(false);
+  const [timerRunningSeconds, setTimerRunningSeconds] = useState<number>(0);
+  const [timerLoadingTaskId, setTimerLoadingTaskId] = useState<number | null>(null);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const activeTaskRef = useRef<{
+    id: number;
+    initialSec: number;
+    startTime: number;
+    item: Top10TaskListItem;
+  } | null>(null);
 
   // Permission flags matching Angular
   const isHideDelete = !isAdmin;
   const isHideEdit = false;
 
-  // Initial and reactive load
-  const loadData = useCallback(() => {
-    if (empId > 0 || isAdmin) {
-      dispatch(
-        fetchTaskListWithPagination({
-          empId,
-          status: defaultStatus,
-          pageNumber,
-          pageSize: pageSize_Local,
-        })
+  // Helper: Safely parse integer with fallback
+  const toSafeInt = (val: any, fallback = 0): number => {
+    if (val === undefined || val === null || val === '') return fallback;
+    const n = Number(val);
+    return isNaN(n) ? fallback : Math.floor(n);
+  };
+
+  // Helper: Parse duration string/number into total seconds
+  const parseDurationToSeconds = (durationVal?: any): number => {
+    if (durationVal === undefined || durationVal === null) return 0;
+    if (typeof durationVal === 'string' && durationVal.includes(':')) {
+      const parts = durationVal.split(':').map((p) => Number(p) || 0);
+      if (parts.length === 3) {
+        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+      if (parts.length === 2) {
+        return parts[0] * 3600 + parts[1] * 60;
+      }
+    }
+    const num = Number(durationVal);
+    if (!isNaN(num) && num > 0) {
+      return num * 60;
+    }
+    return 0;
+  };
+
+  // Helper: Format seconds into HH:MM:SS
+  const formatSecondsToHHMMSS = (totalSeconds: number): string => {
+    const isNegative = totalSeconds < 0;
+    const absSec = Math.abs(totalSeconds);
+    const h = Math.floor(absSec / 3600);
+    const m = Math.floor((absSec % 3600) / 60);
+    const s = absSec % 60;
+    const formatted = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    return isNegative ? `-${formatted}` : formatted;
+  };
+
+  // Load paginated data
+  const loadData = useCallback(
+    async (page: number, size: number, status: string) => {
+      if (empId > 0 || isAdmin) {
+        await dispatch(
+          fetchTaskListWithPagination({
+            empId,
+            status,
+            pageNumber: page,
+            pageSize: size,
+          })
+        );
+      }
+    },
+    [dispatch, empId, isAdmin]
+  );
+
+  // Check on load if user has an active/ongoing tracker task (endTime === null)
+  const checkAndResumeActiveTrackerTask = useCallback(async () => {
+    const checkEmpId = toSafeInt(
+      empId ||
+      localStorage.getItem('employerId') ||
+      localStorage.getItem('employeeid') ||
+      localStorage.getItem('userid'),
+      37
+    );
+
+    if (!checkEmpId) return;
+
+    try {
+      const res = await top10TaskService.getTrackerTask(checkEmpId);
+      const trackerTask = Array.isArray(res) ? res[0] : res;
+
+      if (!trackerTask) return;
+
+      const taskId = Number(
+        trackerTask.taskListid ||
+        trackerTask.TaskListid ||
+        trackerTask.taskListId ||
+        trackerTask.tasklistid ||
+        0
       );
+
+      const isEnded = Boolean(trackerTask.endTime || trackerTask.EndTime);
+
+      if (taskId > 0 && !isEnded) {
+        const isPaused = trackerTask.button === 'pause';
+        setIsTimerPaused(isPaused);
+
+        // Calculate elapsed seconds from startTime
+        const startTimeStr = trackerTask.startTime || trackerTask.StartTime;
+        let elapsedSeconds = 0;
+        if (!isPaused && startTimeStr) {
+          const startMs = new Date(startTimeStr).getTime();
+          const nowMs = Date.now();
+          if (!isNaN(startMs) && startMs > 0) {
+            elapsedSeconds = Math.max(0, Math.floor((nowMs - startMs) / 1000));
+          }
+        }
+
+        const durationSec = parseDurationToSeconds(
+          trackerTask.duration || trackerTask.Duration
+        );
+        const totalSec = isPaused ? durationSec : Math.max(elapsedSeconds, durationSec + elapsedSeconds);
+
+        let taskItem: Top10TaskListItem | null = null;
+        try {
+          const taskDetail = await top10TaskService.getTaskById(taskId);
+          if (taskDetail) {
+            taskItem = taskDetail as any;
+          }
+        } catch (e) {
+          console.warn('Could not fetch task detail on resume:', e);
+        }
+
+        if (!taskItem) {
+          taskItem = {
+            id: taskId,
+            task: trackerTask.activity || 'Task',
+            project: trackerTask.projectId,
+            subProject: trackerTask.subProjectId,
+            subProjectCategory: trackerTask.subProjectCategoryId,
+          } as any;
+        }
+
+        activeTaskRef.current = {
+          id: taskId,
+          initialSec: totalSec,
+          startTime: Date.now(),
+          item: taskItem!,
+        };
+
+        setActiveTimerTaskId(taskId);
+        setTimerRunningSeconds(totalSec);
+
+        if (timerIntervalRef.current) {
+          clearInterval(timerIntervalRef.current);
+        }
+
+        if (!isPaused) {
+          timerIntervalRef.current = setInterval(() => {
+            if (activeTaskRef.current) {
+              const elapsed = Math.floor(
+                (Date.now() - activeTaskRef.current.startTime) / 1000
+              );
+              setTimerRunningSeconds(activeTaskRef.current.initialSec + elapsed);
+            }
+          }, 1000);
+        }
+      }
+    } catch (err) {
+      console.warn('Error checking active tracker task on load:', err);
+    }
+  }, [empId]);
+
+  // Initial load and status filter change
+  useEffect(() => {
+    loadData(1, pageSize_Local, defaultStatus);
+    checkAndResumeActiveTrackerTask();
+    if (empId > 0 || isAdmin) {
       dispatch(
         fetchTaskListForUser({
           empId,
@@ -83,24 +249,31 @@ const Top10TaskList: React.FC = () => {
         })
       );
     }
-  }, [dispatch, empId, defaultStatus, pageNumber, pageSize_Local, isAdmin]);
+    setIsFirstLoad(false);
+  }, [defaultStatus, empId, isAdmin, checkAndResumeActiveTrackerTask]);
 
+  // Reactive load on pagination or size changes (only when not searching)
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    if (isFirstLoad) return;
+    if (!searchTerm || !searchTerm.trim()) {
+      loadData(pageNumber, pageSize_Local, defaultStatus);
+    }
+  }, [pageNumber, pageSize_Local, defaultStatus, searchTerm, loadData, isFirstLoad]);
 
   // Handle server-side query changes from TableContainer
   const handleServerChange = (query: any) => {
-    if (query.page !== undefined) {
-      setPageNumber(query.page);
-    }
-    if (query.pageSize !== undefined) {
-      setPageSize_Local(query.pageSize);
-    }
-    if (query.search !== undefined) {
+    if (query.search !== undefined && query.search !== searchTerm) {
       setSearchTerm(query.search);
       setPageNumber(1);
-      dispatch(setSearchQuery(query.search));
+      return;
+    }
+    if (query.pageSize !== undefined && query.pageSize !== pageSize_Local) {
+      setPageSize_Local(query.pageSize);
+      setPageNumber(1);
+      return;
+    }
+    if (query.page !== undefined && query.page !== pageNumber) {
+      setPageNumber(query.page);
     }
   };
 
@@ -109,6 +282,7 @@ const Top10TaskList: React.FC = () => {
     const newStatus = e.target.value;
     dispatch(setDefaultStatus(newStatus));
     setPageNumber(1);
+    setSearchTerm('');
   };
 
   // Delete Action Handlers
@@ -122,7 +296,7 @@ const Top10TaskList: React.FC = () => {
       await dispatch(removeTask(selectedDeleteId));
       setDeleteModal(false);
       setSelectedDeleteId(null);
-      loadData();
+      loadData(pageNumber, pageSize_Local, defaultStatus);
     }
   };
 
@@ -162,6 +336,378 @@ const Top10TaskList: React.FC = () => {
     }
     return String(durationVal);
   };
+
+  // Start in-row timer for a task
+  const startTaskTimer = async (row: Top10TaskListItem) => {
+    const taskId = Number(row.id || row.ID || 0);
+    if (!taskId) return;
+
+    let taskDetail: any = null;
+    try {
+      taskDetail = await top10TaskService.getTaskById(taskId);
+    } catch (err) {
+      console.warn('Failed to fetch task details by ID before starting timer:', err);
+    }
+
+    const initialSec = parseDurationToSeconds(row.duration || row.Duration || row.actualTime);
+    const now = Date.now();
+    const companyId = toSafeInt(localStorage.getItem('companyid'), 1);
+    const branchId = toSafeInt(localStorage.getItem('branchid'), 1);
+
+    activeTaskRef.current = {
+      id: taskId,
+      initialSec,
+      startTime: now,
+      item: row,
+    };
+
+    setActiveTimerTaskId(taskId);
+    setIsTimerPaused(false);
+    setTimerRunningSeconds(initialSec);
+
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+
+    timerIntervalRef.current = setInterval(() => {
+      if (activeTaskRef.current) {
+        const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
+        setTimerRunningSeconds(activeTaskRef.current.initialSec + elapsed);
+      }
+    }, 1000);
+
+    const taskName = String(
+      row.task ||
+      row.Task ||
+      taskDetail?.subject ||
+      taskDetail?.task ||
+      row.subject ||
+      row.Subject ||
+      row.priority ||
+      'Task'
+    ).trim();
+
+    // Exact C# UtilizationTrackerModel payload for AddEditTrackerTask (start)
+    const trackerPayload: UtilizationTrackerModel = {
+      id: 0,
+      taskListId: taskId,
+      projectId: toSafeInt(taskDetail?.project ?? taskDetail?.projectId ?? row.project ?? row.projectId, 0),
+      subProjectId: toSafeInt(taskDetail?.subproject ?? taskDetail?.subProjectId ?? row.subProject ?? row.subProjectId, 0),
+      subProjectCategoryId: toSafeInt(taskDetail?.subProjectCategory ?? taskDetail?.subProjectCategoryId ?? row.subProjectCategory ?? row.subProjectCategoryId, 0),
+      activity: taskName,
+      branchid: branchId,
+      button: 'start',
+      cloneID: toSafeInt(taskDetail?.cloneID ?? taskDetail?.cloneId, 0),
+      companyid: companyId,
+      employeeid: empId,
+      isAdmin: Boolean(isAdmin),
+      activeInvoice: true,
+      nonBillable: false,
+      duration: '00:00:00',
+      watcherAppTitle: '',
+    };
+
+    try {
+      await top10TaskService.addEditTrackerTask(trackerPayload);
+    } catch (err) {
+      console.warn('UtilizationTracker/AddEditTrackerTask API call on play:', err);
+    }
+
+    toastService.success(`Timer started for ${taskName}`);
+  };
+
+  // Pause in-row timer for a task
+  const pauseTaskTimer = async (taskId: number) => {
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+
+    let currentSec = timerRunningSeconds;
+    let taskItem = activeTaskRef.current?.item;
+    if (activeTaskRef.current && activeTaskRef.current.id === taskId) {
+      const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
+      currentSec = activeTaskRef.current.initialSec + elapsed;
+      activeTaskRef.current.initialSec = currentSec;
+      taskItem = activeTaskRef.current.item;
+    }
+
+    setIsTimerPaused(true);
+    setTimerRunningSeconds(currentSec);
+
+    const companyId = toSafeInt(localStorage.getItem('companyid'), 1);
+    const branchId = toSafeInt(localStorage.getItem('branchid'), 1);
+
+    let taskDetail: any = null;
+    try {
+      taskDetail = await top10TaskService.getTaskById(taskId);
+    } catch (e) {
+      console.warn('Could not fetch task before pause:', e);
+    }
+
+    const taskName = String(
+      taskItem?.task ||
+      taskDetail?.subject ||
+      taskDetail?.task ||
+      taskItem?.subject ||
+      taskItem?.priority ||
+      'Task'
+    ).trim();
+
+    const trackerPayload: UtilizationTrackerModel = {
+      id: 0,
+      taskListId: taskId,
+      projectId: toSafeInt(taskDetail?.project ?? taskDetail?.projectId ?? taskItem?.project ?? taskItem?.projectId, 0),
+      subProjectId: toSafeInt(taskDetail?.subproject ?? taskDetail?.subProjectId ?? taskItem?.subProject ?? taskItem?.subProjectId, 0),
+      subProjectCategoryId: toSafeInt(taskDetail?.subProjectCategory ?? taskDetail?.subProjectCategoryId ?? taskItem?.subProjectCategory ?? taskItem?.subProjectCategoryId, 0),
+      activity: taskName,
+      branchid: branchId,
+      button: 'pause',
+      cloneID: toSafeInt(taskDetail?.cloneID ?? taskDetail?.cloneId, 0),
+      companyid: companyId,
+      employeeid: empId,
+      isAdmin: Boolean(isAdmin),
+      activeInvoice: true,
+      nonBillable: false,
+      duration: formatSecondsToHHMMSS(currentSec),
+      watcherAppTitle: '',
+    };
+
+    try {
+      await top10TaskService.addEditTrackerTask(trackerPayload);
+    } catch (err) {
+      console.warn('UtilizationTracker/AddEditTrackerTask API call on pause:', err);
+    }
+
+    toastService.success(`Timer paused for ${taskName}`);
+  };
+
+  // Resume in-row timer for a task
+  const resumeTaskTimer = async (taskId: number, row?: Top10TaskListItem) => {
+    const now = Date.now();
+    const currentSec = timerRunningSeconds;
+
+    activeTaskRef.current = {
+      id: taskId,
+      initialSec: currentSec,
+      startTime: now,
+      item: activeTaskRef.current?.item || row || ({ id: taskId } as any),
+    };
+
+    setIsTimerPaused(false);
+
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+
+    timerIntervalRef.current = setInterval(() => {
+      if (activeTaskRef.current) {
+        const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
+        setTimerRunningSeconds(activeTaskRef.current.initialSec + elapsed);
+      }
+    }, 1000);
+
+    const companyId = toSafeInt(localStorage.getItem('companyid'), 1);
+    const branchId = toSafeInt(localStorage.getItem('branchid'), 1);
+
+    let taskDetail: any = null;
+    try {
+      taskDetail = await top10TaskService.getTaskById(taskId);
+    } catch (e) {
+      console.warn('Could not fetch task before resume:', e);
+    }
+
+    const taskItem = activeTaskRef.current?.item;
+    const taskName = String(
+      taskItem?.task ||
+      taskDetail?.subject ||
+      taskDetail?.task ||
+      taskItem?.subject ||
+      taskItem?.priority ||
+      'Task'
+    ).trim();
+
+    const trackerPayload: UtilizationTrackerModel = {
+      id: 0,
+      taskListId: taskId,
+      projectId: toSafeInt(taskDetail?.project ?? taskDetail?.projectId ?? taskItem?.project ?? taskItem?.projectId, 0),
+      subProjectId: toSafeInt(taskDetail?.subproject ?? taskDetail?.subProjectId ?? taskItem?.subProject ?? taskItem?.subProjectId, 0),
+      subProjectCategoryId: toSafeInt(taskDetail?.subProjectCategory ?? taskDetail?.subProjectCategoryId ?? taskItem?.subProjectCategory ?? taskItem?.subProjectCategoryId, 0),
+      activity: taskName,
+      branchid: branchId,
+      button: 'resume',
+      cloneID: toSafeInt(taskDetail?.cloneID ?? taskDetail?.cloneId, 0),
+      companyid: companyId,
+      employeeid: empId,
+      isAdmin: Boolean(isAdmin),
+      activeInvoice: true,
+      nonBillable: false,
+      duration: formatSecondsToHHMMSS(currentSec),
+      watcherAppTitle: '',
+    };
+
+    try {
+      await top10TaskService.addEditTrackerTask(trackerPayload);
+    } catch (err) {
+      console.warn('UtilizationTracker/AddEditTrackerTask API call on resume:', err);
+    }
+
+    toastService.success(`Timer resumed for ${taskName}`);
+  };
+
+  // Stop in-row timer for a task and save duration to backend
+  const stopTaskTimer = async (taskId: number, showNotification: boolean = true) => {
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+
+    let finalSeconds = timerRunningSeconds;
+    let taskItem = activeTaskRef.current?.item;
+    if (activeTaskRef.current && activeTaskRef.current.id === taskId) {
+      if (!isTimerPaused) {
+        const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
+        finalSeconds = activeTaskRef.current.initialSec + elapsed;
+      } else {
+        finalSeconds = activeTaskRef.current.initialSec;
+      }
+      taskItem = activeTaskRef.current.item;
+    }
+
+    setActiveTimerTaskId(null);
+    setIsTimerPaused(false);
+    activeTaskRef.current = null;
+
+    const durationInMinutes = Math.max(0, Math.round(finalSeconds / 60));
+    const companyId = toSafeInt(localStorage.getItem('companyid'), 1);
+    const branchId = toSafeInt(localStorage.getItem('branchid'), 1);
+
+    try {
+      let taskDetail: any = null;
+      try {
+        taskDetail = await top10TaskService.getTaskById(taskId);
+      } catch (e) {
+        console.warn('Could not fetch task before stop:', e);
+      }
+
+      const assignedEmpId = toSafeInt(
+        taskDetail?.accountablePerson ||
+        taskDetail?.employeeid ||
+        taskItem?.accountablePerson ||
+        taskItem?.secondPerson ||
+        taskItem?.pointPerson ||
+        empId ||
+        localStorage.getItem('employerId')
+      );
+
+      const taskName = String(
+        taskItem?.task ||
+        taskDetail?.subject ||
+        taskDetail?.task ||
+        taskItem?.subject ||
+        taskItem?.priority ||
+        'Task'
+      ).trim();
+
+      if (taskDetail) {
+        const updatedModel: Top10TaskModel = {
+          ...taskDetail,
+          duration: durationInMinutes,
+          actualTime: durationInMinutes,
+          completed:
+            taskDetail.completed === 'Not Started'
+              ? 'In Process'
+              : (taskDetail.completed || 'In Process'),
+        };
+
+        await top10TaskService.addOrEditTaskList(updatedModel);
+      }
+
+      // Exact C# UtilizationTrackerModel payload for AddEditTrackerTask (stop)
+      const trackerPayload: UtilizationTrackerModel = {
+        id: 1,
+        taskListId: taskId,
+        projectId: toSafeInt(taskDetail?.project ?? taskDetail?.projectId ?? taskItem?.project ?? taskItem?.projectId, 0),
+        subProjectId: toSafeInt(taskDetail?.subproject ?? taskDetail?.subProjectId ?? taskItem?.subProject ?? taskItem?.subProjectId, 0),
+        subProjectCategoryId: toSafeInt(taskDetail?.subProjectCategory ?? taskDetail?.subProjectCategoryId ?? taskItem?.subProjectCategory ?? taskItem?.subProjectCategoryId, 0),
+        activity: taskName,
+        branchid: branchId,
+        button: 'stop',
+        cloneID: toSafeInt(taskDetail?.cloneID ?? taskDetail?.cloneId, 0),
+        companyid: companyId,
+        employeeid: empId || assignedEmpId,
+        isAdmin: Boolean(isAdmin),
+        activeInvoice: true,
+        nonBillable: false,
+        duration: formatSecondsToHHMMSS(finalSeconds),
+        watcherAppTitle: '',
+      };
+
+      await top10TaskService.addEditTrackerTask(trackerPayload).catch(console.warn);
+
+      if (showNotification) {
+        toastService.success(`Timer stopped for ${taskName}. Total duration: ${formatSecondsToHHMMSS(finalSeconds)}`);
+      }
+
+      loadData(pageNumber, pageSize_Local, defaultStatus);
+    } catch (err: any) {
+      console.error('Failed to save task timer duration:', err);
+      toastService.error('Failed to save task duration.');
+    }
+  };
+
+  // Button Action Handlers
+  const handleStartTimer = async (row: Top10TaskListItem) => {
+    const taskId = Number(row.id || row.ID || 0);
+    if (!taskId) return;
+
+    setTimerLoadingTaskId(taskId);
+    try {
+      // If another task is currently running or paused -> stop it first
+      if (activeTimerTaskId && activeTimerTaskId !== taskId) {
+        await stopTaskTimer(activeTimerTaskId, false);
+      }
+      await startTaskTimer(row);
+    } finally {
+      setTimerLoadingTaskId(null);
+    }
+  };
+
+  const handlePauseTimer = async (taskId: number) => {
+    setTimerLoadingTaskId(taskId);
+    try {
+      await pauseTaskTimer(taskId);
+    } finally {
+      setTimerLoadingTaskId(null);
+    }
+  };
+
+  const handleResumeTimer = async (taskId: number, row?: Top10TaskListItem) => {
+    setTimerLoadingTaskId(taskId);
+    try {
+      await resumeTaskTimer(taskId, row);
+    } finally {
+      setTimerLoadingTaskId(null);
+    }
+  };
+
+  const handleStopTimer = async (taskId: number) => {
+    setTimerLoadingTaskId(taskId);
+    try {
+      await stopTaskTimer(taskId, true);
+    } finally {
+      setTimerLoadingTaskId(null);
+    }
+  };
+
+  // Clean up interval timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    };
+  }, []);
 
   // Column definitions using @tanstack/react-table ColumnDef matching VirtualClinic-React
   const columns = useMemo<ColumnDef<Top10TaskListItem, any>[]>(() => {
@@ -234,9 +780,13 @@ const Top10TaskList: React.FC = () => {
         enableSorting: true,
         cell: (info) => {
           const row = info.row.original;
-          const status = row.completed || row.Completed || 'Not Started';
+          const id = Number(row.id || row.ID || 0);
+          const isTimerActive = activeTimerTaskId === id;
+          const status = isTimerActive && (!row.completed || row.completed === 'Not Started')
+            ? 'In Process'
+            : (row.completed || row.Completed || 'Not Started');
           const isDone = status === 'Done' || status === 'Completed';
-          const isInProcess = status === 'In Process' || status === 'In Progress';
+          const isInProcess = status === 'In Process' || status === 'In Progress' || isTimerActive;
 
           return isDone ? (
             <span className="badge-status-done">{status}</span>
@@ -257,7 +807,53 @@ const Top10TaskList: React.FC = () => {
         header: 'Actual',
         accessorKey: 'duration',
         enableSorting: true,
-        cell: (info) => formatActualTime(info.row.original.duration || info.row.original.Duration),
+        cell: (info) => {
+          const row = info.row.original;
+          const id = Number(row.id || row.ID || 0);
+          const isTimerActive = activeTimerTaskId === id;
+
+          if (isTimerActive) {
+            const projectedH = Number(row.etahh ?? row.ETAHH ?? 0);
+            const projectedM = Number(row.etamm ?? row.ETAMM ?? 0);
+            const rawProjected = Number(row.projected ?? row.Projected ?? 0);
+            const totalProjectedMinutes = (projectedH * 60 + projectedM) || rawProjected;
+            const totalProjectedSeconds = totalProjectedMinutes * 60;
+            const remainingSeconds = totalProjectedSeconds - timerRunningSeconds;
+
+            return (
+              <div className="timer-live-cell">
+                <div className="d-flex align-items-center gap-1">
+                  <span
+                    className={`timer-pulse-dot ${isTimerPaused ? 'paused' : ''}`}
+                    title={isTimerPaused ? 'Timer Paused' : 'Timer Running'}
+                  ></span>
+                  <span className={`timer-running-text ${isTimerPaused ? 'paused' : ''}`}>
+                    {formatSecondsToHHMMSS(timerRunningSeconds)}
+                  </span>
+                  {isTimerPaused && (
+                    <span className="badge bg-warning-subtle text-warning border border-warning-subtle py-0 px-1 font-size-10">
+                      Paused
+                    </span>
+                  )}
+                </div>
+                {totalProjectedMinutes > 0 && (
+                  <span
+                    className={`timer-countdown-badge ${remainingSeconds >= 0 ? 'remaining-positive' : 'remaining-negative'
+                      }`}
+                    title={remainingSeconds >= 0 ? 'Remaining Projected Time' : 'Overdue Time'}
+                  >
+                    <i className={`mdi ${remainingSeconds >= 0 ? 'mdi-timer-sand' : 'mdi-alert-circle-outline'} font-size-11`}></i>
+                    {remainingSeconds >= 0
+                      ? `-${formatSecondsToHHMMSS(remainingSeconds)}`
+                      : `+${formatSecondsToHHMMSS(Math.abs(remainingSeconds))}`}
+                  </span>
+                )}
+              </div>
+            );
+          }
+
+          return formatActualTime(row.duration || row.Duration);
+        },
       },
       {
         header: 'Action',
@@ -268,6 +864,8 @@ const Top10TaskList: React.FC = () => {
           const id = Number(row.id || row.ID || 0);
           const completed = row.completed || row.Completed || 'Not Started';
           const isDone = completed === 'Done' || completed === 'Completed';
+          const isActiveTimer = activeTimerTaskId === id;
+          const isTimerLoading = timerLoadingTaskId === id;
 
           return (
             <div className="d-flex align-items-center">
@@ -282,15 +880,72 @@ const Top10TaskList: React.FC = () => {
                 </Link>
               )}
 
-              {/* Timer button */}
+              {/* In-Row Timer Controls: Play/Pause/Resume + Stop */}
               {!isDone && (
-                <Link
-                  to={`/timer?taskId=${id}`}
-                  className="task-action-icon me-2"
-                  title="Timer"
-                >
-                  <i className="mdi mdi-clock-outline"></i>
-                </Link>
+                isTimerLoading ? (
+                  <button
+                    type="button"
+                    disabled={true}
+                    className="task-action-icon me-2"
+                    title="Updating Timer..."
+                    style={{ cursor: 'wait' }}
+                  >
+                    <div
+                      className="spinner-border spinner-border-sm text-primary"
+                      style={{ width: '15px', height: '15px', borderWidth: '2px' }}
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+                ) : isActiveTimer ? (
+                  <div className="d-inline-flex align-items-center">
+                    {/* Pause / Resume Button */}
+                    {/* {!isTimerPaused ? (
+                      <button
+                        type="button"
+                        disabled={timerLoadingTaskId !== null}
+                        onClick={() => handlePauseTimer(id)}
+                        className="task-action-icon me-2 text-warning"
+                        title="Pause Timer"
+                      >
+                        <i className="mdi mdi-pause-circle font-size-18"></i>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={timerLoadingTaskId !== null}
+                        onClick={() => handleResumeTimer(id, row)}
+                        className="task-action-icon me-2 text-success"
+                        title="Resume Timer"
+                      >
+                        <i className="mdi mdi-play-circle-outline font-size-18"></i>
+                      </button>
+                    )} */}
+
+                    {/* Stop Button */}
+                    <button
+                      type="button"
+                      disabled={timerLoadingTaskId !== null}
+                      onClick={() => handleStopTimer(id)}
+                      className="task-action-icon me-2 text-danger"
+                      title="Stop Timer"
+                    >
+                      <i className="mdi mdi-stop-circle font-size-18"></i>
+                    </button>
+                  </div>
+                ) : (
+                  /* Start Timer Button */
+                  <button
+                    type="button"
+                    disabled={timerLoadingTaskId !== null}
+                    onClick={() => handleStartTimer(row)}
+                    className="task-action-icon me-2 text-primary"
+                    title="Start Timer"
+                  >
+                    <i className="mdi mdi-play-circle-outline font-size-18"></i>
+                  </button>
+                )
               )}
 
               {/* Clone button */}
@@ -322,63 +977,116 @@ const Top10TaskList: React.FC = () => {
     );
 
     return cols;
-  }, [sessionType, isHideDelete, isHideEdit]);
+  }, [sessionType, isHideDelete, isHideEdit, activeTimerTaskId, isTimerPaused, timerRunningSeconds, timerLoadingTaskId]);
 
-  // Source data: use allTasks if available, or list
-  const sourceData = allTasks && allTasks.length > 0 ? allTasks : list || [];
+  const isSearching = Boolean(searchTerm && searchTerm.trim());
 
-  // Filtered data based on search term across all task fields
-  const filteredData = useMemo(() => {
-    if (!searchTerm || !searchTerm.trim()) {
-      return list || [];
+  // Full dataset for client-side search across all fields
+  const fullDataset = useMemo(() => {
+    if (allTasks && allTasks.length > 0) {
+      return allTasks;
     }
+    return list || [];
+  }, [allTasks, list]);
+
+  // Filtered tasks across all fields when searching
+  const filteredTasks = useMemo(() => {
+    if (!isSearching) return [];
 
     const term = searchTerm.toLowerCase().trim();
-    return sourceData.filter((item: Top10TaskListItem) => {
-      const assignedBy = String(item.pointPerson || item.PointPerson || item.accountablePerson || item.AccountablePerson || '').toLowerCase();
-      const assignedTo = String(item.secondPerson || item.SecondPerson || item.accountablePerson || item.AccountablePerson || '').toLowerCase();
-      const task = String(item.task || item.Task || item.subject || item.Subject || item.priority || item.Priority || '').toLowerCase();
-      const project = String(item.project || item.Project || item.projectName || item.ProjectName || '').toLowerCase();
-      const subProject = String(item.subProject || item.SubProject || item.subProjectName || item.SubProjectName || '').toLowerCase();
-      const category = String(item.subProjectCategory || item.SubProjectCategory || item.categoryName || item.CategoryName || '').toLowerCase();
-      const status = String(item.completed || item.Completed || '').toLowerCase();
-      const assignDate = formatDateOnly(item.assignDate || item.AssignDate);
-      const etaDate = formatDateOnly(item.eta || item.ETA);
+
+    return fullDataset.filter((item: Top10TaskListItem) => {
+      const assignedBy = String(
+        item.pointPerson ||
+        item.PointPerson ||
+        item.accountablePerson ||
+        item.AccountablePerson ||
+        ''
+      ).toLowerCase();
+      const assignedTo = String(
+        item.secondPerson ||
+        item.SecondPerson ||
+        item.accountablePerson ||
+        item.AccountablePerson ||
+        ''
+      ).toLowerCase();
+      const task = String(
+        item.task ||
+        item.Task ||
+        item.subject ||
+        item.Subject ||
+        item.priority ||
+        item.Priority ||
+        ''
+      ).toLowerCase();
+      const project = String(
+        item.project ||
+        item.Project ||
+        item.projectName ||
+        item.ProjectName ||
+        ''
+      ).toLowerCase();
+      const subProject = String(
+        item.subProject ||
+        item.SubProject ||
+        item.subProjectName ||
+        item.SubProjectName ||
+        ''
+      ).toLowerCase();
+      const category = String(
+        item.subProjectCategory ||
+        item.SubProjectCategory ||
+        item.categoryName ||
+        item.CategoryName ||
+        ''
+      ).toLowerCase();
+      const status = String(
+        item.completed || item.Completed || ''
+      ).toLowerCase();
+      const assignDate = formatDateOnly(
+        item.assignDate || item.AssignDate
+      ).toLowerCase();
+      const etaDate = formatDateOnly(item.eta || item.ETA).toLowerCase();
+      const id = String(item.id || item.ID || '');
 
       return (
-        assignedBy.includes(term) ||
-        assignedTo.includes(term) ||
         task.includes(term) ||
         project.includes(term) ||
         subProject.includes(term) ||
         category.includes(term) ||
+        assignedBy.includes(term) ||
+        assignedTo.includes(term) ||
         status.includes(term) ||
-        assignDate.toLowerCase().includes(term) ||
-        etaDate.toLowerCase().includes(term)
+        assignDate.includes(term) ||
+        etaDate.includes(term) ||
+        id.includes(term)
       );
     });
-  }, [searchTerm, sourceData, list]);
+  }, [isSearching, searchTerm, fullDataset]);
 
-  // Paginate filtered data for the current page
-  const paginatedData = useMemo(() => {
-    if (!searchTerm || !searchTerm.trim()) {
-      return list || [];
+  // Active display data: locally paginated if searching, otherwise server-paginated list
+  const displayData = useMemo(() => {
+    if (isSearching) {
+      const startIndex = (pageNumber - 1) * pageSize_Local;
+      return filteredTasks.slice(startIndex, startIndex + pageSize_Local);
     }
-    const start = (pageNumber - 1) * pageSize_Local;
-    return filteredData.slice(start, start + pageSize_Local);
-  }, [filteredData, searchTerm, pageNumber, pageSize_Local, list]);
+    return list || [];
+  }, [isSearching, filteredTasks, pageNumber, pageSize_Local, list]);
 
-  const displayTotalRecords = searchTerm ? filteredData.length : totalRecords;
-  const displayTotalPages = searchTerm
-    ? Math.ceil(filteredData.length / pageSize_Local) || 1
-    : totalPages;
+  const displayTotalRecords = isSearching
+    ? filteredTasks.length
+    : totalRecords || 0;
+
+  const displayTotalPages = isSearching
+    ? Math.ceil(filteredTasks.length / pageSize_Local) || 1
+    : totalPages || 1;
 
   return (
     <React.Fragment>
       <div className="task-list-page-container">
         <TableContainer
           columns={columns}
-          data={paginatedData}
+          data={displayData}
           isGlobalFilter={true}
           searchPlaceholder="Search..."
           isAddButton={true}

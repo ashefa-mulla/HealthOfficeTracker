@@ -23,6 +23,12 @@ const EmployeeMenu = (props: any) => {
           <span>{props.t ? props.t("My Tracker Task") : "My Tracker Task"}</span>
         </Link>
       </li>
+      <li>
+        <Link to="/area/taskactivity" onClick={props.onItemClick}>
+          <i className="mdi mdi-history"></i>
+          <span>{props.t ? props.t("My Activities") : "My Activities"}</span>
+        </Link>
+      </li>
     </>
   );
 };
