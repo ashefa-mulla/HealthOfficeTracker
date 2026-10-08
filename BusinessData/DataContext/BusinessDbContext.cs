@@ -573,6 +573,8 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<sp_getmonthlyevaluationsummaryaddedit_Result>().HasNoKey();
         modelBuilder.Entity<sp_getmonthlyevaluationreportsummary_Results>().HasNoKey();
         modelBuilder.Entity<sp_getonlineemployeedashboardsummary_Result>().HasNoKey();
+        modelBuilder.Entity<spa_getactivelogofemployee_records_Result>().HasNoKey();
+        modelBuilder.Entity<spa_getactivelogofemployee_Result>().HasNoKey();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

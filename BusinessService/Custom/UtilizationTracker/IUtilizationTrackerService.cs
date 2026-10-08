@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +51,8 @@ namespace BusinessService.Custom.UtilizationTracker
         Task<IEnumerable<GetBillableHoursAndAmountByProject_Result>> GetBillabletotalHoursAndAmountByProject(DateTime start, DateTime end);
         //Task activity for client user
         Task<IEnumerable<GetActiveLogOfClientProject_Results>> GetActiveLogOfClientProject(DateTime FromDate, DateTime ToDate, int EID, int UID, int AdminID);
-
+        Task<IEnumerable<spa_getactivelogofemployee_records_Result>> GetActiveLogOfEmployeeRecords(DateTime? start, DateTime? end, int? employeeId = null, int utype = 3, string search = null);
+        Task<IEnumerable<spa_getactivelogofemployee_Result>> GetActiveLogOfEmployeeWithPagination(DateTime? start, DateTime? end, int? employeeId = null, int utype = 3, int pageNumber = 1, int pageSize = 100, string search = null);
 
     }
 }

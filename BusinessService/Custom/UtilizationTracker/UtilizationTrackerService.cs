@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -301,7 +301,45 @@ namespace BusinessService.Custom.UtilizationTracker
             );
         }
 
+        public async Task<IEnumerable<spa_getactivelogofemployee_records_Result>> GetActiveLogOfEmployeeRecords(DateTime? start, DateTime? end, int? employeeId = null, int utype = 3, string search = null)
+        {
+            try
+            {
+                return await spRepository.ExecWithStoreProcedureAsync<spa_getactivelogofemployee_records_Result>(
+                    "exec spa_getactivelogofemployee_records @start, @end, @Employeeid, @utype, @search",
+                    new SqlParameter("@start", (object)start ?? DBNull.Value),
+                    new SqlParameter("@end", (object)end ?? DBNull.Value),
+                    new SqlParameter("@Employeeid", (object)employeeId ?? DBNull.Value),
+                    new SqlParameter("@utype", utype),
+                    new SqlParameter("@search", (object)search ?? DBNull.Value)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public async Task<IEnumerable<spa_getactivelogofemployee_Result>> GetActiveLogOfEmployeeWithPagination(DateTime? start, DateTime? end, int? employeeId = null, int utype = 3, int pageNumber = 1, int pageSize = 100, string search = null)
+        {
+            try
+            {
+                return await spRepository.ExecWithStoreProcedureAsync<spa_getactivelogofemployee_Result>(
+                    "exec spa_getactivelogofemployee @start, @end, @Employeeid, @utype, @PageNumber, @PageSize, @search",
+                    new SqlParameter("@start", (object)start ?? DBNull.Value),
+                    new SqlParameter("@end", (object)end ?? DBNull.Value),
+                    new SqlParameter("@Employeeid", (object)employeeId ?? DBNull.Value),
+                    new SqlParameter("@utype", utype),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@search", (object)search ?? DBNull.Value)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

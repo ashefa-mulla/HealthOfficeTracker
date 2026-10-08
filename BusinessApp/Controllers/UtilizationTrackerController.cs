@@ -1,4 +1,4 @@
-﻿using BusinessData.DataContext;
+using BusinessData.DataContext;
 using BusinessService.Custom.User;
 using BusinessApp.Models;
 using Microsoft.AspNetCore.Cors;
@@ -667,6 +667,41 @@ namespace BusinessApp.Controllers
             }
         }
 
+        [HttpGet("GetActiveLogOfEmployeeWithPagination")]
+        public async Task<IActionResult> GetActiveLogOfEmployeeWithPagination(DateTime? start = null, DateTime? end = null, int? Employeeid = null, int utype = 3, int pageNumber = 1, int pageSize = 100, string search = null)
+        {
+            try
+            {
+                var countResult = await _UtilizationTrackerService.GetActiveLogOfEmployeeRecords(start, end, Employeeid, utype, search)
+                    as List<spa_getactivelogofemployee_records_Result>;
+
+                int totalCount = countResult?.FirstOrDefault()?.TotalRows ?? 0;
+
+                var result = await _UtilizationTrackerService.GetActiveLogOfEmployeeWithPagination(start, end, Employeeid, utype, pageNumber, pageSize, search)
+                    as List<spa_getactivelogofemployee_Result>;
+
+                if (result != null && result.Any())
+                {
+                    return Ok(new
+                    {
+                        data = result,
+                        totalCount = totalCount,
+                        pageSize = pageSize,
+                        currentPage = pageNumber,
+                        totalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                    });
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Error: {ex}");
+                return StatusCode(500, ex.Message);  // 500 = Internal Server Error
+            }
+        }
 
     }
 }
