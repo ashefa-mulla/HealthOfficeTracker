@@ -4,14 +4,13 @@
  */
 
 import axiosInstance from '../config/axiosInstance';
-import {
-  LoginRequest,
-  AuthResponse,
-  MfaVerifyRequest,
-  MfaVerifyResponse,
-  MfaSetupResponse,
-  OAuthCallbackRequest,
-} from '../types/api.types';
+// Keep service request/response types local because api.types.ts has no exports.
+type LoginRequest = Record<string, unknown>;
+type AuthResponse = any;
+type MfaVerifyRequest = { userId: string; method?: string; [key: string]: unknown };
+type MfaVerifyResponse = any;
+type MfaSetupResponse = any;
+type OAuthCallbackRequest = Record<string, unknown>;
 import { axiosErrorToApiError } from '../types/errors';
 import { useAuthStore } from '../store/useAuthStore';
 import { clearDeviceId } from '../helpers/deviceHelper';

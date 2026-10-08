@@ -8,6 +8,45 @@ export interface ApiResponse<T> {
   success?: boolean;
 }
 
+export interface ApiPageResponse<T> {
+  data: T[];
+  xpage: {
+    currentPage: number;
+    pageNumber: number;
+    pageSize: number;
+    totalRecords: number;
+    totalPages: number;
+  };
+  success: boolean;
+  message?: string;
+}
+
+export interface PaginatedApiResponse<T> {
+  data: T[];
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  totalRecords: number;
+  message?: string;
+}
+
+export interface SaveResponse {
+  message: string;
+  success: boolean;
+  [key: string]: any;
+}
+
+export interface SelectOption {
+  value: number;
+  label: string;
+}
+
+export interface SelectStringOption {
+  value: string;
+  label: string;
+}
+
+
 export interface UserDto {
   id?: string;
   userName?: string;

@@ -7,9 +7,15 @@ body {
   font-family: $font-family-sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: $headings-font-family;
   font-weight: 600;
 }
@@ -19,4 +25,553 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ==========================================================================
+   VO_Tracker Task List Screen Styles (Exact Match to Screenshot)
+   ========================================================================== */
+
+.task-list-page-container {
+  padding: 1.5rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+/* Add New Button */
+.btn-task-add-new {
+  background-color: #0b4d9c;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s ease;
+  margin-bottom: 1.25rem;
+}
+
+.btn-task-add-new:hover {
+  background-color: #083b77;
+  color: #ffffff;
+}
+
+/* Controls row: Search, Red Projected Badge, Filter */
+.task-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.task-controls-left {
+  flex: 1 1 220px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.task-controls-center {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.task-controls-right {
+  flex: 1 1 220px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.task-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-search-wrapper label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #1e293b;
+  margin: 0;
+}
+
+.task-search-input {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.88rem;
+  width: 240px;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.task-search-input:focus {
+  border-color: #0b4d9c;
+}
+
+/* Large Red Projected Hours Badge - Attractive Blinking Glow */
+.projected-hours-red-badge {
+  background: linear-gradient(135deg, #ff1a1a 0%, #e60000 50%, #cc0000 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 10px 32px;
+  border-radius: 12px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: attractiveBlinkGlow 1.8s infinite ease-in-out;
+  cursor: default;
+}
+
+.projected-hours-red-badge i {
+  font-size: 1.25rem;
+}
+
+@keyframes attractiveBlinkGlow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(255, 0, 0, 0.45);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.025);
+    box-shadow: 0 6px 26px rgba(255, 0, 0, 0.8), 0 0 16px rgba(255, 60, 60, 0.7);
+    filter: brightness(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(255, 0, 0, 0.45);
+    filter: brightness(1);
+  }
+}
+
+.task-filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-filter-wrapper label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #1e293b;
+  margin: 0;
+}
+
+.task-filter-select {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 6px 30px 6px 12px;
+  font-size: 0.88rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  outline: none;
+}
+
+.task-filter-select:focus {
+  border-color: #0b4d9c;
+}
+
+/* Task Table */
+.tracker-task-table-wrap {
+  background: #ffffff;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.tracker-task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+.tracker-task-table th {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #0f172a;
+  padding: 12px 14px;
+  border-top: none;
+  border-bottom: 2px solid #e2e8f0;
+  background-color: transparent;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.tracker-task-table td {
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.tracker-task-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Status Badges */
+.badge-status-in-process {
+  background-color: #26a69a;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 4px 14px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.badge-status-not-started {
+  background-color: #e53935;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 4px 14px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.badge-status-done {
+  background-color: #43a047;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 4px 14px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Action Icons */
+.task-action-icon {
+  color: #64748b;
+  font-size: 1.15rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.task-action-icon:hover {
+  color: #0b4d9c;
+}
+
+.task-action-icon.delete-icon:hover {
+  color: #dc2626;
+}
+
+/* Generic Pagination */
+.pagination-controls-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 1rem;
+}
+
+/* ==========================================================================
+   Form & Card Common Styles (Create / Edit Task)
+   ========================================================================== */
+.page-content-wrapper {
+  padding: 1.5rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.page-header-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-title-main {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.breadcrumb-nav-custom {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.breadcrumb-nav-custom a {
+  color: #0b4d9c;
+  text-decoration: none;
+}
+
+.breadcrumb-nav-custom a:hover {
+  text-decoration: underline;
+}
+
+.tracker-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tracker-card-body {
+  padding: 1.5rem;
+}
+
+.btn-brand-primary {
+  background-color: #0b4d9c;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-brand-primary:hover {
+  background-color: #083b77;
+  color: #ffffff;
+}
+
+.btn-brand-secondary {
+  background-color: #f1f5f9;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-brand-secondary:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.required-asterisk {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   Angular-Style Daily Projected TimePicker Widget
+   ========================================================================== */
+.timepicker-widget-container {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+  user-select: none;
+
+  .timepicker-unit-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+  }
+
+  .btn-time-arrow-chevron {
+    background: transparent;
+    border: none;
+    color: #0b4d9c;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    line-height: 1;
+    transition: transform 0.1s ease, color 0.15s ease;
+
+    &:hover {
+      color: #083b77;
+      transform: scale(1.15);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .time-digit-box {
+    width: 48px;
+    height: 36px;
+    text-align: center;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 500;
+    color: #212529;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: #adb5bd;
+      font-size: 12px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    &:focus {
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+  }
+
+  .timepicker-separator-col {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    padding: 0 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+  }
+}
+
+/* Date input with rounded-pill calendar addon */
+.date-picker-custom-group {
+  .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .btn-date-calendar-addon {
+    border: 1px solid #38bdf8;
+    background-color: #ffffff;
+    color: #0284c7;
+    border-left: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: #f0f9ff;
+    }
+  }
+}
+
+/* Flatpickr Calendar Theme Styling */
+.flatpickr-calendar {
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  font-family: inherit !important;
+  border: 1px solid #e2e8f0 !important;
+
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange,
+  .flatpickr-day.endRange {
+    background: #0b4d9c !important;
+    border-color: #0b4d9c !important;
+  }
+
+  .flatpickr-time {
+    .numInputWrapper span.arrowUp:after {
+      border-bottom-color: #0b4d9c !important;
+    }
+    .numInputWrapper span.arrowDown:after {
+      border-top-color: #0b4d9c !important;
+    }
+  }
+}
+
+/* Form Action Buttons (Pill-shaped matching screenshot) */
+.btn-form-action-back {
+  background-color: #e2e8f0;
+  color: #334155 !important;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 24px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-form-action-back:hover {
+  background-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.btn-form-action-save {
+  background-color: #0b4d9c;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 26px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s ease;
+}
+
+.btn-form-action-save:hover {
+  background-color: #083b77;
+  color: #ffffff;
 }

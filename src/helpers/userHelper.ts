@@ -90,7 +90,6 @@ export const getNumericUserId = (profileInfo?: any, user?: any): number => {
       profileInfo.UserId ??
       profileInfo.userid ??
       profileInfo.employeeId ??
-      profileInfo.EmployeeId ??
       profileInfo.entityId ??
       profileInfo.id;
     if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
@@ -127,7 +126,6 @@ export const getNumericUserId = (profileInfo?: any, user?: any): number => {
         p.UserId ??
         p.userid ??
         p.employeeId ??
-        p.EmployeeId ??
         p.entityId ??
         p.id;
       if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
@@ -173,5 +171,76 @@ export const getNumericUserId = (profileInfo?: any, user?: any): number => {
   }
 
   return 0;
+};
+
+/**
+ * Extract numeric database Employee ID / Entity ID (matching Angular employeeid / entityId)
+ * Priority: profileInfo.employeeId > profileInfo.entityId > localStorage 'employeeid' > localStorage 'entityid' > localStorage 'userProfile' > getNumericUserId
+ */
+export const getNumericEmployeeId = (profileInfo?: any, user?: any): number => {
+  // 1. Direct profileInfo fields (employeeId, entityId, EmployeeId, EntityId, employeeid, entityid)
+  if (profileInfo) {
+    const empFields = [
+      profileInfo.employeeId,
+      profileInfo.EmployeeId,
+      profileInfo.employeeid,
+      profileInfo.entityId,
+      profileInfo.EntityId,
+      profileInfo.entityid,
+    ];
+    for (const val of empFields) {
+      if (val !== undefined && val !== null && !isNaN(Number(val)) && Number(val) > 0) {
+        return Number(val);
+      }
+    }
+  }
+
+  // 2. Check localStorage 'employeeid' / 'entityid'
+  const lsKeys = ['employeeid', 'entityid', 'employeeId', 'entityId', 'EmpID', 'EmpId'];
+  for (const key of lsKeys) {
+    const lsVal = localStorage.getItem(key);
+    if (lsVal) {
+      if (!isNaN(Number(lsVal)) && Number(lsVal) > 0) {
+        return Number(lsVal);
+      }
+      try {
+        const parsed = JSON.parse(lsVal);
+        if (Array.isArray(parsed) && parsed.length > 0 && !isNaN(Number(parsed[0])) && Number(parsed[0]) > 0) {
+          return Number(parsed[0]);
+        }
+        if (!isNaN(Number(parsed)) && Number(parsed) > 0) {
+          return Number(parsed);
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  // 3. Check localStorage 'userProfile'
+  const userProfileStr = localStorage.getItem('userProfile');
+  if (userProfileStr) {
+    try {
+      const p = JSON.parse(userProfileStr);
+      const empFields = [
+        p.employeeId,
+        p.EmployeeId,
+        p.employeeid,
+        p.entityId,
+        p.EntityId,
+        p.entityid,
+      ];
+      for (const val of empFields) {
+        if (val !== undefined && val !== null && !isNaN(Number(val)) && Number(val) > 0) {
+          return Number(val);
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 4. Fallback to numeric user id if no employeeId found
+  return getNumericUserId(profileInfo, user);
 };
 

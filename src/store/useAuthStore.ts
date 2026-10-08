@@ -19,7 +19,6 @@ export interface ProfileInfo {
   isNewUser?: boolean;
   userRole?: string;
   employerId?: number;
-  employeeId?: number;
   branchId?: number;
   companyId?: number;
   profileImage?: string;

@@ -26,6 +26,10 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    include: ['@tanstack/react-table', '@tanstack/match-sorter-utils', 'react-tooltip', 'react-flatpickr', 'flatpickr'],
+    force: true,
+  },
   server: {
     port: 3000,
     open: true,
