@@ -21,15 +21,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
     <PackageReference Include="GoogleAuthenticator" Version="3.2.0" />
+    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.19" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessData\BusinessData.csproj" />
     <ProjectReference Include="..\BusinessService\BusinessService.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="FileServer\" />
   </ItemGroup>
 
 </Project>

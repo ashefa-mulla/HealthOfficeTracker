@@ -2587,6 +2587,37 @@
   },
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadActiveLogReport",
+    "RelativePath": "api/Reports/DownloadActiveLogReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
     "Method": "PrintemployeecostReport",
     "RelativePath": "api/Reports/employeereport",
     "HttpMethod": "GET",

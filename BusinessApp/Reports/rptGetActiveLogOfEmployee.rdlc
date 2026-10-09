@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DSActivityLog">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>6c2f9d8a-9e1b-4f47-8a6e-3e4b7c12f0a1</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="GetActiveLogOfEmployee">
+      <Query>
+        <DataSourceName>DSActivityLog</DataSourceName>
+        <CommandText>/* Command Text */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Fullname">
+          <DataField>Fullname</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OExecDate">
+          <DataField>OExecDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Starttime">
+          <DataField>Starttime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OOutDate">
+          <DataField>OOutDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Endtime">
+          <DataField>Endtime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DURATION">
+          <DataField>DURATION</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Project">
+          <DataField>Project</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Subcategory">
+          <DataField>Subcategory</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="subprojectcategory">
+          <DataField>subprojectcategory</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Activity">
+          <DataField>Activity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SECONDVALUE">
+          <DataField>SECONDVALUE</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <!-- Activity Log Data Table -->
+          <Tablix Name="TablixActivityLog">
+            <TablixBody>
+              <TablixColumns>
+                <!-- Project: 1.65 in (~15%) -->
+                <TablixColumn>
+                  <Width>1.65in</Width>
+                </TablixColumn>
+                <!-- Sub Project: 1.65 in (~15%) -->
+                <TablixColumn>
+                  <Width>1.65in</Width>
+                </TablixColumn>
+                <!-- Category: 1.10 in (~10%) -->
+                <TablixColumn>
+                  <Width>1.10in</Width>
+                </TablixColumn>
+                <!-- Date: 1.25 in (~12%) -->
+                <TablixColumn>
+                  <Width>1.25in</Width>
+                </TablixColumn>
+                <!-- Time: 2.15 in (~20%) -->
+                <TablixColumn>
+                  <Width>2.15in</Width>
+                </TablixColumn>
+                <!-- Activity: 2.15 in (~20%) -->
+                <TablixColumn>
+                  <Width>2.15in</Width>
+                </TablixColumn>
+                <!-- Duration: 0.94 in (~8%) -->
+                <TablixColumn>
+                  <Width>0.94in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <!-- Data Detail Row -->
+                <TablixRow>
+                  <Height>0.24in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtProject">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Project.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtSubProject">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Subcategory.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtCategory">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!subprojectcategory.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtDate">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(IsDate(Fields!OExecDate.Value), Format(CDate(Fields!OExecDate.Value), "MM/dd/yyyy"), Fields!OExecDate.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtTime">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Starttime.Value &amp; " - " &amp; Fields!Endtime.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtActivity">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Activity.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtDuration">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DURATION.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+
+                <!-- Total Hours Summary Row -->
+                <TablixRow>
+                  <Height>0.26in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Blank1">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Blank2">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Blank3">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Blank4">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Blank5">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtTotalLabel">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total Hours:</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>4pt</PaddingTop>
+                            <PaddingBottom>4pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtTotalValue">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(Parameters!totalHours.Value &lt;&gt; "", Parameters!totalHours.Value, IIf(Sum(Fields!SECONDVALUE.Value) &gt; 0, Format(Floor(Sum(Fields!SECONDVALUE.Value) / 3600), "00") &amp; ":" &amp; Format(Floor((Sum(Fields!SECONDVALUE.Value) Mod 3600) / 60), "00"), "00:00"))</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border><Style>None</Style></Border>
+                            <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>4pt</PaddingTop>
+                            <PaddingBottom>4pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <!-- Data Detail Rows -->
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+                <!-- Summary Total Row -->
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>GetActiveLogOfEmployee</DataSetName>
+            <Top>0in</Top>
+            <Left>0in</Left>
+            <Height>0.50in</Height>
+            <Width>10.89in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>0.6in</Height>
+        <Style />
+      </Body>
+      <Width>10.89in</Width>
+      <Page>
+        <!-- Page Header (Repeats automatically on Every Page 1, 2, 3...) -->
+        <PageHeader>
+          <Height>1.38in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <!-- Logo Image Header -->
+            <Image Name="ImgLogo">
+              <Source>External</Source>
+              <Value>=IIf(Parameters!logoPath.Value &lt;&gt; "", Parameters!logoPath.Value, "FileServer/Logo/Small-VO-LOGO.png")</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.04in</Top>
+              <Left>4.44in</Left>
+              <Height>0.44in</Height>
+              <Width>2.0in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+
+            <!-- Report Header Title -->
+            <Textbox Name="TxtTitle">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=IIf(Parameters!empname.Value &lt;&gt; "", "Activity Log (" &amp; Parameters!empname.Value &amp; ")", IIf(First(Fields!Fullname.Value, "GetActiveLogOfEmployee") &lt;&gt; "", "Activity Log (" &amp; First(Fields!Fullname.Value, "GetActiveLogOfEmployee") &amp; ")", "Activity Log"))</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>12pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>#111827</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.50in</Top>
+              <Left>0in</Left>
+              <Height>0.26in</Height>
+              <Width>10.89in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Date Subtitle -->
+            <Textbox Name="TxtDatePeriod">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=IIf(Parameters!sdate.Value &lt;&gt; "" And Parameters!edate.Value &lt;&gt; "", "Period: " &amp; Parameters!sdate.Value &amp; " - " &amp; Parameters!edate.Value, "")</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <Color>#4B5563</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.76in</Top>
+              <Left>0in</Left>
+              <Height>0.22in</Height>
+              <Width>10.89in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- ========================================================================= -->
+            <!-- 7 Column Headers placed in PageHeader so they GUARANTEE repeat on Page 1, 2, 3... -->
+            <!-- ========================================================================= -->
+            <!-- Column 1: Project (1.65 in) -->
+            <Textbox Name="HdrProject">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Project</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>0in</Left>
+              <Height>0.26in</Height>
+              <Width>1.65in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Column 2: Sub Project (1.65 in) -->
+            <Textbox Name="HdrSubProject">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Sub Project</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>1.65in</Left>
+              <Height>0.26in</Height>
+              <Width>1.65in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Column 3: Category (1.10 in) -->
+            <Textbox Name="HdrCategory">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Category</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>3.30in</Left>
+              <Height>0.26in</Height>
+              <Width>1.10in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Column 4: Date (1.25 in) -->
+            <Textbox Name="HdrDate">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Date</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>4.40in</Left>
+              <Height>0.26in</Height>
+              <Width>1.25in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Column 5: Time (2.15 in) -->
+            <Textbox Name="HdrTime">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Time</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>5.65in</Left>
+              <Height>0.26in</Height>
+              <Width>2.15in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Column 6: Activity (2.15 in) -->
+            <Textbox Name="HdrActivity">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Activity</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>7.80in</Left>
+              <Height>0.26in</Height>
+              <Width>2.15in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Column 7: Duration (0.94 in) -->
+            <Textbox Name="HdrDuration">
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Duration</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style><TextAlign>Left</TextAlign></Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.05in</Top>
+              <Left>9.95in</Left>
+              <Height>0.26in</Height>
+              <Width>0.94in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <TopBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></TopBorder>
+                <BottomBorder><Style>Solid</Style><Color>#9CA3AF</Color><Width>1pt</Width></BottomBorder>
+                <BackgroundColor>#F9FAFB</BackgroundColor>
+                <PaddingLeft>4pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+
+        <!-- Page Footer (Repeats on every page) -->
+        <PageFooter>
+          <Height>0.35in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <!-- Footer Print Date/Time -->
+            <Textbox Name="TxtFooterDate">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed: " &amp; Format(Globals!ExecutionTime, "MM/dd/yyyy hh:mm tt")</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <Color>#6B7280</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.08in</Top>
+              <Left>0in</Left>
+              <Height>0.2in</Height>
+              <Width>3.5in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+
+            <!-- Page Numbering (Page X / Y) -->
+            <Textbox Name="TxtPageNumber">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Page: " &amp; Globals!PageNumber &amp; " / " &amp; Globals!TotalPages</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <Color>#6B7280</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.08in</Top>
+              <Left>7.39in</Left>
+              <Height>0.2in</Height>
+              <Width>3.5in</Width>
+              <Style>
+                <Border><Style>None</Style></Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+
+        <!-- Page Dimensions (A4 Landscape) -->
+        <PageHeight>8.27in</PageHeight>
+        <PageWidth>11.69in</PageWidth>
+        <LeftMargin>0.4in</LeftMargin>
+        <RightMargin>0.4in</RightMargin>
+        <TopMargin>0.4in</TopMargin>
+        <BottomMargin>0.4in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="sdate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Start Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="edate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>End Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="empname">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Employee Name</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="totalHours">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Total Hours</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="logoPath">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Logo Path</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>a5b4c3d2-e1f0-4a9b-8c7d-6e5f4a3b2c1d</rd:ReportID>
+</Report>

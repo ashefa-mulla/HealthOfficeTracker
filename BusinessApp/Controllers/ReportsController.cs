@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,9 +12,11 @@ using BusinessService.Custom.PurchaseOrder;
 using BusinessService.Custom.TrackerProject;
 using BusinessService.Custom.User;
 using BusinessService.Custom.UtilizationTracker;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Reporting.NETCore;
 using BusinessService.Custom.ProjectedvsActual;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -33,10 +36,11 @@ namespace BusinessApp.Controllers
         private readonly ITrackerProjectService _trackerProjectService;
         private readonly IUtilizationTrackerService _utilizationTrackerService;
         private readonly IProjectedvsActualService _projectedvsActualService;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
 
         public ReportsController(IMapper _mapper, ILogger<TrackerProjectController> _logger, IUserService _userServices, ITrackerProjectService TrackerProjectService, IUtilizationTrackerService UtilizationTrackerService
-           , IEmployeeService EmployeeService, IPunchDetailService punchDetailService, IPurchaseOrderService purchaseOrderService, IProjectedvsActualService projectedvsActualService)
+           , IEmployeeService EmployeeService, IPunchDetailService punchDetailService, IPurchaseOrderService purchaseOrderService, IProjectedvsActualService projectedvsActualService, IWebHostEnvironment hostingEnvironment)
         {
             Mapper = _mapper;
             Logger = _logger;
@@ -47,6 +51,7 @@ namespace BusinessApp.Controllers
             _punchDetailService = punchDetailService;
             _purchaseOrderService = purchaseOrderService;
             _projectedvsActualService = projectedvsActualService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet("PrintPurchaseOrderReport/{poid}")]
@@ -592,7 +597,76 @@ namespace BusinessApp.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("DownloadActiveLogReport")]
+        public async Task<IActionResult> DownloadActiveLogReport(string stdt, string enddt, int empid, int uid = 3)
+        {
+            try
+            {
+                string host = $"{Request.Scheme}://{Request.Host}/";
+                string reportpath = _hostingEnvironment.ContentRootPath;
 
+                DateTime fdate = Convert.ToDateTime(stdt);
+                DateTime tdate = Convert.ToDateTime(enddt);
+
+                // 1. Fetch data
+                var result = await _utilizationTrackerService.GetActiveLogOfEmployee(fdate, tdate, empid, uid);
+                List<GetActiveLogOfEmployee_Result> data = result as List<GetActiveLogOfEmployee_Result> 
+                                                          ?? result?.ToList() 
+                                                          ?? new List<GetActiveLogOfEmployee_Result>();
+
+                if (data == null || !data.Any())
+                    return NotFound("Activity log records not found");
+
+                // 2. Prepare LocalReport
+                LocalReport report = new LocalReport();
+                var reportFile = System.IO.Path.Combine(reportpath, "Reports", "rptGetActiveLogOfEmployee.rdlc");
+                if (!System.IO.File.Exists(reportFile))
+                    throw new FileNotFoundException("RDLC file not found", reportFile);
+
+                using (var fs = System.IO.File.OpenRead(reportFile))
+                {
+                    report.LoadReportDefinition(fs);
+                }
+                report.EnableExternalImages = true;
+
+                ReportDataSource rds = new ReportDataSource { Name = "GetActiveLogOfEmployee", Value = data };
+                report.DataSources.Add(rds);
+
+                // 3. Totals & Parameters
+                string employeeName = data.FirstOrDefault()?.Fullname ?? "";
+                int totalSeconds = data.Sum(x => x.SECONDVALUE ?? 0);
+                int hours = totalSeconds / 3600;
+                int minutes = (totalSeconds % 3600) / 60;
+                string totalHours = $"{hours:D2}:{minutes:D2}";
+
+                string logoPath = System.IO.Path.Combine(reportpath, "FileServer", "Logo", "Small-VO-LOGO.png");
+                string reportLogo = System.IO.File.Exists(logoPath) ? new Uri(logoPath).AbsoluteUri : $"{host}FileServer/Logo/Small-VO-LOGO.png";
+
+                ReportParameter[] parameters =
+                {
+                    new ReportParameter("sdate", fdate.ToString("MM/dd/yyyy")),
+                    new ReportParameter("edate", tdate.ToString("MM/dd/yyyy")),
+                    new ReportParameter("empname", employeeName),
+                    new ReportParameter("totalHours", totalHours),
+                    new ReportParameter("logoPath", reportLogo)
+                };
+
+                report.SetParameters(parameters);
+                report.Refresh();
+
+                // 4. Render & Return PDF
+                byte[] pdf = report.Render("PDF");
+                string safeName = string.Join("_", employeeName.Split(System.IO.Path.GetInvalidFileNameChars()));
+                string fileName = $"ActivityLog_{safeName}_{fdate:MM-dd-yyyy}_to_{tdate:MM-dd-yyyy}.pdf";
+
+                return File(pdf, "application/pdf", fileName);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Error in DownloadActiveLogReport: {ex}");
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

@@ -92,6 +92,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "ReportViewerCore.NETCore": {
+              "target": "Package",
+              "version": "[15.1.19, )"
+            },
             "SendGrid": {
               "target": "Package",
               "version": "[9.28.1, )"
