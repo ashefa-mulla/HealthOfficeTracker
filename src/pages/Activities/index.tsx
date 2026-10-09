@@ -3,17 +3,48 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ColumnDef } from '@tanstack/react-table';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col,
+  Label,
+  Input,
+  Button,
+  Spinner,
+  Alert,
+} from 'reactstrap';
 import { RootState } from '@/slices';
 import TableContainer from '@/Components/Common/TableContainer';
 import { TaskActivityItem } from '@/types/activity/activity.types';
+import {
+  TrackerProjectItem,
+  TrackerSubProjectItem,
+  TrackerSubProjectCategoryItem,
+} from '@/types/top10task/top10task.types';
 import { fetchActivityListWithPagination } from '@/slices/activity/activityThunk';
 import {
   setSearchTerm,
   setDateRange,
 } from '@/slices/activity/activitySlice';
+import taskActivityService from '@/services/taskActivityService';
+import top10TaskService from '@/services/top10taskService';
+import toastService from '@/services/toastService';
 import { useAuthStore } from '@/store/useAuthStore';
 import { getNumericEmployeeId } from '@/helpers/userHelper';
-import { formatDateOnly, formatDateTimeDisplay } from '@/helpers/dateHelper';
+import {
+  formatDateOnly,
+  formatDateTimeDisplay,
+  parseSafeDate,
+  formatLocalDateToIso,
+} from '@/helpers/dateHelper';
+import ActivityEditModal from './ActivityEditModal';
+import {
+  ActivityEditForm,
+  emptyActivityEditForm,
+} from '@/types/activity/activity.schema';
 
 // Helper: Get start and end date of the current month
 const getCurrentMonthRange = () => {
@@ -120,12 +151,45 @@ const formatUpdatedDateTime = (item: TaskActivityItem) => {
   return formatted || formatDateOnly(rawVal) || '-';
 };
 
+// Helper: Calculate duration string (HH:MM:SS) and validation from two dates
+const computeDurationFromDates = (
+  start: Date | null,
+  end: Date | null
+): { durationStr: string; isValid: boolean } => {
+  if (!start || !end) return { durationStr: '00:00:00', isValid: true };
+  const diffMs = end.getTime() - start.getTime();
+  if (diffMs < 0) {
+    return { durationStr: '00:00:00', isValid: false };
+  }
+  const totalSec = Math.floor(diffMs / 1000);
+  const s = totalSec % 60;
+  const totalMin = Math.floor(totalSec / 60);
+  const m = totalMin % 60;
+  const h = Math.floor(totalMin / 60);
+  return {
+    durationStr: `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`,
+    isValid: true,
+  };
+};
+
+
 const TaskActivityList: React.FC = () => {
   document.title = 'My Activities | HO Tracker';
 
   const dispatch = useDispatch<any>();
   const { user, profileInfo } = useAuthStore();
   const empId = getNumericEmployeeId(profileInfo, user);
+
+  const sessionRole =
+    localStorage.getItem('sessionrole') ||
+    profileInfo?.userRole ||
+    (profileInfo?.utype === 1 || profileInfo?.utype === 4 ? 'Admin' : '');
+  const isAdmin =
+    sessionRole === 'Admin' ||
+    profileInfo?.utype === 1 ||
+    profileInfo?.utype === 4 ||
+    empId === 78;
+  const showAdminField = isAdmin;
 
   const userType = Number(
     profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType ?? 3
@@ -158,6 +222,20 @@ const TaskActivityList: React.FC = () => {
     defaultMonthRange.endObj,
   ]);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  // Edit Modal States matching Angular dw_form2
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
+  const [isSubmittingModal, setIsSubmittingModal] = useState(false);
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [formError, setFormError] = useState<string>('');
+  const [formData, setFormData] = useState<ActivityEditForm>(emptyActivityEditForm(empId));
+
+  // Dropdown options in Modal
+  const [projectList, setProjectList] = useState<TrackerProjectItem[]>([]);
+  const [subprojectList, setSubprojectList] = useState<TrackerSubProjectItem[]>([]);
+  const [subprojectCategoryList, setSubprojectCategoryList] = useState<TrackerSubProjectCategoryItem[]>([]);
+  const [employeeList, setEmployeeList] = useState<any[]>([]);
 
   // Fetch paginated activity log data from API
   const loadData = useCallback(
@@ -250,6 +328,233 @@ const TaskActivityList: React.FC = () => {
     loadData(1, pageSize_Local, '', monthRange.start, monthRange.end);
   };
 
+  // Handle Print / View Active Log Report PDF from Backend Reports Controller
+  const handlePrintReport = async () => {
+    try {
+      setIsPrinting(true);
+      const currentMonth = getCurrentMonthRange();
+      const sDate = startDate || currentMonth.start;
+      const eDate = endDate || currentMonth.end;
+
+      const blob = await taskActivityService.downloadActiveLogReport({
+        stdt: sDate,
+        enddt: eDate,
+        empid: empId > 0 ? empId : 0,
+        uid: userType || 3,
+      });
+
+      if (!blob || blob.size === 0) {
+        toastService.error('Activity log records not found');
+        return;
+      }
+
+      // If backend returned JSON error inside blob
+      if (blob.type === 'application/json') {
+        const text = await blob.text();
+        try {
+          const errObj = JSON.parse(text);
+          toastService.error(errObj.message || errObj || 'Activity log records not found');
+        } catch {
+          toastService.error(text || 'Activity log records not found');
+        }
+        return;
+      }
+
+      const fileUrl = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+      const newWindow = window.open(fileUrl, '_blank');
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = fileUrl;
+        downloadLink.download = `ActivityLog_${sDate}_to_${eDate}.pdf`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+    } catch (err: any) {
+      console.error('Failed to open activity log report:', err);
+      toastService.error(err?.message || 'Activity log records not found or failed to load.');
+    } finally {
+      setIsPrinting(false);
+    }
+  };
+
+  // Open Edit Modal matching Angular openModal
+  const handleOpenEditModal = async (id: number) => {
+    setIsEditModalOpen(true);
+    setIsLoadingModal(true);
+    setFormError('');
+
+    const companyId = Number(localStorage.getItem('companyid')) || 1;
+    const branchId = Number(localStorage.getItem('branchid')) || 1;
+
+    try {
+      // Load projects and employees concurrently
+      const [projects, employees] = await Promise.all([
+        top10TaskService.getTrackerProject(companyId, branchId).catch(() => []),
+        isAdmin ? taskActivityService.getEmployeeList(companyId).catch(() => []) : Promise.resolve([]),
+      ]);
+      setProjectList(projects || []);
+      setEmployeeList(employees || []);
+
+      if (id > 0) {
+        // Fetch activity details for edit
+        const res = await taskActivityService.getEditTrackerTaskById(id);
+        if (res) {
+          const sDate = parseSafeDate(res.startTime || res.StartTime) || new Date();
+          const eDate = parseSafeDate(res.endTime || res.EndTime) || new Date();
+          const { durationStr } = computeDurationFromDates(sDate, eDate);
+
+          const pId = Number(res.projectId ?? res.ProjectId ?? 0);
+          const subPId = Number(res.subProjectId ?? res.SubProjectId ?? 0);
+          const catId = Number(res.subProjectCategoryId ?? res.SubProjectCategoryId ?? 0);
+
+          let subprojects: TrackerSubProjectItem[] = [];
+          let categories: TrackerSubProjectCategoryItem[] = [];
+
+          if (pId > 0) {
+            subprojects = await top10TaskService.getTrackerSubProject(pId).catch(() => []);
+            if (subPId > 0) {
+              categories = await top10TaskService
+                .getTrackerSubProjectCategory(pId, subPId)
+                .catch(() => []);
+            }
+          }
+
+          setSubprojectList(subprojects || []);
+          setSubprojectCategoryList(categories || []);
+
+          setFormData({
+            id: Number(res.id ?? id),
+            branchid: Number(res.branchid ?? branchId),
+            companyid: Number(res.companyid ?? companyId),
+            employeeid: Number(res.employeeid ?? empId),
+            taskListid: Number(res.taskListid ?? 0),
+            projectId: pId,
+            subProjectId: subPId,
+            subProjectCategoryId: catId,
+            activity: String(res.activity ?? res.Activity ?? ''),
+            startTime: sDate.toISOString(),
+            endTime: eDate.toISOString(),
+            startTimeDisplay: formatDateTimeDisplay(sDate) || '-',
+            endTimeDisplay: formatDateTimeDisplay(eDate) || '-',
+            duration: res.duration || durationStr,
+            activeInvoice: res.activeInvoice !== undefined ? Boolean(res.activeInvoice) : true,
+            isAdmin: res.isAdmin !== undefined ? Boolean(res.isAdmin) : true,
+            updatedBy: Number(res.updatedBy ?? empId),
+            ActivityUpdatedby: Number(res.ActivityUpdatedby ?? empId),
+          });
+        }
+      } else {
+        const now = new Date();
+        setFormData({
+          id: 0,
+          branchid: branchId,
+          companyid: companyId,
+          employeeid: empId,
+          taskListid: 0,
+          projectId: 0,
+          subProjectId: 0,
+          subProjectCategoryId: 0,
+          activity: '',
+          startTime: now.toISOString(),
+          endTime: now.toISOString(),
+          startTimeDisplay: formatDateTimeDisplay(now) || '-',
+          endTimeDisplay: formatDateTimeDisplay(now) || '-',
+          duration: '00:00:00',
+          activeInvoice: true,
+          isAdmin: true,
+          updatedBy: empId,
+          ActivityUpdatedby: empId,
+        });
+        setSubprojectList([]);
+        setSubprojectCategoryList([]);
+      }
+    } catch (err: any) {
+      console.error('Error opening edit activity modal:', err);
+      toastService.error('Failed to load activity details.');
+    } finally {
+      setIsLoadingModal(false);
+    }
+  };
+
+  // Close Modal
+  const toggleEditModal = () => {
+    if (!isSubmittingModal) {
+      setIsEditModalOpen(false);
+    }
+  };
+
+  // Handle Client (Project) dropdown change in modal
+  const handleProjectChange = async (projectId: number) => {
+    setSubprojectList([]);
+    setSubprojectCategoryList([]);
+
+    if (projectId > 0) {
+      try {
+        const subs = await top10TaskService.getTrackerSubProject(projectId);
+        setSubprojectList(subs || []);
+      } catch (err) {
+        console.warn('Failed to load subprojects:', err);
+      }
+    }
+  };
+
+  // Handle Project (SubProject) dropdown change in modal
+  const handleSubProjectChange = async (subProjectId: number) => {
+    setSubprojectCategoryList([]);
+
+    if (subProjectId > 0) {
+      try {
+        const cats = await top10TaskService.getTrackerSubProjectCategory(
+          Number(formData.projectId || 0),
+          subProjectId
+        );
+        setSubprojectCategoryList(cats || []);
+      } catch (err) {
+        console.warn('Failed to load subproject categories:', err);
+      }
+    }
+  };
+
+  // Handle Form Submit in modal matching Angular onSubmitActivity / onEditMyActivites
+  const handleSubmitEdit = async (formValues: ActivityEditForm) => {
+    setIsSubmittingModal(true);
+    setFormError('');
+    try {
+      const nowIso = new Date().toISOString();
+      const payload = {
+        id: formValues.id,
+        branchid: formValues.branchid,
+        companyid: formValues.companyid,
+        employeeid: formValues.employeeid || empId,
+        taskListid: formValues.taskListid || 0,
+        projectId: Number(formValues.projectId),
+        subProjectId: Number(formValues.subProjectId),
+        subProjectCategoryId: Number(formValues.subProjectCategoryId || 0),
+        activity: formValues.activity.trim(),
+        startTime: formValues.startTime || nowIso,
+        endTime: formValues.endTime || nowIso,
+        updateddate: nowIso,
+        duration: formValues.duration || '00:00:00',
+        activeInvoice: Boolean(formValues.activeInvoice),
+        isAdmin: Boolean(formValues.isAdmin),
+        updatedBy: empId,
+        ActivityUpdateddate: nowIso,
+        ActivityUpdatedby: empId,
+      };
+
+      await taskActivityService.editTrackerTask(payload);
+      toastService.success('Record is updated');
+      setIsEditModalOpen(false);
+      loadData(pageNumber, pageSize_Local, search, startDate, endDate);
+    } catch (err: any) {
+      console.error('Failed to update activity:', err);
+      toastService.error(err?.message || 'Failed to update activity.');
+    } finally {
+      setIsSubmittingModal(false);
+    }
+  };
+
   // Filter list locally for User and Client inputs if specified
   const filteredData = useMemo(() => {
     let result = list || [];
@@ -268,9 +573,22 @@ const TaskActivityList: React.FC = () => {
     return result;
   }, [list, searchUser, searchClient]);
 
-  // Exact Table Columns matching screenshot
+  // Exact Table Columns matching screenshot & Angular specification
   const columns = useMemo<ColumnDef<TaskActivityItem, any>[]>(() => {
-    return [
+    const cols: ColumnDef<TaskActivityItem, any>[] = [];
+
+    if (showAdminField) {
+      cols.push({
+        header: 'Name',
+        accessorKey: 'fullname',
+        enableSorting: true,
+        cell: (info) => (
+          <span className="text-dark fw-medium">{info.row.original.fullname || '-'}</span>
+        ),
+      });
+    }
+
+    cols.push(
       {
         header: 'Start Time',
         accessorKey: 'Starttime',
@@ -316,10 +634,7 @@ const TaskActivityList: React.FC = () => {
         accessorKey: 'subprojectcategory',
         enableSorting: true,
         cell: (info) => (
-          <span>
-            {info.row.original.subprojectcategory ||
-              '-'}
-          </span>
+          <span>{info.row.original.subprojectcategory || '-'}</span>
         ),
       },
       {
@@ -350,22 +665,39 @@ const TaskActivityList: React.FC = () => {
             className="activity-table-action-btn"
             title="Edit Activity"
             onClick={() => {
-              const id = info.row.original.id;
-              console.log('Edit activity id:', id);
+              const id = Number(info.row.original.id || 0);
+              handleOpenEditModal(id);
             }}
           >
             <i className="mdi mdi-pencil-outline"></i>
           </button>
         ),
-      },
-    ];
-  }, []);
+      }
+    );
+
+    return cols;
+  }, [showAdminField]);
 
   return (
     <React.Fragment>
       <div className="activity-page-wrapper">
         {/* Filter Controls Row (Exact Match to Screenshot) */}
         <div className="activity-filter-bar">
+          {/* Add New Button for Admin */}
+          {showAdminField && (
+            <div className="activity-filter-item">
+              <label className="activity-filter-label">&nbsp;</label>
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ height: '36px', borderRadius: '4px', fontWeight: 500 }}
+                onClick={() => handleOpenEditModal(0)}
+              >
+                + Add New
+              </button>
+            </div>
+          )}
+
           {/* 1. Search */}
           <div className="activity-filter-item">
             <label className="activity-filter-label">Search</label>
@@ -396,31 +728,7 @@ const TaskActivityList: React.FC = () => {
             </div>
           </div>
 
-          {/* 3. User */}
-          {/* <div className="activity-filter-item">
-            <label className="activity-filter-label">User</label>
-            <input
-              type="text"
-              className="activity-filter-input"
-              placeholder="Search User"
-              value={searchUser}
-              onChange={(e) => setSearchUser(e.target.value)}
-            />
-          </div> */}
-
-          {/* 4. Client */}
-          {/* <div className="activity-filter-item">
-            <label className="activity-filter-label">Client</label>
-            <input
-              type="text"
-              className="activity-filter-input"
-              placeholder="Search Client"
-              value={searchClient}
-              onChange={(e) => setSearchClient(e.target.value)}
-            />
-          </div> */}
-
-          {/* 5. Clear Button (Pill shaped) */}
+          {/* 3. Clear Button (Pill shaped) */}
           <div className="activity-filter-item">
             <label className="activity-filter-label">Clear</label>
             <button
@@ -433,15 +741,22 @@ const TaskActivityList: React.FC = () => {
             </button>
           </div>
 
-          {/* 6. Print Button (Navy Blue Pill) */}
+          {/* 4. Print Button (Navy Blue Pill) */}
           <div className="activity-filter-item ms-auto">
             <button
               type="button"
-              className="btn-activity-print"
-              onClick={() => window.print()}
-              title="Print Activities"
+              className="btn-activity-print d-flex align-items-center justify-content-center"
+              onClick={handlePrintReport}
+              disabled={isPrinting}
+              title="Print Active Log Report"
             >
-              Print
+              {isPrinting ? (
+                <>
+                  <Spinner size="sm" className="me-1" /> Printing...
+                </>
+              ) : (
+                'Print'
+              )}
             </button>
           </div>
         </div>
@@ -462,6 +777,24 @@ const TaskActivityList: React.FC = () => {
           serverSideCurrentPage={pageNumber}
           serverSidePageSize={pageSize_Local}
           serverSideTotalPages={totalPages || 1}
+        />
+
+        {/* Edit Task Activity Modal Component */}
+        <ActivityEditModal
+          isOpen={isEditModalOpen}
+          toggle={toggleEditModal}
+          initialData={formData}
+          projectList={projectList}
+          subprojectList={subprojectList}
+          subprojectCategoryList={subprojectCategoryList}
+          employeeList={employeeList}
+          showAdminField={showAdminField}
+          isLoadingModal={isLoadingModal}
+          isSubmittingModal={isSubmittingModal}
+          formError={formError}
+          onProjectChange={handleProjectChange}
+          onSubProjectChange={handleSubProjectChange}
+          onSubmitForm={handleSubmitEdit}
         />
       </div>
     </React.Fragment>

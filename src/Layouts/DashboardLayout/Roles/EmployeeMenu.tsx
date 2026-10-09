@@ -29,6 +29,12 @@ const EmployeeMenu = (props: any) => {
           <span>{props.t ? props.t("My Activities") : "My Activities"}</span>
         </Link>
       </li>
+      <li>
+        <Link to="/area/dailytodo" onClick={props.onItemClick}>
+          <i className="mdi mdi-checkbox-marked-circle-outline"></i>
+          <span>{props.t ? props.t("Daily To-do") : "Daily To-do"}</span>
+        </Link>
+      </li>
     </>
   );
 };

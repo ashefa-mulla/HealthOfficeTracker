@@ -56,7 +56,7 @@ const Timer: React.FC = () => {
   const [myClockDate, setMyClockDate] = useState<string>('');
   const [myClockTime, setMyClockTime] = useState<string>('00:00:00');
   const [timeZone, setTimeZone] = useState<string>('');
-  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Logs & Pagination State (matching Angular dw_list1)
   const [logs, setLogs] = useState<PunchLogItem[]>([]);

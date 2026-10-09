@@ -72,12 +72,13 @@ const Top10TaskList: React.FC = () => {
   const [isTimerPaused, setIsTimerPaused] = useState<boolean>(false);
   const [timerRunningSeconds, setTimerRunningSeconds] = useState<number>(0);
   const [timerLoadingTaskId, setTimerLoadingTaskId] = useState<number | null>(null);
-  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeTaskRef = useRef<{
     id: number;
+    baseSec: number;
     initialSec: number;
     startTime: number;
-    item: Top10TaskListItem;
+    item: Top10TaskListItem | null;
   } | null>(null);
 
   // Permission flags matching Angular
@@ -93,7 +94,7 @@ const Top10TaskList: React.FC = () => {
 
   // Helper: Parse duration string/number into total seconds
   const parseDurationToSeconds = (durationVal?: any): number => {
-    if (durationVal === undefined || durationVal === null) return 0;
+    if (durationVal === undefined || durationVal === null || durationVal === '') return 0;
     if (typeof durationVal === 'string' && durationVal.includes(':')) {
       const parts = durationVal.split(':').map((p) => Number(p) || 0);
       if (parts.length === 3) {
@@ -154,38 +155,26 @@ const Top10TaskList: React.FC = () => {
       const res = await top10TaskService.getTrackerTask(checkEmpId);
       const trackerTask = Array.isArray(res) ? res[0] : res;
 
-      if (!trackerTask) return;
+      let savedLocal: any = null;
+      try {
+        const localStr = localStorage.getItem('active_tracker_timer');
+        if (localStr) savedLocal = JSON.parse(localStr);
+      } catch (e) {
+        // ignore parse error
+      }
 
       const taskId = Number(
-        trackerTask.taskListid ||
-        trackerTask.TaskListid ||
-        trackerTask.taskListId ||
-        trackerTask.tasklistid ||
+        trackerTask?.taskListid ||
+        trackerTask?.TaskListid ||
+        trackerTask?.taskListId ||
+        trackerTask?.tasklistid ||
+        savedLocal?.taskId ||
         0
       );
 
-      const isEnded = Boolean(trackerTask.endTime || trackerTask.EndTime);
+      const isEnded = Boolean(trackerTask?.endTime || trackerTask?.EndTime);
 
       if (taskId > 0 && !isEnded) {
-        const isPaused = trackerTask.button === 'pause';
-        setIsTimerPaused(isPaused);
-
-        // Calculate elapsed seconds from startTime
-        const startTimeStr = trackerTask.startTime || trackerTask.StartTime;
-        let elapsedSeconds = 0;
-        if (!isPaused && startTimeStr) {
-          const startMs = new Date(startTimeStr).getTime();
-          const nowMs = Date.now();
-          if (!isNaN(startMs) && startMs > 0) {
-            elapsedSeconds = Math.max(0, Math.floor((nowMs - startMs) / 1000));
-          }
-        }
-
-        const durationSec = parseDurationToSeconds(
-          trackerTask.duration || trackerTask.Duration
-        );
-        const totalSec = isPaused ? durationSec : Math.max(elapsedSeconds, durationSec + elapsedSeconds);
-
         let taskItem: Top10TaskListItem | null = null;
         try {
           const taskDetail = await top10TaskService.getTaskById(taskId);
@@ -199,19 +188,79 @@ const Top10TaskList: React.FC = () => {
         if (!taskItem) {
           taskItem = {
             id: taskId,
-            task: trackerTask.activity || 'Task',
-            project: trackerTask.projectId,
-            subProject: trackerTask.subProjectId,
-            subProjectCategory: trackerTask.subProjectCategoryId,
+            task: trackerTask?.activity || savedLocal?.taskName || 'Task',
+            project: trackerTask?.projectId,
+            subProject: trackerTask?.subProjectId,
+            subProjectCategory: trackerTask?.subProjectCategoryId,
           } as any;
+        }
+
+        // Determine base task duration before current running session
+        let baseSec = 0;
+        if (savedLocal && savedLocal.taskId === taskId && typeof savedLocal.baseSec === 'number') {
+          baseSec = savedLocal.baseSec;
+        } else if (taskItem) {
+          baseSec = parseDurationToSeconds(
+            taskItem.duration ?? taskItem.Duration ?? taskItem.actualTime ?? 0
+          );
+        }
+
+        const isPaused = trackerTask?.button === 'pause' || (savedLocal?.taskId === taskId && savedLocal.isPaused);
+        setIsTimerPaused(isPaused);
+
+        let sessionStartTime = Date.now();
+        let elapsedSeconds = 0;
+
+        if (savedLocal && savedLocal.taskId === taskId && savedLocal.startTime && !savedLocal.isPaused) {
+          sessionStartTime = Number(savedLocal.startTime);
+          elapsedSeconds = Math.max(0, Math.floor((Date.now() - sessionStartTime) / 1000));
+        } else if (!isPaused) {
+          const startTimeStr = trackerTask?.startTime || trackerTask?.StartTime;
+          if (startTimeStr) {
+            const startMs = new Date(startTimeStr).getTime();
+            if (!isNaN(startMs) && startMs > 0) {
+              sessionStartTime = startMs;
+              elapsedSeconds = Math.max(0, Math.floor((Date.now() - startMs) / 1000));
+            }
+          }
+        }
+
+        let totalSec = baseSec + elapsedSeconds;
+
+        if (isPaused) {
+          if (savedLocal && savedLocal.taskId === taskId && typeof savedLocal.pausedTotalSec === 'number') {
+            totalSec = savedLocal.pausedTotalSec;
+          } else {
+            const trackerDurationSec = parseDurationToSeconds(
+              trackerTask?.duration || trackerTask?.Duration
+            );
+            if (trackerDurationSec >= baseSec && trackerDurationSec > 0) {
+              totalSec = trackerDurationSec;
+            } else {
+              totalSec = baseSec + trackerDurationSec;
+            }
+          }
         }
 
         activeTaskRef.current = {
           id: taskId,
+          baseSec,
           initialSec: totalSec,
-          startTime: Date.now(),
-          item: taskItem!,
+          startTime: sessionStartTime,
+          item: taskItem,
         };
+
+        localStorage.setItem(
+          'active_tracker_timer',
+          JSON.stringify({
+            taskId,
+            taskName: taskItem?.task || taskItem?.subject || 'Task',
+            baseSec,
+            startTime: sessionStartTime,
+            isPaused,
+            pausedTotalSec: isPaused ? totalSec : undefined,
+          })
+        );
 
         setActiveTimerTaskId(taskId);
         setTimerRunningSeconds(totalSec);
@@ -226,10 +275,16 @@ const Top10TaskList: React.FC = () => {
               const elapsed = Math.floor(
                 (Date.now() - activeTaskRef.current.startTime) / 1000
               );
-              setTimerRunningSeconds(activeTaskRef.current.initialSec + elapsed);
+              setTimerRunningSeconds(activeTaskRef.current.baseSec + elapsed);
             }
           }, 1000);
         }
+      } else {
+        if (savedLocal) {
+          localStorage.removeItem('active_tracker_timer');
+        }
+        setActiveTimerTaskId(null);
+        setIsTimerPaused(false);
       }
     } catch (err) {
       console.warn('Error checking active tracker task on load:', err);
@@ -349,32 +404,13 @@ const Top10TaskList: React.FC = () => {
       console.warn('Failed to fetch task details by ID before starting timer:', err);
     }
 
-    const initialSec = parseDurationToSeconds(row.duration || row.Duration || row.actualTime);
+    const taskItem = taskDetail || row;
+    const baseSec = parseDurationToSeconds(
+      taskDetail?.duration ?? taskDetail?.actualTime ?? row.duration ?? row.Duration ?? row.actualTime
+    );
     const now = Date.now();
     const companyId = toSafeInt(localStorage.getItem('companyid'), 1);
     const branchId = toSafeInt(localStorage.getItem('branchid'), 1);
-
-    activeTaskRef.current = {
-      id: taskId,
-      initialSec,
-      startTime: now,
-      item: row,
-    };
-
-    setActiveTimerTaskId(taskId);
-    setIsTimerPaused(false);
-    setTimerRunningSeconds(initialSec);
-
-    if (timerIntervalRef.current) {
-      clearInterval(timerIntervalRef.current);
-    }
-
-    timerIntervalRef.current = setInterval(() => {
-      if (activeTaskRef.current) {
-        const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
-        setTimerRunningSeconds(activeTaskRef.current.initialSec + elapsed);
-      }
-    }, 1000);
 
     const taskName = String(
       row.task ||
@@ -386,6 +422,40 @@ const Top10TaskList: React.FC = () => {
       row.priority ||
       'Task'
     ).trim();
+
+    activeTaskRef.current = {
+      id: taskId,
+      baseSec,
+      initialSec: baseSec,
+      startTime: now,
+      item: taskItem,
+    };
+
+    localStorage.setItem(
+      'active_tracker_timer',
+      JSON.stringify({
+        taskId,
+        taskName,
+        baseSec,
+        startTime: now,
+        isPaused: false,
+      })
+    );
+
+    setActiveTimerTaskId(taskId);
+    setIsTimerPaused(false);
+    setTimerRunningSeconds(baseSec);
+
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+
+    timerIntervalRef.current = setInterval(() => {
+      if (activeTaskRef.current) {
+        const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
+        setTimerRunningSeconds(activeTaskRef.current.baseSec + elapsed);
+      }
+    }, 1000);
 
     // Exact C# UtilizationTrackerModel payload for AddEditTrackerTask (start)
     const trackerPayload: UtilizationTrackerModel = {
@@ -403,7 +473,7 @@ const Top10TaskList: React.FC = () => {
       isAdmin: Boolean(isAdmin),
       activeInvoice: true,
       nonBillable: false,
-      duration: '00:00:00',
+      duration: formatSecondsToHHMMSS(baseSec),
       watcherAppTitle: '',
     };
 
@@ -424,16 +494,35 @@ const Top10TaskList: React.FC = () => {
     }
 
     let currentSec = timerRunningSeconds;
+    let baseSec = 0;
     let taskItem = activeTaskRef.current?.item;
     if (activeTaskRef.current && activeTaskRef.current.id === taskId) {
+      baseSec = activeTaskRef.current.baseSec;
       const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
-      currentSec = activeTaskRef.current.initialSec + elapsed;
+      currentSec = activeTaskRef.current.baseSec + elapsed;
       activeTaskRef.current.initialSec = currentSec;
       taskItem = activeTaskRef.current.item;
     }
 
     setIsTimerPaused(true);
     setTimerRunningSeconds(currentSec);
+
+    const taskName = String(
+      taskItem?.task ||
+      taskItem?.subject ||
+      'Task'
+    ).trim();
+
+    localStorage.setItem(
+      'active_tracker_timer',
+      JSON.stringify({
+        taskId,
+        taskName,
+        baseSec: currentSec,
+        isPaused: true,
+        pausedTotalSec: currentSec,
+      })
+    );
 
     const companyId = toSafeInt(localStorage.getItem('companyid'), 1);
     const branchId = toSafeInt(localStorage.getItem('branchid'), 1);
@@ -444,15 +533,6 @@ const Top10TaskList: React.FC = () => {
     } catch (e) {
       console.warn('Could not fetch task before pause:', e);
     }
-
-    const taskName = String(
-      taskItem?.task ||
-      taskDetail?.subject ||
-      taskDetail?.task ||
-      taskItem?.subject ||
-      taskItem?.priority ||
-      'Task'
-    ).trim();
 
     const trackerPayload: UtilizationTrackerModel = {
       id: 0,
@@ -489,10 +569,29 @@ const Top10TaskList: React.FC = () => {
 
     activeTaskRef.current = {
       id: taskId,
+      baseSec: currentSec,
       initialSec: currentSec,
       startTime: now,
       item: activeTaskRef.current?.item || row || ({ id: taskId } as any),
     };
+
+    const taskItem = activeTaskRef.current.item;
+    const taskName = String(
+      taskItem?.task ||
+      taskItem?.subject ||
+      'Task'
+    ).trim();
+
+    localStorage.setItem(
+      'active_tracker_timer',
+      JSON.stringify({
+        taskId,
+        taskName,
+        baseSec: currentSec,
+        startTime: now,
+        isPaused: false,
+      })
+    );
 
     setIsTimerPaused(false);
 
@@ -503,7 +602,7 @@ const Top10TaskList: React.FC = () => {
     timerIntervalRef.current = setInterval(() => {
       if (activeTaskRef.current) {
         const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
-        setTimerRunningSeconds(activeTaskRef.current.initialSec + elapsed);
+        setTimerRunningSeconds(activeTaskRef.current.baseSec + elapsed);
       }
     }, 1000);
 
@@ -516,16 +615,6 @@ const Top10TaskList: React.FC = () => {
     } catch (e) {
       console.warn('Could not fetch task before resume:', e);
     }
-
-    const taskItem = activeTaskRef.current?.item;
-    const taskName = String(
-      taskItem?.task ||
-      taskDetail?.subject ||
-      taskDetail?.task ||
-      taskItem?.subject ||
-      taskItem?.priority ||
-      'Task'
-    ).trim();
 
     const trackerPayload: UtilizationTrackerModel = {
       id: 0,
@@ -567,7 +656,7 @@ const Top10TaskList: React.FC = () => {
     if (activeTaskRef.current && activeTaskRef.current.id === taskId) {
       if (!isTimerPaused) {
         const elapsed = Math.floor((Date.now() - activeTaskRef.current.startTime) / 1000);
-        finalSeconds = activeTaskRef.current.initialSec + elapsed;
+        finalSeconds = activeTaskRef.current.baseSec + elapsed;
       } else {
         finalSeconds = activeTaskRef.current.initialSec;
       }
@@ -577,6 +666,7 @@ const Top10TaskList: React.FC = () => {
     setActiveTimerTaskId(null);
     setIsTimerPaused(false);
     activeTaskRef.current = null;
+    localStorage.removeItem('active_tracker_timer');
 
     const durationInMinutes = Math.max(0, Math.round(finalSeconds / 60));
     const companyId = toSafeInt(localStorage.getItem('companyid'), 1);

@@ -9,6 +9,7 @@ import Attendance from '../pages/Attendance';
 import Timer from '../pages/Timer';
 import Tasks, { Top10TaskList, Top10TaskCreate } from '../pages/Tasks';
 import TaskActivityList from '../pages/Activities';
+import DailyToDo from '../pages/DailyToDo';
 import Locations from '../pages/Locations';
 import Reports from '../pages/Reports';
 import Settings from '../pages/Settings';
@@ -46,6 +47,9 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/taskactivity', component: <TaskActivityList /> },
   { path: '/activities', component: <TaskActivityList /> },
   { path: '/my-activities', component: <TaskActivityList /> },
+  { path: '/area/dailytodo', component: <DailyToDo /> },
+  { path: '/area/dailytodo/list', component: <DailyToDo /> },
+  { path: '/dailytodo', component: <DailyToDo /> },
   { path: '/locations', component: <Locations /> },
   { path: '/reports', component: <Reports /> },
   { path: '/settings', component: <Settings /> },
