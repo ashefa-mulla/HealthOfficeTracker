@@ -75,6 +75,7 @@ export interface TableContainerProps<T> {
   serverSideSearchTerm?: string;
 
   isGlobalFilter?: boolean;
+  isColumnFilter?: boolean;
   isPagination?: boolean;
   isCustomPageSize?: boolean;
 
@@ -121,6 +122,7 @@ const TableContainer = <T,>({
   serverSideSearchTerm = "",
 
   isGlobalFilter = true,
+  isColumnFilter = false,
   isPagination = true,
   isCustomPageSize = true,
 
@@ -219,6 +221,7 @@ const TableContainer = <T,>({
     manualPagination: isServerSidePagination,
     manualFiltering: isServerSidePagination,
     manualSorting: isServerSidePagination,
+    enableColumnFilters: isColumnFilter,
 
     pageCount: isServerSidePagination ? serverSideTotalPages : undefined,
 
@@ -364,7 +367,7 @@ const TableContainer = <T,>({
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </div>
 
-                    {!isServerSidePagination && header.column.getCanFilter() && (
+                    {isColumnFilter && !isServerSidePagination && header.column.getCanFilter() && (
                       <input
                         className="form-control form-control-sm mt-1"
                         value={(header.column.getFilterValue() ?? "") as string}

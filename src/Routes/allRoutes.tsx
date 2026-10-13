@@ -13,7 +13,7 @@ import DailyToDo from '../pages/DailyToDo';
 import Locations from '../pages/Locations';
 import Reports from '../pages/Reports';
 import Settings from '../pages/Settings';
-
+import { ApplyLeaveList, ApplyLeaveCreate } from '../pages/Leave';
 export interface RouteProps {
   path: string;
   component: React.ReactNode;
@@ -49,7 +49,10 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/my-activities', component: <TaskActivityList /> },
   { path: '/area/dailytodo', component: <DailyToDo /> },
   { path: '/area/dailytodo/list', component: <DailyToDo /> },
-  { path: '/dailytodo', component: <DailyToDo /> },
+  { path: '/dailytodo', component: <DailyToDo /> },  
+  { path: '/area/leavetransaction/list', component: <ApplyLeaveList /> },
+  { path: '/area/leavetransaction/create', component: <ApplyLeaveCreate /> },
+  { path: '/area/leavetransaction/edit/:id', component: <ApplyLeaveCreate /> },
   { path: '/locations', component: <Locations /> },
   { path: '/reports', component: <Reports /> },
   { path: '/settings', component: <Settings /> },

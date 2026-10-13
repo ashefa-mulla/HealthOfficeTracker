@@ -1,0 +1,501 @@
+/* ==========================================================================
+   HO Tracker - Dashboard SCSS
+   Converted from Angular dashboard.component.scss + Enhanced Modern UI
+   ========================================================================== */
+
+.dashboard-container {
+  max-width: 1560px;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+/* =========================
+   Welcome Banner
+========================= */
+.welcome-card {
+  background: linear-gradient(135deg, #01a5d6 0%, #0891b2 50%, #0f172a 100%);
+  border-radius: 16px;
+  color: #ffffff;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 10px 25px rgba(1, 165, 214, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+.welcome-title {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #ffffff;
+}
+
+.welcome-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* =========================
+   Dashboard Titles & Sections
+========================= */
+.dashboard-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+  background: #dfe7f1;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+  i {
+    color: #f59e0b;
+  }
+}
+
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 2rem;
+
+  &.empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: #64748b;
+
+    i {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      color: #94a3b8;
+    }
+  }
+}
+
+/* =========================
+   Modern Live Table
+========================= */
+.modern-table {
+  width: 100%;
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  thead tr th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    border-top: none;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+    vertical-align: middle;
+
+    &:first-child {
+      border-top-left-radius: 8px;
+    }
+    &:last-child {
+      border-top-right-radius: 8px;
+    }
+  }
+
+  tbody tr {
+    transition: all 0.2s ease;
+
+    td {
+      padding: 0.85rem 1rem;
+      vertical-align: middle;
+      text-align: center;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.88rem;
+      color: #1e293b;
+    }
+
+    &:hover {
+      background: #f0fdfa;
+      transform: scale(1.004);
+    }
+  }
+}
+
+/* User Photo & Presence Indicators */
+.user-photo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  transition: all 0.2s ease;
+
+  &.user-online {
+    border: 2px solid #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  }
+
+  &.user-offline {
+    border: 2px solid #ef4444;
+  }
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left !important;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #0f172a;
+
+  &.offline-user {
+    color: #94a3b8;
+  }
+}
+
+.online-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &.online {
+    background-color: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.7);
+  }
+
+  &.offline {
+    background-color: #ef4444;
+  }
+}
+
+/* Status cell badges */
+.pending {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+.completed {
+  color: #10b981;
+  font-weight: 700;
+}
+
+/* Efficiency Bar */
+.efficiency-cell {
+  min-width: 140px;
+}
+
+.efficiency-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &.offline {
+    opacity: 0.6;
+  }
+}
+
+.efficiency-bar {
+  flex: 1;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.efficiency-progress {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+
+  &.good {
+    background: #22c55e;
+  }
+
+  &.avg {
+    background: #f59e0b;
+  }
+
+  &.bad {
+    background: #ef4444;
+  }
+}
+
+.efficiency-value {
+  font-weight: 700;
+  font-size: 13px;
+  min-width: 44px;
+  text-align: right;
+  color: #1e293b;
+}
+
+.efficiency-header {
+  position: relative;
+  cursor: help;
+
+  .tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: #ffffff;
+    padding: 6px 10px;
+    font-size: 11px;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
+  }
+}
+
+/* =========================
+   Didn't Track Hours Yesterday Card
+========================= */
+.not-track-card {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.08);
+}
+
+.not-track-title {
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+
+  i {
+    font-size: 1.25rem;
+  }
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  background: #ffffff;
+  color: #78350f;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #fcd34d;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #fffbeb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* =========================
+   Client Session (sessiontype 2)
+========================= */
+.summary-banner {
+  background-color: #dc2626;
+  color: white;
+  font-weight: 700;
+  padding: 12px 24px;
+  font-size: 1.15rem;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  margin-bottom: 1.5rem;
+
+  .amount {
+    margin-left: 8px;
+    font-weight: 800;
+    text-decoration: underline;
+  }
+}
+
+.blink {
+  animation: blinker 4s linear infinite;
+}
+
+@keyframes blinker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+.client-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+
+  th {
+    background-color: #f1f5f9;
+    color: #334155;
+    font-weight: 700;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+  }
+
+  tr:hover {
+    background-color: #f8fafc;
+  }
+}
+
+/* =========================
+   Fixed Floating Scroll Navigation
+========================= */
+.scroll-nav {
+  position: fixed;
+  right: 25px;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.scroll-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(2, 132, 199, 0.92);
+  color: #ffffff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: #0369a1;
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+/* =========================
+   Calendar Month Table in Dashboard
+========================= */
+.dashboard-calendar-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.calendar-month-table {
+  border: 1px solid #e2e8f0;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+
+  th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px 4px;
+    border: 1px solid #e2e8f0;
+  }
+
+  td {
+    width: 14.28%;
+    height: 85px;
+    vertical-align: top;
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: #f8fafc;
+    }
+
+    &.other-month {
+      background: #fafafa;
+      opacity: 0.5;
+    }
+
+    &.today-cell {
+      background: #eff6ff;
+      border: 2px solid #3b82f6;
+    }
+
+    &.selected-day {
+      background: #e0f2fe;
+      border: 2px solid #0284c7;
+    }
+  }
+}
+
+.event-blue-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dark-events-drawer {
+  background: #0f172a;
+  border-top: 2px solid #0284c7;
+}

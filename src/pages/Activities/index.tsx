@@ -18,13 +18,17 @@ import {
 } from 'reactstrap';
 import { RootState } from '@/slices';
 import TableContainer from '@/Components/Common/TableContainer';
+import DeleteModal from '@/Components/Common/DeleteModal';
 import { TaskActivityItem } from '@/types/activity/activity.types';
 import {
   TrackerProjectItem,
   TrackerSubProjectItem,
   TrackerSubProjectCategoryItem,
 } from '@/types/top10task/top10task.types';
-import { fetchActivityListWithPagination } from '@/slices/activity/activityThunk';
+import {
+  fetchActivityListWithPagination,
+  removeActivityTask,
+} from '@/slices/activity/activityThunk';
 import {
   setSearchTerm,
   setDateRange,
@@ -230,6 +234,11 @@ const TaskActivityList: React.FC = () => {
   const [isPrinting, setIsPrinting] = useState(false);
   const [formError, setFormError] = useState<string>('');
   const [formData, setFormData] = useState<ActivityEditForm>(emptyActivityEditForm(empId));
+
+  // Delete Modal States
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedDeleteId, setSelectedDeleteId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Dropdown options in Modal
   const [projectList, setProjectList] = useState<TrackerProjectItem[]>([]);
@@ -573,6 +582,34 @@ const TaskActivityList: React.FC = () => {
     return result;
   }, [list, searchUser, searchClient]);
 
+  // Delete Action Handlers
+  const handleDeleteClick = useCallback((id: number) => {
+    setSelectedDeleteId(id);
+    setDeleteModal(true);
+  }, []);
+
+  const handleConfirmDelete = async () => {
+    if (!selectedDeleteId) return;
+
+    try {
+      setIsDeleting(true);
+      await dispatch(removeActivityTask(selectedDeleteId)).unwrap();
+      setDeleteModal(false);
+      setSelectedDeleteId(null);
+
+      // Adjust pageNumber if deleting the last item on current page
+      if (filteredData.length === 1 && pageNumber > 1) {
+        setPageNumber(pageNumber - 1);
+      } else {
+        loadData(pageNumber, pageSize_Local, search, startDate, endDate);
+      }
+    } catch (err: any) {
+      console.error('Failed to delete tracker task:', err);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   // Exact Table Columns matching screenshot & Angular specification
   const columns = useMemo<ColumnDef<TaskActivityItem, any>[]>(() => {
     const cols: ColumnDef<TaskActivityItem, any>[] = [];
@@ -659,24 +696,34 @@ const TaskActivityList: React.FC = () => {
         header: 'Action',
         id: 'action',
         enableSorting: false,
-        cell: (info) => (
-          <button
-            type="button"
-            className="activity-table-action-btn"
-            title="Edit Activity"
-            onClick={() => {
-              const id = Number(info.row.original.id || 0);
-              handleOpenEditModal(id);
-            }}
-          >
-            <i className="mdi mdi-pencil-outline"></i>
-          </button>
-        ),
+        cell: (info) => {
+          const id = Number(info.row.original.id ?? (info.row.original as any).ID ?? 0);
+          return (
+            <div className="d-flex align-items-center gap-2">
+              <button
+                type="button"
+                className="activity-table-action-btn"
+                title="Edit Activity"
+                onClick={() => handleOpenEditModal(id)}
+              >
+                <i className="mdi mdi-pencil-outline"></i>
+              </button>
+              <button
+                type="button"
+                className="activity-table-action-btn delete-btn"
+                title="Delete Activity"
+                onClick={() => handleDeleteClick(id)}
+              >
+                <i className="mdi mdi-trash-can-outline"></i>
+              </button>
+            </div>
+          );
+        },
       }
     );
 
     return cols;
-  }, [showAdminField]);
+  }, [showAdminField, handleDeleteClick]);
 
   return (
     <React.Fragment>
@@ -795,6 +842,19 @@ const TaskActivityList: React.FC = () => {
           onProjectChange={handleProjectChange}
           onSubProjectChange={handleSubProjectChange}
           onSubmitForm={handleSubmitEdit}
+        />
+
+        {/* Delete Confirmation Modal */}
+        <DeleteModal
+          show={deleteModal}
+          onDeleteClick={handleConfirmDelete}
+          onCloseClick={() => {
+            if (!isDeleting) {
+              setDeleteModal(false);
+              setSelectedDeleteId(null);
+            }
+          }}
+          loading={isDeleting}
         />
       </div>
     </React.Fragment>

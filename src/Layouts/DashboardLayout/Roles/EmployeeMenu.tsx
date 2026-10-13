@@ -35,6 +35,12 @@ const EmployeeMenu = (props: any) => {
           <span>{props.t ? props.t("Daily To-do") : "Daily To-do"}</span>
         </Link>
       </li>
+        <li>
+        <Link to="/area/leavetransaction/list" onClick={props.onItemClick}>
+          <i className="mdi mdi-calendar-account-outline"></i>
+          <span>{props.t ? props.t("Apply Leave") : "Apply Leave"}</span>
+        </Link>
+      </li>
     </>
   );
 };

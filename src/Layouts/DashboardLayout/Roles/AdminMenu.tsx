@@ -173,6 +173,19 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
         )}
       </li>
 
+      {/* Apply Leave (admin: all employees, add/edit/delete) */}
+      <li className="menu-item">
+        <NavLink
+          to="/area/leavetransaction/list"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
+          onClick={onItemClick}
+          title={collapsed ? t('Apply Leave') : undefined}
+        >
+          <i className="mdi mdi-calendar-account-outline"></i>
+          {!collapsed && <span>{t('Apply Leave')}</span>}
+        </NavLink>
+      </li>
+
       {/* Office Locations */}
       <li className="menu-item">
         <NavLink

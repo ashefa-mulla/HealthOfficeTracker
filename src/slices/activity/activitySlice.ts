@@ -72,6 +72,12 @@ const activitySlice = createSlice({
     setSelectedEmployeeId: (state, action: PayloadAction<number | null>) => {
       state.selectedEmployeeId = action.payload;
     },
+    deleteActivitySuccess: (state, action: PayloadAction<number>) => {
+      state.list = state.list.filter(
+        (item) => Number(item.id ?? (item as any).ID) !== action.payload
+      );
+      state.totalRecords = Math.max(0, state.totalRecords - 1);
+    },
     resetActivityState: () => initialState,
   },
 });
@@ -84,6 +90,7 @@ export const {
   setSearchTerm,
   setDateRange,
   setSelectedEmployeeId,
+  deleteActivitySuccess,
   resetActivityState,
 } = activitySlice.actions;
 

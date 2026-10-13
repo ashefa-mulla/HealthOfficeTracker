@@ -120,6 +120,31 @@ class TaskActivityService {
   }
 
   /**
+   * DELETE /api/UtilizationTracker/deleteTrackerTask/{trackerTaskId}
+   * Deletes a tracker task activity record
+   */
+  async deleteTrackerTask(trackerTaskId: number): Promise<any> {
+    try {
+      const response = await axiosInstance.delete<any>(
+        `${BASE_UTILIZATION}/deleteTrackerTask/${trackerTaskId}`
+      );
+      return response.data;
+    } catch (error: any) {
+      if (error?.status === 405 || error?.response?.status === 405) {
+        try {
+          const postRes = await axiosInstance.post<any>(
+            `${BASE_UTILIZATION}/deleteTrackerTask/${trackerTaskId}`
+          );
+          return postRes.data;
+        } catch {
+          // If fallback fails, rethrow original error below
+        }
+      }
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
    * GET /api/Reports/DownloadActiveLogReport
    * Downloads or opens the active log PDF report for an employee
    */

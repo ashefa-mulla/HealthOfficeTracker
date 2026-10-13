@@ -240,3 +240,10 @@ export const getNumericEmployeeId = (profileInfo?: any, user?: any): number => {
   return getNumericUserId(profileInfo, user);
 };
 
+/** Admin / Super Admin (utype 1 / 4) */
+export const isAdminUser = (profileInfo?: any): boolean => {
+  const type = Number(profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType);
+  if (type === 1 || type === 4) return true;
+  const role = localStorage.getItem('sessionrole') || profileInfo?.userRole || '';
+  return role === 'Admin';
+};
