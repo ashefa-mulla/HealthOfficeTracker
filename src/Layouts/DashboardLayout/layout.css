@@ -234,6 +234,8 @@
 /* Main Content Area */
 .app-main {
   flex: 1;
+   /* let the content area shrink to the space beside the sidebar instead of growing with a wide table */
+  min-width: 0;
   margin-left: 260px;
   display: flex;
   flex-direction: column;
@@ -405,6 +407,8 @@
 /* Page Body */
 .page-body {
   flex: 1;
+   /* let the content area shrink to the space beside the sidebar instead of growing with a wide table */
+  min-width: 0;
   padding: 1.75rem;
 }
 

@@ -10,7 +10,8 @@ interface MenuProps {
 const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = false, onItemClick }) => {
   const location = useLocation();
   const [openSubMenus, setOpenSubMenus] = useState<{ [key: string]: boolean }>({
-    employees: location.pathname.startsWith('/employees'),
+    clients: location.pathname.startsWith('/area/client') || location.pathname.startsWith('/area/project') || location.pathname.startsWith('/area/category'),
+    accounts: location.pathname.startsWith('/area/accountcategory') || location.pathname.startsWith('/area/vendoraccount') || location.pathname.startsWith('/area/bankmaster') || location.pathname.startsWith('/area/purchaseorder') || location.pathname.startsWith('/area/chequerequest'),
     attendance: location.pathname.startsWith('/attendance'),
     tasks: location.pathname.startsWith('/tasks'),
     reports: location.pathname.startsWith('/reports'),
@@ -41,41 +42,129 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
 
       <li className="menu-title">{t('Management')}</li>
 
-      {/* Employees Menu with Submenu */}
-      <li className={`menu-item has-submenu ${openSubMenus.employees ? 'mm-active' : ''}`}>
-        <a
-          href="#employees"
-          className={`menu-link has-arrow ${location.pathname.startsWith('/employees') ? 'active' : ''}`}
-          onClick={(e) => toggleSubMenu('employees', e)}
-          title={collapsed ? t('Employees & Teams') : undefined}
+      {/* Users */}
+      <li className="menu-item">
+        <NavLink
+          to="/area/employee/list"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/employee') ? 'active' : ''}`}
+          onClick={onItemClick}
+          title={collapsed ? t('Users') : undefined}
         >
           <i className="mdi mdi-account-group-outline"></i>
+          {!collapsed && <span>{t('Users')}</span>}
+        </NavLink>
+      </li>
+
+      {/* Client Menu with Submenu */}
+      <li className={`menu-item has-submenu ${openSubMenus.clients ? 'mm-active' : ''}`}>
+        <a
+          href="#clients"
+          className={`menu-link has-arrow ${location.pathname.startsWith('/area/client') || location.pathname.startsWith('/area/project') || location.pathname.startsWith('/area/category') ? 'active' : ''}`}
+          onClick={(e) => toggleSubMenu('clients', e)}
+          title={collapsed ? t('Client') : undefined}
+        >
+          <i className="mdi mdi-domain"></i>
           {!collapsed && (
             <>
-              <span>{t('Employees & Teams')}</span>
-              <i className={`mdi ${openSubMenus.employees ? 'mdi-chevron-down' : 'mdi-chevron-right'} menu-arrow`}></i>
+              <span>{t('Client')}</span>
+              <i className={`mdi ${openSubMenus.clients ? 'mdi-chevron-down' : 'mdi-chevron-right'} menu-arrow`}></i>
             </>
           )}
         </a>
-        {!collapsed && openSubMenus.employees && (
+        {!collapsed && openSubMenus.clients && (
           <ul className="sub-menu">
             <li>
               <NavLink
-                to="/employees"
-                end
-                className={({ isActive }) => `sub-menu-link ${isActive ? 'active' : ''}`}
+                to="/area/client/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/client') ? 'active' : ''}`}
                 onClick={onItemClick}
               >
-                {t('All Employees')}
+                {t('Client')}
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/employees?tab=teams"
-                className={({ isActive }) => `sub-menu-link ${isActive && location.search.includes('teams') ? 'active' : ''}`}
+                to="/area/project/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/project') ? 'active' : ''}`}
                 onClick={onItemClick}
               >
-                {t('Teams & Departments')}
+                {t('Project')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/category/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/category') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Category')}
+              </NavLink>
+            </li>
+          </ul>
+        )}
+      </li>
+
+      {/* Accounts Menu with Submenu */}
+      <li className={`menu-item has-submenu ${openSubMenus.accounts ? 'mm-active' : ''}`}>
+        <a
+          href="#accounts"
+          className={`menu-link has-arrow ${location.pathname.startsWith('/area/accountcategory') || location.pathname.startsWith('/area/vendoraccount') || location.pathname.startsWith('/area/bankmaster') || location.pathname.startsWith('/area/purchaseorder') || location.pathname.startsWith('/area/chequerequest') ? 'active' : ''}`}
+          onClick={(e) => toggleSubMenu('accounts', e)}
+          title={collapsed ? t('Accounts') : undefined}
+        >
+          <i className="mdi mdi-calculator-variant-outline"></i>
+          {!collapsed && (
+            <>
+              <span>{t('Accounts')}</span>
+              <i className={`mdi ${openSubMenus.accounts ? 'mdi-chevron-down' : 'mdi-chevron-right'} menu-arrow`}></i>
+            </>
+          )}
+        </a>
+        {!collapsed && openSubMenus.accounts && (
+          <ul className="sub-menu">
+            <li>
+              <NavLink
+                to="/area/accountcategory/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/accountcategory') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Account Category')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/vendoraccount/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/vendoraccount') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Vendor Account')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/bankmaster/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/bankmaster') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Bank Master')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/purchaseorder/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/purchaseorder') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Purchase Order')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/chequerequest/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/chequerequest') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Cheque Request')}
               </NavLink>
             </li>
           </ul>
@@ -183,6 +272,19 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
         >
           <i className="mdi mdi-calendar-account-outline"></i>
           {!collapsed && <span>{t('Apply Leave')}</span>}
+        </NavLink>
+      </li>
+
+      {/* Evaluation (admin) */}
+      <li className="menu-item">
+        <NavLink
+          to="/area/evaluation/list"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/evaluation') ? 'active' : ''}`}
+          onClick={onItemClick}
+          title={collapsed ? t('Evaluation') : undefined}
+        >
+          <i className="mdi mdi-clipboard-check-outline"></i>
+          {!collapsed && <span>{t('Evaluation')}</span>}
         </NavLink>
       </li>
 

@@ -35,6 +35,8 @@ h6 {
   padding: 1.5rem;
   background-color: #ffffff;
   min-height: 100vh;
+   min-width: 0;
+  max-width: 100%;
 }
 
 /* Add New Button */
@@ -775,5 +777,95 @@ h6 {
 
   &.delete-btn:hover {
     color: #dc2626;
+  }
+}
+/* ==========================================================================
+   Search + Add toolbar (TableContainer searchAddLayout) - Accounts lists
+   ========================================================================== */
+.search-add-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.search-add-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 36px;
+  border: 1px solid #9fb3c8;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #334155;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-add-input::placeholder {
+  color: #7b8794;
+}
+
+.search-add-input:focus {
+  border-color: #0b4d9c;
+  box-shadow: 0 0 0 3px rgba(11, 77, 156, 0.15);
+}
+
+.search-add-btn {
+  flex: 0 0 auto;
+  background-color: #0b4d9c;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s ease;
+}
+
+.search-add-btn:hover {
+  background-color: #083b77;
+}
+
+.search-add-extra {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.search-add-extra-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 0;
+}
+
+.search-add-extra-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .search-add-extra {
+    grid-template-columns: 1fr;
+  }
+
+  .search-add-extra-left {
+    display: none;
+  }
+
+  .search-add-extra-right {
+    justify-content: center;
   }
 }

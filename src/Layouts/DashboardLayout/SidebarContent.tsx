@@ -3,6 +3,7 @@ import AdminMenu from './Roles/AdminMenu';
 import EmployeeMenu from './Roles/EmployeeMenu';
 import ManagerMenu from './Roles/ManagerMenu';
 import { useAuthStore } from '../../store/useAuthStore';
+import AncillaryStaffMenu from './Roles/AncillaryStaffMenu';
 
 interface SidebarContentProps {
   collapsed?: boolean;
@@ -54,9 +55,11 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
 
     switch (userType) {
       case 3:
+
         // Employee / Team Member Menu
         return <EmployeeMenu {...menuProps} />;
-
+      case 7:
+        return <AncillaryStaffMenu {...menuProps} />;
       case 2:
       case 13:
         // Manager / Supervisor / SubAdmin Menu

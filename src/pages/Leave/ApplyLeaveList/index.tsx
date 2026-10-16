@@ -224,9 +224,10 @@ const ApplyLeaveList: React.FC = () => {
           data={list || []}
           isGlobalFilter={true}
           isColumnFilter={false}
-          searchPlaceholder="Search..."
+          searchPlaceholder="Search leave..."
+          searchAddLayout={true}
           isAddButton={true}
-          buttonName="+ Add Leaves"
+          buttonName="+ Add"
           buttonClass="btn-task-add-new"
           handleUserClick={() => handleOpenModal(0)}
           isPagination={true}

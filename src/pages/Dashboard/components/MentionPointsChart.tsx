@@ -45,7 +45,7 @@ export const MentionPointsChart: React.FC<Props> = ({ data, dateRangeLabel }) =>
 
   return (
     <div className="w-100 overflow-hidden">
-      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap ">
         <div>
           <h5 className="mb-0 text-dark fw-bold fs-6">Feedback Summary</h5>
           {dateRangeLabel && (

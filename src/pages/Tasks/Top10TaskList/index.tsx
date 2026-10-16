@@ -1178,9 +1178,10 @@ const Top10TaskList: React.FC = () => {
           columns={columns}
           data={displayData}
           isGlobalFilter={true}
-          searchPlaceholder="Search..."
+          searchPlaceholder="Search task..."
+          searchAddLayout={true}
           isAddButton={true}
-          buttonName="+ Add New"
+          buttonName="+ Add"
           buttonClass="btn-task-add-new"
           handleUserClick={() => navigate('/area/top10task/create')}
           customCenterHeader={

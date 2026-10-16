@@ -1,0 +1,645 @@
+/* ==========================================================================
+   Evaluation (admin) - built on the app theme tokens:
+   brand navy #0b4d9c, accent #01a5d6, slate text, #e2e8f0 borders, pill buttons
+   ========================================================================== */
+
+.evaluation-page {
+  --ev-brand: #0b4d9c;
+  --ev-brand-dark: #083b77;
+  --ev-accent: #01a5d6;
+  --ev-text: #0f172a;
+  --ev-muted: #64748b;
+  --ev-border: #e2e8f0;
+  --ev-soft: #f8fafc;
+  --ev-green: #43a047;
+  --ev-red: #e53935;
+  --ev-amber: #f1b44c;
+}
+
+/* ---- header ------------------------------------------------------------- */
+.evaluation-page .evaluation-header {
+  justify-content: center;
+}
+
+.evaluation-page .evaluation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.evaluation-page .evaluation-heading-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ev-brand), var(--ev-accent));
+  box-shadow: 0 4px 10px rgba(11, 77, 156, 0.25);
+}
+
+.evaluation-page .evaluation-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.evaluation-page .evaluation-add-btn {
+  margin-bottom: 0;
+}
+
+/* ---- filters ------------------------------------------------------------ */
+.evaluation-page .evaluation-filter-card {
+  margin-bottom: 1.25rem;
+}
+
+.evaluation-page .evaluation-filter-card .tracker-card-body {
+  padding: 1.1rem 1.25rem;
+}
+
+.evaluation-page .evaluation-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ev-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.evaluation-page .evaluation-filter-label i {
+  color: var(--ev-brand);
+  font-size: 1rem;
+}
+
+.evaluation-page .evaluation-search-btn {
+  width: 100%;
+  justify-content: center;
+  height: 40px;
+  border-radius: 8px;
+}
+
+/* ---- empty state -------------------------------------------------------- */
+.evaluation-page .evaluation-empty-card .tracker-card-body {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--ev-muted);
+}
+
+.evaluation-page .evaluation-empty-card i {
+  font-size: 3rem;
+  color: #cbd5e1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.evaluation-page .evaluation-empty-card h5 {
+  color: var(--ev-text);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.evaluation-page .evaluation-empty-card p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+/* ---- questions table card ---------------------------------------------- */
+.evaluation-page .evaluation-table-card {
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.evaluation-page .evaluation-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--ev-border);
+  background: #fff;
+}
+
+.evaluation-page .evaluation-card-head h5 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ev-text);
+}
+
+.evaluation-page .evaluation-card-head span {
+  font-size: 0.8rem;
+  color: var(--ev-muted);
+}
+
+.evaluation-page .evaluation-state-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.evaluation-page .evaluation-state-chip.open {
+  background: #e8f5e9;
+  color: var(--ev-green);
+}
+
+.evaluation-page .evaluation-state-chip.locked {
+  background: #fdecea;
+  color: var(--ev-red);
+}
+
+.evaluation-page .evaluation-table-wrap {
+  overflow-x: auto;
+}
+
+.evaluation-page .evaluation-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.evaluation-page .evaluation-table thead th {
+  background: linear-gradient(180deg, var(--ev-brand), var(--ev-brand-dark));
+  color: #fff;
+  text-align: center;
+  padding: 12px 10px;
+  font-weight: 600;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.evaluation-page .evaluation-table thead th:first-child {
+  border-left: 0;
+  padding-left: 20px;
+}
+
+.evaluation-page .evaluation-table thead th .evaluation-week-name {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.evaluation-page .evaluation-table thead th .evaluation-week-range {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-top: 3px;
+}
+
+.evaluation-page .evaluation-table thead th.is-current {
+  background: linear-gradient(180deg, var(--ev-accent), #0189b1);
+}
+
+.evaluation-page .evaluation-table thead th .evaluation-week-now {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.evaluation-page .evaluation-table tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  color: #334155;
+}
+
+.evaluation-page .evaluation-table tbody tr:nth-child(even) td {
+  background: var(--ev-soft);
+}
+
+.evaluation-page .evaluation-table tbody tr:hover td {
+  background: #eef4fc;
+}
+
+.evaluation-page .evaluation-table tbody td.is-current {
+  box-shadow: inset 0 0 0 9999px rgba(1, 165, 214, 0.05);
+}
+
+.evaluation-page .evaluation-table tbody td.evaluation-question {
+  min-width: 340px;
+  padding-left: 20px;
+}
+
+.evaluation-page .evaluation-question-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.evaluation-page .evaluation-no {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e0ecfa;
+  color: var(--ev-brand);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.evaluation-page .evaluation-question-text {
+  font-weight: 500;
+  color: var(--ev-text);
+  line-height: 1.4;
+}
+
+.evaluation-page .evaluation-deactivated {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #fdecea;
+  color: var(--ev-red);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.evaluation-page .evaluation-table tbody tr.evaluation-inactive td.evaluation-week,
+.evaluation-page .evaluation-table tbody tr.evaluation-inactive .evaluation-question-text,
+.evaluation-page .evaluation-table tbody tr.evaluation-inactive .evaluation-no {
+  opacity: 0.5;
+}
+
+/* ---- week cells --------------------------------------------------------- */
+.evaluation-page .evaluation-table td.evaluation-week {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.evaluation-page .evaluation-week-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.evaluation-page .evaluation-week-cell input[type='checkbox'] {
+  width: 19px;
+  height: 19px;
+  cursor: pointer;
+  accent-color: var(--ev-brand);
+  border-radius: 4px;
+}
+
+.evaluation-page .evaluation-week-cell input[type='checkbox']:disabled {
+  cursor: not-allowed;
+}
+
+.evaluation-page .evaluation-comment-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.evaluation-page .evaluation-comment-btn:hover {
+  background: #e0ecfa;
+  color: var(--ev-brand);
+}
+
+.evaluation-page .evaluation-comment-btn.has-note {
+  background: #e0ecfa;
+  color: var(--ev-brand);
+}
+
+/* ---- row actions -------------------------------------------------------- */
+.evaluation-page .evaluation-table td.evaluation-actions {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.evaluation-page .evaluation-action-btn {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+
+.evaluation-page .evaluation-action-btn.edit {
+  color: var(--ev-brand);
+}
+
+.evaluation-page .evaluation-action-btn.edit:hover {
+  background: #e0ecfa;
+}
+
+.evaluation-page .evaluation-action-btn.power-on {
+  color: #e8a317;
+}
+
+.evaluation-page .evaluation-action-btn.power-on:hover {
+  background: #fff4dc;
+}
+
+.evaluation-page .evaluation-action-btn.power-off {
+  color: #94a3b8;
+}
+
+.evaluation-page .evaluation-action-btn.power-off:hover {
+  background: #eef2f6;
+}
+
+.evaluation-page .evaluation-action-btn.remove {
+  color: var(--ev-red);
+}
+
+.evaluation-page .evaluation-action-btn.remove:hover {
+  background: #fdecea;
+}
+
+/* ---- lock / additional points ------------------------------------------ */
+.evaluation-page .evaluation-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 1.25rem;
+}
+
+.evaluation-page .evaluation-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid var(--ev-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.evaluation-page .evaluation-option-icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.evaluation-page .evaluation-option-icon.lock {
+  background: #fff4dc;
+  color: #e8a317;
+}
+
+.evaluation-page .evaluation-option-icon.points {
+  background: #e0ecfa;
+  color: var(--ev-brand);
+}
+
+.evaluation-page .evaluation-option-icon.comment {
+  background: #e1f5fb;
+  color: var(--ev-accent);
+}
+
+.evaluation-page .evaluation-option-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.evaluation-page .evaluation-option-body label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ev-muted);
+  margin-bottom: 6px;
+}
+
+.evaluation-page .evaluation-option-body .form-control {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+}
+
+.evaluation-page .evaluation-option-body .form-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 0;
+  min-height: 34px;
+}
+
+.evaluation-page .evaluation-option-body .form-switch .form-check-input {
+  float: none;
+  margin: 0;
+  width: 2.6em;
+  height: 1.3em;
+  cursor: pointer;
+}
+
+.evaluation-page .evaluation-option-body .form-switch .form-check-input:checked {
+  background-color: var(--ev-brand);
+  border-color: var(--ev-brand);
+}
+
+.evaluation-page .evaluation-switch-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* ---- submit ------------------------------------------------------------- */
+.evaluation-page .evaluation-submit-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 18px 0;
+  border-top: 1px solid var(--ev-border);
+  border-bottom: 1px solid var(--ev-border);
+  margin-bottom: 1.5rem;
+}
+
+.evaluation-page .evaluation-submit-btn {
+  padding: 9px 32px;
+  font-size: 0.92rem;
+}
+
+.evaluation-page .evaluation-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.evaluation-page .evaluation-unsaved {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #b7791f;
+  background: #fff4dc;
+  padding: 3px 12px 3px 6px;
+  border-radius: 999px;
+}
+
+.evaluation-page .evaluation-unsaved i {
+  font-size: 1.2rem;
+  color: var(--ev-amber);
+}
+
+/* ---- summary tiles ------------------------------------------------------ */
+.evaluation-page .evaluation-summary-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  color: var(--ev-text);
+  margin-bottom: 14px;
+}
+
+.evaluation-page .evaluation-summary-title i {
+  color: var(--ev-brand);
+  font-size: 1.3rem;
+}
+
+.evaluation-page .evaluation-tiles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.evaluation-page .evaluation-tile {
+  background: #fff;
+  border: 1px solid var(--ev-border);
+  border-top: 4px solid var(--ev-brand);
+  border-radius: 10px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.evaluation-page .evaluation-tile.week-1 {
+  border-top-color: #01a5d6;
+}
+
+.evaluation-page .evaluation-tile.week-2 {
+  border-top-color: #26a69a;
+}
+
+.evaluation-page .evaluation-tile.week-3 {
+  border-top-color: #43a047;
+}
+
+.evaluation-page .evaluation-tile.week-4 {
+  border-top-color: #f1b44c;
+}
+
+.evaluation-page .evaluation-tile.total {
+  background: linear-gradient(135deg, var(--ev-brand), var(--ev-brand-dark));
+  border-color: var(--ev-brand-dark);
+  border-top-color: var(--ev-accent);
+}
+
+.evaluation-page .evaluation-tile-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ev-muted);
+}
+
+.evaluation-page .evaluation-tile-value {
+  display: block;
+  margin-top: 4px;
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--ev-text);
+  line-height: 1.15;
+}
+
+.evaluation-page .evaluation-tile.total .evaluation-tile-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.evaluation-page .evaluation-tile.total .evaluation-tile-value {
+  color: #fff;
+}
+
+/* ---- responsive --------------------------------------------------------- */
+@media (max-width: 992px) {
+  .evaluation-page .evaluation-options {
+    grid-template-columns: 1fr;
+  }
+
+  .evaluation-page .evaluation-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .evaluation-page .evaluation-tile.total {
+    grid-column: span 2;
+  }
+}
+
+/* ---- non-admin: weeks outside the editing window ------------------------ */
+.evaluation-page .evaluation-table tbody td.evaluation-week.is-blurred {
+  opacity: 0.55;
+}
+
+/* ---- access restricted panel -------------------------------------------- */
+.evaluation-page .evaluation-restricted .tracker-card-body {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border: 2px dashed #f4a3a3;
+  border-radius: 8px;
+  background: #fffafa;
+}
+
+.evaluation-page .evaluation-restricted i {
+  font-size: 3rem;
+  color: var(--ev-red);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.evaluation-page .evaluation-restricted h4 {
+  color: #c62828;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.evaluation-page .evaluation-restricted p {
+  font-size: 0.95rem;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.evaluation-page .evaluation-restricted .evaluation-restricted-tip {
+  font-size: 0.85rem;
+  color: var(--ev-muted);
+}
