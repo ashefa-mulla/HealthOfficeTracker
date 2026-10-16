@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessApp.Data;
 using BusinessApp.Models;
 using BusinessApp.Settings;

@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DSPurchaseOrder">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>e3a47926-2581-4bc5-a63e-7c5ef61a9bc3</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="POPaymentDueDateStmnt">
+      <Query>
+        <DataSourceName>DSPurchaseOrder</DataSourceName>
+        <CommandText>/* Command Text */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProcessMethod">
+          <DataField>ProcessMethod</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PO_Amount">
+          <DataField>PO_Amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SumAtDueDate">
+          <DataField>SumAtDueDate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="UpcomingsDuedate">
+          <DataField>UpcomingsDuedate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VendorName">
+          <DataField>VendorName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CategoryName">
+          <DataField>CategoryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <!-- Logo Image (Top Right) -->
+          <Image Name="ImgLogo">
+            <Source>External</Source>
+            <Value>=IIf(Parameters!logoPath.Value &lt;&gt; "", Parameters!logoPath.Value, "FileServer/Logo/Small-VO-LOGO.png")</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>0in</Top>
+            <Left>5.35in</Left>
+            <Height>0.48in</Height>
+            <Width>2.10in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+
+          <!-- Report Header Title (Centered) -->
+          <Textbox Name="TxtTitle">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Purchase Order</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.52in</Top>
+            <Left>0in</Left>
+            <Height>0.26in</Height>
+            <Width>7.45in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+
+          <!-- Divider Line Below Title -->
+          <Line Name="LineTitle">
+            <Top>0.82in</Top>
+            <Left>0in</Left>
+            <Height>0in</Height>
+            <Width>7.45in</Width>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+                <Color>#4B5563</Color>
+                <Width>0.5pt</Width>
+              </Border>
+            </Style>
+          </Line>
+
+          <!-- PO Code (Row 1 Left) -->
+          <Textbox Name="TxtPoCode">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>PO Code: </Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=IIf(Parameters!poCode.Value &lt;&gt; "", Parameters!poCode.Value, First(Fields!Code.Value, "POPaymentDueDateStmnt"))</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.87in</Top>
+            <Left>0in</Left>
+            <Height>0.22in</Height>
+            <Width>3.70in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+
+          <!-- Process Method (Row 1 Right) -->
+          <Textbox Name="TxtProcessMethod">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Process Method: </Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=IIf(Parameters!processMethod.Value &lt;&gt; "", Parameters!processMethod.Value, First(Fields!ProcessMethod.Value, "POPaymentDueDateStmnt"))</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.87in</Top>
+            <Left>3.75in</Left>
+            <Height>0.22in</Height>
+            <Width>3.70in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+
+          <!-- Vendor (Row 2 Left) -->
+          <Textbox Name="TxtVendor">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Vendor: </Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=IIf(Parameters!vendorName.Value &lt;&gt; "", Parameters!vendorName.Value, First(Fields!VendorName.Value, "POPaymentDueDateStmnt"))</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.11in</Top>
+            <Left>0in</Left>
+            <Height>0.22in</Height>
+            <Width>3.70in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+
+          <!-- Category (Row 2 Right) -->
+          <Textbox Name="TxtCategory">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Category: </Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=IIf(Parameters!categoryName.Value &lt;&gt; "", Parameters!categoryName.Value, First(Fields!CategoryName.Value, "POPaymentDueDateStmnt"))</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9.5pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.11in</Top>
+            <Left>3.75in</Left>
+            <Height>0.22in</Height>
+            <Width>3.70in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+
+          <!-- Divider Line Below Metadata -->
+          <Line Name="LineMetadata">
+            <Top>1.37in</Top>
+            <Left>0in</Left>
+            <Height>0in</Height>
+            <Width>7.45in</Width>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+                <Color>#4B5563</Color>
+                <Width>0.5pt</Width>
+              </Border>
+            </Style>
+          </Line>
+
+          <!-- Purchase Order Details Table -->
+          <Tablix Name="TablixPurchaseOrder">
+            <TablixBody>
+              <TablixColumns>
+                <!-- Upcoming Due Date Column (~40%) -->
+                <TablixColumn>
+                  <Width>2.98in</Width>
+                </TablixColumn>
+                <!-- Monthly Due Amount Column (~30%) -->
+                <TablixColumn>
+                  <Width>2.235in</Width>
+                </TablixColumn>
+                <!-- Sum of Paid Amt Column (~30%) -->
+                <TablixColumn>
+                  <Width>2.235in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <!-- Table Header Row -->
+                <TablixRow>
+                  <Height>0.28in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrUpcomingDueDate">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Upcoming Due Date</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Color>#000000</Color>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>4pt</PaddingTop>
+                            <PaddingBottom>4pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrMonthlyDueAmount">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Monthly Due Amount ($)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Color>#000000</Color>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>4pt</PaddingTop>
+                            <PaddingBottom>4pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrSumPaidAmt">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Sum of Paid Amt On Due Date ($)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Color>#000000</Color>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>4pt</PaddingTop>
+                            <PaddingBottom>4pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <!-- Detail Row -->
+                <TablixRow>
+                  <Height>0.24in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtUpcomingDueDate">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(IsNothing(Fields!UpcomingsDuedate.Value), "", Fields!UpcomingsDuedate.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtMonthlyDueAmount">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(IsNothing(Fields!PO_Amount.Value), "", Format(Fields!PO_Amount.Value, "#,##0.00"))</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <Format>#,##0.00</Format>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtSumPaidAmt">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(IsNothing(Fields!SumAtDueDate.Value), "", Format(Fields!SumAtDueDate.Value, "#,##0.00"))</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <Format>#,##0.00</Format>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>POPaymentDueDateStmnt</DataSetName>
+            <Top>1.52in</Top>
+            <Left>0in</Left>
+            <Height>0.52in</Height>
+            <Width>7.45in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>2.15in</Height>
+        <Style />
+      </Body>
+      <Width>7.45in</Width>
+      <Page>
+        <!-- Page Footer (Repeats on every page) -->
+        <PageFooter>
+          <Height>0.35in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <!-- Page Numbering (Page: 1/1) -->
+            <Textbox Name="TxtPageNumber">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Page: " &amp; Globals!PageNumber &amp; "/" &amp; Globals!TotalPages</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <Color>#6B7280</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.08in</Top>
+              <Left>4.45in</Left>
+              <Height>0.2in</Height>
+              <Width>3.0in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+
+        <!-- Page Dimensions (A4 Portrait) -->
+        <PageHeight>11.69in</PageHeight>
+        <PageWidth>8.27in</PageWidth>
+        <LeftMargin>0.41in</LeftMargin>
+        <RightMargin>0.41in</RightMargin>
+        <TopMargin>0.4in</TopMargin>
+        <BottomMargin>0.4in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="logoPath">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Logo Path</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="poCode">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PO Code</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="processMethod">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Process Method</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="vendorName">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Vendor Name</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="categoryName">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Category Name</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>e7b2c1d4-9f8a-4c2e-b6a1-3d5f7e9a8b1c</rd:ReportID>
+</Report>

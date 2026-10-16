@@ -2618,6 +2618,286 @@
   },
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadAttendanceReport",
+    "RelativePath": "api/Reports/DownloadAttendanceReport/{month}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "month",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadLeaveTransactionReport",
+    "RelativePath": "api/Reports/DownloadLeaveTransactionReport/{month}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "month",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "year",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "currentyear",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "hidedate",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadMonthlyEvaluationReportSummary",
+    "RelativePath": "api/Reports/DownloadMonthlyEvaluationReportSummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "month",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadMonthlyInvoiceReport",
+    "RelativePath": "api/Reports/DownloadMonthlyInvoiceReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "invoicelayout",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "invoiceactive",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadPurchaseOrderReport",
+    "RelativePath": "api/Reports/DownloadPurchaseOrderReport/{poid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "poid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadUserLogReport",
+    "RelativePath": "api/Reports/DownloadUserLogReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadUserTrackerTaskwithAmount",
+    "RelativePath": "api/Reports/DownloadUserTrackerTaskwithAmount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadUserUtilizationReport",
+    "RelativePath": "api/Reports/DownloadUserUtilizationReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadUtilizationReportwithProject",
+    "RelativePath": "api/Reports/DownloadUtilizationReportwithProject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "projectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "subprojectid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadUtilizationUserTaskReport",
+    "RelativePath": "api/Reports/DownloadUtilizationUserTaskReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "uid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
     "Method": "PrintemployeecostReport",
     "RelativePath": "api/Reports/employeereport",
     "HttpMethod": "GET",
@@ -3025,6 +3305,22 @@
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
     "Method": "PrintAttendance",
+    "RelativePath": "api/Reports/PrintAttendance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintAttendance",
     "RelativePath": "api/Reports/PrintAttendance/{month}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -3034,19 +3330,14 @@
         "Name": "month",
         "Type": "System.String",
         "IsRequired": true
+      },
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "BusinessData.DataContext.GetAttendanceReport_Result",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
@@ -3070,19 +3361,55 @@
         "Name": "enddt",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "PrintLeaveTransactionReport",
+    "RelativePath": "api/Reports/PrintLeaveTransactionReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "BusinessData.DataContext.GetUserTrackerTaskbyMonth_Result",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "month",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "currentyear",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "hidedate",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
-    ]
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
@@ -3127,19 +3454,14 @@
         "Name": "enddt",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "BusinessData.DataContext.GetEmployeeTaskSummaryByDate_Result",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
@@ -3158,19 +3480,35 @@
         "Name": "enddt",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "format",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.ReportsController",
+    "Method": "DownloadUserPerUtilizationReport",
+    "RelativePath": "api/Reports/PrintUserUtilizationwithperReportReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "BusinessData.DataContext.sp_GetEmployeeTaskSummaryByDate_Result",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "stdt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "enddt",
+        "Type": "System.String",
+        "IsRequired": false
       }
-    ]
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "BusinessApp.Controllers.ReportsController",
