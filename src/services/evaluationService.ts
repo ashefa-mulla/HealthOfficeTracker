@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosInstance from '@/config/axiosInstance';
 import { axiosErrorToApiError } from '@/types/errors';
 import {
@@ -14,7 +13,8 @@ const BASE_EMPLOYEE = '/api/employee';
 class EvaluationService {
   /**
    * GET /api/employee/getmonthlyevaluationsummary?employeeId={id}&evalYear={y}&evalMonth={m}
-   * The API answers 404 when the employee has no questions yet; that is an empty list, not an error.
+   * The API answers 404 when the employee has no questions yet; that is an empty list, not an error
+   * (no toast - the page shows its own "No evaluation for this user" message).
    */
   async getMonthlySummary(
     employeeId: number,
@@ -28,7 +28,9 @@ class EvaluationService {
       );
       return Array.isArray(response.data) ? response.data.map(toEvaluationRow) : [];
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) return [];
+      // The shared axios instance already converts errors to ApiError (with .status)
+      const status = (error as any)?.status ?? (error as any)?.response?.status;
+      if (status === 404) return [];
       throw axiosErrorToApiError(error);
     }
   }

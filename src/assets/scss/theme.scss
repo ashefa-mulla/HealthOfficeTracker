@@ -711,6 +711,23 @@ h6 {
   }
 }
 
+.activity-filter-date-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    color: #1f2937;
+  }
+}
+
 .activity-filter-date-input {
   min-width: 220px;
 }

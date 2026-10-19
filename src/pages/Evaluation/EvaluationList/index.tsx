@@ -585,8 +585,14 @@ const EvaluationList: React.FC = () => {
                 ) : hasSearched ? (
                   <>
                     <i className="mdi mdi-clipboard-text-off-outline"></i>
-                    <h5>No evaluation data found</h5>
-                    <p>There are no questions for the selected employee, month and year.</p>
+                    <h5>{isAdmin ? 'No evaluation for this user' : 'No evaluation found'}</h5>
+                    <p>
+                      {isAdmin
+                        ? `${appliedEmployeeName || 'This user'} has no evaluation questions for ${
+                            applied ? `${MONTHS[applied.month - 1]} ${applied.year}` : 'the selected month'
+                          }. Use Add Question to create one.`
+                        : 'There are no evaluation questions for the selected month and year.'}
+                    </p>
                   </>
                 ) : (
                   <>

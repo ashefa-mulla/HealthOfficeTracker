@@ -1,6 +1,8 @@
 import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 import { useFormContext } from 'react-hook-form';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css';
 import {
   RHFInput,
   RHFSelect,
@@ -25,6 +27,19 @@ export interface ActivityPersonalInfoProps {
   onSubProjectChange?: (subProjectId: number) => void;
 }
 
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
+const formatDuration = (start: Date, end: Date) => {
+  const totalSec = Math.max(0, Math.floor((end.getTime() - start.getTime()) / 1000));
+  const h = Math.floor(totalSec / 3600);
+  return `${pad2(h)}:${pad2(Math.floor((totalSec % 3600) / 60))}:${pad2(totalSec % 60)}`;
+};
+
+const formatDisplay = (d: Date) => {
+  const h = d.getHours();
+  return `${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}/${d.getFullYear()} ${pad2(h % 12 || 12)}:${pad2(d.getMinutes())} ${h >= 12 ? 'PM' : 'AM'}`;
+};
+
 const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
   projectList,
   subprojectList,
@@ -36,6 +51,31 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
   onSubProjectChange,
 }) => {
   const { watch, setValue } = useFormContext<ActivityEditForm>();
+
+  const startTimeValue = watch('startTime');
+  const endTimeValue = watch('endTime');
+
+  // Admin edits start/end time: keep display text and duration in sync
+  const handleTimeChange = (field: 'startTime' | 'endTime', dates: Date[]) => {
+    const picked = dates[0];
+    if (!picked) return;
+    const start = field === 'startTime' ? picked : new Date(startTimeValue || picked);
+    const end = field === 'endTime' ? picked : new Date(endTimeValue || picked);
+    setValue(field, picked.toISOString() as any, { shouldDirty: true });
+    setValue(
+      field === 'startTime' ? 'startTimeDisplay' : 'endTimeDisplay',
+      formatDisplay(picked) as any
+    );
+    setValue('duration', formatDuration(start, end) as any);
+  };
+
+  const timePickerOptions = {
+    enableTime: true,
+    enableSeconds: true,
+    time_24hr: false,
+    dateFormat: 'm/d/Y h:i:S K',
+    allowInput: false,
+  };
 
   const selectedProject = watch('projectId');
   const selectedSubProject = watch('subProjectId');
@@ -135,22 +175,46 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
           />
         </Col>
 
-        {/* Start Time (Non-editable) */}
+        {/* Start Time (editable by admin) */}
         <Col md={6}>
-          <RHFInput<ActivityEditForm>
-            name="startTimeDisplay"
-            label="Start Time"
-            disabled={true}
-          />
+          {showAdminField ? (
+            <>
+              <label className="form-label">Start Time</label>
+              <Flatpickr
+                className="form-control"
+                options={timePickerOptions}
+                value={startTimeValue ? new Date(startTimeValue) : undefined}
+                onChange={(dates: Date[]) => handleTimeChange('startTime', dates)}
+              />
+            </>
+          ) : (
+            <RHFInput<ActivityEditForm>
+              name="startTimeDisplay"
+              label="Start Time"
+              disabled={true}
+            />
+          )}
         </Col>
 
-        {/* End Time (Non-editable) */}
+        {/* End Time (editable by admin) */}
         <Col md={6}>
-          <RHFInput<ActivityEditForm>
-            name="endTimeDisplay"
-            label="End Time"
-            disabled={true}
-          />
+          {showAdminField ? (
+            <>
+              <label className="form-label">End Time</label>
+              <Flatpickr
+                className="form-control"
+                options={timePickerOptions}
+                value={endTimeValue ? new Date(endTimeValue) : undefined}
+                onChange={(dates: Date[]) => handleTimeChange('endTime', dates)}
+              />
+            </>
+          ) : (
+            <RHFInput<ActivityEditForm>
+              name="endTimeDisplay"
+              label="End Time"
+              disabled={true}
+            />
+          )}
         </Col>
 
         {/* Duration (Non-editable) */}

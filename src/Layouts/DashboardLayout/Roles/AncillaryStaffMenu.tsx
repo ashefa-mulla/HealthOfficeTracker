@@ -61,7 +61,7 @@ interface MenuProps {
   onItemClick?: () => void;
 }
 
-const ANALYTICS_PATHS = ['/reports', '/area/taskactivity', '/area/leavetransaction'];
+const ANALYTICS_PATHS = ['/reports', '/area/leavetransaction'];
 const ACCOUNTS_PATHS = [
   '/area/accountcategory',
   '/area/vendoraccount',
@@ -154,19 +154,8 @@ const AncillaryMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = 
       <li className="menu-title">{t('My Work')}</li>
       {link('/timer', 'mdi-clock-outline', 'Clock In / Out')}
 
-      {group(
-        'analytics',
-        'mdi-chart-box-outline',
-        'Analytics',
-        ANALYTICS_PATHS,
-        <>
-          {subLink('/reports', 'Reports', '/reports')}
-          {subLink('/area/taskactivity', 'My Activities', '/area/taskactivity')}
-          {subLink('/area/leavetransaction/list', 'Apply Leave', '/area/leavetransaction')}
-        </>
-      )}
-
       {link('/area/top10task/list', 'mdi-clipboard-text-outline', 'My Tracker Task', '/area/top10task')}
+      {link('/area/taskactivity', 'mdi-history', 'My Activities', '/area/taskactivity')}
 
       {group(
         'accounts',
@@ -184,6 +173,17 @@ const AncillaryMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = 
 
       {link('/area/dailytodo', 'mdi-checkbox-marked-circle-outline', 'Daily To-do', '/area/dailytodo')}
       {link('/area/evaluation/list', 'mdi-clipboard-check-outline', 'Evaluation', '/area/evaluation')}
+
+      {group(
+        'analytics',
+        'mdi-chart-box-outline',
+        'Analytics',
+        ANALYTICS_PATHS,
+        <>
+          {subLink('/reports', 'Reports', '/reports')}
+          {subLink('/area/leavetransaction/list', 'Apply Leave', '/area/leavetransaction')}
+        </>
+      )}
     </>
   );
 };

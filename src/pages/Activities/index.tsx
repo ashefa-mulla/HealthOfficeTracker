@@ -51,20 +51,23 @@ import {
 } from '@/types/activity/activity.schema';
 
 // Helper: Get start and end date of the current month
+// Page size large enough to pull the whole date range in one request
+const ALL_RECORDS_PAGE_SIZE = 100000;
+
 const getCurrentMonthRange = () => {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth(); // 0-indexed
   const pad = (n: number) => String(n).padStart(2, '0');
   const startStr = `${year}-${pad(month + 1)}-01`;
-  const lastDay = new Date(year, month + 1, 0);
-  const endStr = `${year}-${pad(month + 1)}-${pad(lastDay.getDate())}`;
+  // Default range: first day of the current month through today
+  const endStr = `${year}-${pad(month + 1)}-${pad(now.getDate())}`;
 
   return {
     start: startStr,
     end: endStr,
     startObj: new Date(year, month, 1),
-    endObj: lastDay,
+    endObj: new Date(year, month, now.getDate()),
   };
 };
 
@@ -184,15 +187,11 @@ const TaskActivityList: React.FC = () => {
   const { user, profileInfo } = useAuthStore();
   const empId = getNumericEmployeeId(profileInfo, user);
 
-  const sessionRole =
-    localStorage.getItem('sessionrole') ||
-    profileInfo?.userRole ||
-    (profileInfo?.utype === 1 || profileInfo?.utype === 4 ? 'Admin' : '');
-  const isAdmin =
-    sessionRole === 'Admin' ||
-    profileInfo?.utype === 1 ||
-    profileInfo?.utype === 4 ||
-    empId === 78;
+  // Only Admin-menu roles (1 Admin, 4 Super Admin, 12 Employer) may add/edit/delete
+  const profileUserType = Number(
+    profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType ?? 0
+  );
+  const isAdmin = [1, 4, 12].includes(profileUserType);
   const showAdminField = isAdmin;
 
   const userType = Number(
@@ -206,16 +205,12 @@ const TaskActivityList: React.FC = () => {
   const {
     list,
     loading,
-    totalRecords,
-    totalPages,
     searchTerm: reduxSearchTerm,
     startDate: reduxStartDate,
     endDate: reduxEndDate,
   } = useSelector((state: RootState) => (state as any).Activity);
 
   // Local filter states
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize_Local, setPageSize_Local] = useState(10);
   const [search, setSearch] = useState(reduxSearchTerm || '');
   const [searchUser, setSearchUser] = useState('');
   const [searchClient, setSearchClient] = useState('');
@@ -246,16 +241,17 @@ const TaskActivityList: React.FC = () => {
   const [subprojectCategoryList, setSubprojectCategoryList] = useState<TrackerSubProjectCategoryItem[]>([]);
   const [employeeList, setEmployeeList] = useState<any[]>([]);
 
-  // Fetch paginated activity log data from API
+  // Fetch every activity in the date range; search/user/client filtering and
+  // paging are done locally so they cover all records, not just one page.
   const loadData = useCallback(
-    async (page: number, size: number, term: string, start?: string, end?: string) => {
+    async (start?: string, end?: string) => {
       await dispatch(
         fetchActivityListWithPagination({
           Employeeid: empId > 0 ? empId : null,
           utype: userType,
-          pageNumber: page,
-          pageSize: size,
-          search: term && term.trim() ? term.trim() : null,
+          pageNumber: 1,
+          pageSize: ALL_RECORDS_PAGE_SIZE,
+          search: null,
           start: start && start.trim() ? start.trim() : null,
           end: end && end.trim() ? end.trim() : null,
         })
@@ -268,35 +264,14 @@ const TaskActivityList: React.FC = () => {
   useEffect(() => {
     const initialStart = startDate || defaultMonthRange.start;
     const initialEnd = endDate || defaultMonthRange.end;
-    loadData(1, pageSize_Local, search, initialStart, initialEnd);
+    loadData(initialStart, initialEnd);
     setIsFirstLoad(false);
   }, [loadData, defaultMonthRange]);
-
-  // Reactive reload when page or page size changes
-  useEffect(() => {
-    if (isFirstLoad) return;
-    loadData(pageNumber, pageSize_Local, search, startDate, endDate);
-  }, [pageNumber, pageSize_Local]);
-
-  // Handle server-side query change from TableContainer (page or pageSize)
-  const handleServerChange = (query: any) => {
-    if (query.pageSize !== undefined && query.pageSize !== pageSize_Local) {
-      setPageSize_Local(query.pageSize);
-      setPageNumber(1);
-      loadData(1, query.pageSize, search, startDate, endDate);
-      return;
-    }
-    if (query.page !== undefined && query.page !== pageNumber) {
-      setPageNumber(query.page);
-    }
-  };
 
   // Handle Search Input Change
   const handleSearchChange = (val: string) => {
     setSearch(val);
     dispatch(setSearchTerm(val));
-    setPageNumber(1);
-    loadData(1, pageSize_Local, val, startDate, endDate);
   };
 
   // Handle Date Range Change from Flatpickr
@@ -311,14 +286,12 @@ const TaskActivityList: React.FC = () => {
       setStartDate(startStr);
       setEndDate(endStr);
       dispatch(setDateRange({ startDate: startStr, endDate: endStr }));
-      setPageNumber(1);
-      loadData(1, pageSize_Local, search, startStr, endStr);
+      loadData(startStr, endStr);
     } else if (selectedDates.length === 0) {
       setStartDate('');
       setEndDate('');
       dispatch(setDateRange({ startDate: '', endDate: '' }));
-      setPageNumber(1);
-      loadData(1, pageSize_Local, search, '', '');
+      loadData('', '');
     }
   };
 
@@ -333,8 +306,7 @@ const TaskActivityList: React.FC = () => {
     setDatePickerValue([monthRange.startObj, monthRange.endObj]);
     dispatch(setSearchTerm(''));
     dispatch(setDateRange({ startDate: monthRange.start, endDate: monthRange.end }));
-    setPageNumber(1);
-    loadData(1, pageSize_Local, '', monthRange.start, monthRange.end);
+    loadData(monthRange.start, monthRange.end);
   };
 
   // Handle Print / View Active Log Report PDF from Backend Reports Controller
@@ -529,6 +501,15 @@ const TaskActivityList: React.FC = () => {
   const handleSubmitEdit = async (formValues: ActivityEditForm) => {
     setIsSubmittingModal(true);
     setFormError('');
+    if (
+      formValues.startTime &&
+      formValues.endTime &&
+      new Date(formValues.endTime).getTime() < new Date(formValues.startTime).getTime()
+    ) {
+      setFormError('End Time cannot be earlier than Start Time.');
+      setIsSubmittingModal(false);
+      return;
+    }
     try {
       const nowIso = new Date().toISOString();
       const payload = {
@@ -555,7 +536,7 @@ const TaskActivityList: React.FC = () => {
       await taskActivityService.editTrackerTask(payload);
       toastService.success('Record is updated');
       setIsEditModalOpen(false);
-      loadData(pageNumber, pageSize_Local, search, startDate, endDate);
+      loadData(startDate, endDate);
     } catch (err: any) {
       console.error('Failed to update activity:', err);
       toastService.error(err?.message || 'Failed to update activity.');
@@ -567,6 +548,12 @@ const TaskActivityList: React.FC = () => {
   // Filter list locally for User and Client inputs if specified
   const filteredData = useMemo(() => {
     let result = list || [];
+    if (search && search.trim()) {
+      const sTerm = search.toLowerCase().trim();
+      result = result.filter((item: any) =>
+        String(item.Activity ?? item.activity ?? '').toLowerCase().includes(sTerm)
+      );
+    }
     if (searchUser && searchUser.trim()) {
       const uTerm = searchUser.toLowerCase().trim();
       result = result.filter((item: TaskActivityItem) =>
@@ -575,12 +562,12 @@ const TaskActivityList: React.FC = () => {
     }
     if (searchClient && searchClient.trim()) {
       const cTerm = searchClient.toLowerCase().trim();
-      result = result.filter((item: TaskActivityItem) =>
-        String(item.project || '').toLowerCase().includes(cTerm)
+      result = result.filter((item: any) =>
+        String(item.Project ?? item.project ?? '').toLowerCase().includes(cTerm)
       );
     }
     return result;
-  }, [list, searchUser, searchClient]);
+  }, [list, search, searchUser, searchClient]);
 
   // Delete Action Handlers
   const handleDeleteClick = useCallback((id: number) => {
@@ -597,12 +584,7 @@ const TaskActivityList: React.FC = () => {
       setDeleteModal(false);
       setSelectedDeleteId(null);
 
-      // Adjust pageNumber if deleting the last item on current page
-      if (filteredData.length === 1 && pageNumber > 1) {
-        setPageNumber(pageNumber - 1);
-      } else {
-        loadData(pageNumber, pageSize_Local, search, startDate, endDate);
-      }
+      loadData(startDate, endDate);
     } catch (err: any) {
       console.error('Failed to delete tracker task:', err);
     } finally {
@@ -728,23 +710,22 @@ const TaskActivityList: React.FC = () => {
   return (
     <React.Fragment>
       <div className="activity-page-wrapper">
+        <div className="page-header-box">
+          <div>
+            <h1 className="page-title-main">{showAdminField ? 'User Activities' : 'My Activities'}</h1>
+          </div>
+        </div>
+        {showAdminField && (
+          <button
+            type="button"
+            className="btn-task-add-new"
+            onClick={() => handleOpenEditModal(0)}
+          >
+            + Add
+          </button>
+        )}
         {/* Filter Controls Row (Exact Match to Screenshot) */}
         <div className="activity-filter-bar">
-          {/* Add New Button for Admin */}
-          {showAdminField && (
-            <div className="activity-filter-item">
-              <label className="activity-filter-label">&nbsp;</label>
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{ height: '36px', borderRadius: '4px', fontWeight: 500 }}
-                onClick={() => handleOpenEditModal(0)}
-              >
-                + Add New
-              </button>
-            </div>
-          )}
-
           {/* 1. Search */}
           <div className="activity-filter-item">
             <label className="activity-filter-label">Search</label>
@@ -772,10 +753,46 @@ const TaskActivityList: React.FC = () => {
                 value={datePickerValue}
                 onChange={handleDateRangeChange}
               />
+              {datePickerValue.length > 0 && (
+                <button
+                  type="button"
+                  className="activity-filter-date-clear"
+                  title="Clear dates"
+                  onClick={() => handleDateRangeChange([])}
+                >
+                  <i className="mdi mdi-close"></i>
+                </button>
+              )}
             </div>
           </div>
 
-          {/* 3. Clear Button (Pill shaped) */}
+          {/* 3. User (admin only) */}
+          {showAdminField && (
+            <div className="activity-filter-item">
+              <label className="activity-filter-label">User</label>
+              <input
+                type="text"
+                className="activity-filter-input"
+                placeholder="Search User"
+                value={searchUser}
+                onChange={(e) => setSearchUser(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* 4. Client */}
+          <div className="activity-filter-item">
+            <label className="activity-filter-label">Client</label>
+            <input
+              type="text"
+              className="activity-filter-input"
+              placeholder="Search Client"
+              value={searchClient}
+              onChange={(e) => setSearchClient(e.target.value)}
+            />
+          </div>
+
+          {/* 5. Clear Button (Pill shaped) */}
           <div className="activity-filter-item">
             <label className="activity-filter-label">Clear</label>
             <button
@@ -788,7 +805,7 @@ const TaskActivityList: React.FC = () => {
             </button>
           </div>
 
-          {/* 4. Print Button (Navy Blue Pill) */}
+          {/* 6. Print Button (Navy Blue Pill) */}
           <div className="activity-filter-item ms-auto">
             <button
               type="button"
@@ -818,12 +835,6 @@ const TaskActivityList: React.FC = () => {
           isCustomPageSize={true}
           isLoading={loading}
           emptyMessage="No activity records found."
-          isServerSidePagination={true}
-          onServerChange={handleServerChange}
-          serverSideTotalRecords={totalRecords || 0}
-          serverSideCurrentPage={pageNumber}
-          serverSidePageSize={pageSize_Local}
-          serverSideTotalPages={totalPages || 1}
         />
 
         {/* Edit Task Activity Modal Component */}

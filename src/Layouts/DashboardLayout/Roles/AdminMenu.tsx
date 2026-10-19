@@ -171,107 +171,29 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
         )}
       </li>
 
-      {/* Time & Attendance Menu with Submenu */}
-      <li className={`menu-item has-submenu ${openSubMenus.attendance ? 'mm-active' : ''}`}>
-        <a
-          href="#attendance"
-          className={`menu-link has-arrow ${location.pathname.startsWith('/attendance') ? 'active' : ''}`}
-          onClick={(e) => toggleSubMenu('attendance', e)}
-          title={collapsed ? t('Time & Attendance') : undefined}
-        >
-          <i className="mdi mdi-clock-check-outline"></i>
-          {!collapsed && (
-            <>
-              <span>{t('Time & Attendance')}</span>
-              <i className={`mdi ${openSubMenus.attendance ? 'mdi-chevron-down' : 'mdi-chevron-right'} menu-arrow`}></i>
-            </>
-          )}
-        </a>
-        {!collapsed && openSubMenus.attendance && (
-          <ul className="sub-menu">
-            <li>
-              <NavLink
-                to="/attendance"
-                end
-                className={({ isActive }) => `sub-menu-link ${isActive && !location.search ? 'active' : ''}`}
-                onClick={onItemClick}
-              >
-                {t('Daily Timesheets')}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/timer"
-                className={({ isActive }) => `sub-menu-link ${isActive || location.pathname === '/timer' || location.search.includes('clock') ? 'active' : ''}`}
-                onClick={onItemClick}
-              >
-                {t('Time Clock (Timer)')}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/attendance?tab=live"
-                className={() => `sub-menu-link ${location.search.includes('live') ? 'active' : ''}`}
-                onClick={onItemClick}
-              >
-                {t('Live Tracking')}
-              </NavLink>
-            </li>
-          </ul>
-        )}
-      </li>
-
-      {/* Tasks & Projects with Submenu */}
-      <li className={`menu-item has-submenu ${openSubMenus.tasks ? 'mm-active' : ''}`}>
-        <a
-          href="#tasks"
-          className={`menu-link has-arrow ${location.pathname.startsWith('/tasks') ? 'active' : ''}`}
-          onClick={(e) => toggleSubMenu('tasks', e)}
-          title={collapsed ? t('Tasks & Projects') : undefined}
-        >
-          <i className="mdi mdi-clipboard-text-outline"></i>
-          {!collapsed && (
-            <>
-              <span>{t('Tasks & Projects')}</span>
-              <i className={`mdi ${openSubMenus.tasks ? 'mdi-chevron-down' : 'mdi-chevron-right'} menu-arrow`}></i>
-            </>
-          )}
-        </a>
-        {!collapsed && openSubMenus.tasks && (
-          <ul className="sub-menu">
-            <li>
-              <NavLink
-                to="/tasks"
-                end
-                className={({ isActive }) => `sub-menu-link ${isActive && !location.search ? 'active' : ''}`}
-                onClick={onItemClick}
-              >
-                {t('All Tasks')}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/tasks?tab=projects"
-                className={() => `sub-menu-link ${location.search.includes('projects') ? 'active' : ''}`}
-                onClick={onItemClick}
-              >
-                {t('Active Projects')}
-              </NavLink>
-            </li>
-          </ul>
-        )}
-      </li>
-
-      {/* Apply Leave (admin: all employees, add/edit/delete) */}
+      {/* User Activities (admin: all users, add/edit/delete) */}
       <li className="menu-item">
         <NavLink
-          to="/area/leavetransaction/list"
-          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
+          to="/area/taskactivity"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/taskactivity') ? 'active' : ''}`}
           onClick={onItemClick}
-          title={collapsed ? t('Apply Leave') : undefined}
+          title={collapsed ? t('User Activities') : undefined}
         >
-          <i className="mdi mdi-calendar-account-outline"></i>
-          {!collapsed && <span>{t('Apply Leave')}</span>}
+          <i className="mdi mdi-history"></i>
+          {!collapsed && <span>{t('User Activities')}</span>}
+        </NavLink>
+      </li>
+
+      {/* Tasks (admin) */}
+      <li className="menu-item">
+        <NavLink
+          to="/tasks"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/tasks') ? 'active' : ''}`}
+          onClick={onItemClick}
+          title={collapsed ? t('Tracker Tasks') : undefined}
+        >
+          <i className="mdi mdi-clipboard-text-outline"></i>
+          {!collapsed && <span>{t('Tracker Tasks')}</span>}
         </NavLink>
       </li>
 
@@ -288,16 +210,16 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
         </NavLink>
       </li>
 
-      {/* Office Locations */}
+      {/* Apply Leave (admin: all employees, add/edit/delete) */}
       <li className="menu-item">
         <NavLink
-          to="/locations"
-          className={({ isActive }) => `menu-link ${isActive ? 'active' : ''}`}
+          to="/area/leavetransaction/list"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
           onClick={onItemClick}
-          title={collapsed ? t('Office Locations') : undefined}
+          title={collapsed ? t('Apply Leave') : undefined}
         >
-          <i className="mdi mdi-office-building-outline"></i>
-          {!collapsed && <span>{t('Office Locations')}</span>}
+          <i className="mdi mdi-calendar-account-outline"></i>
+          {!collapsed && <span>{t('Apply Leave')}</span>}
         </NavLink>
       </li>
 

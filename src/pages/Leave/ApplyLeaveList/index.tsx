@@ -219,6 +219,11 @@ const ApplyLeaveList: React.FC = () => {
   return (
     <React.Fragment>
       <div className="task-list-page-container">
+        <div className="page-header-box">
+          <div>
+            <h1 className="page-title-main">Apply Leave</h1>
+          </div>
+        </div>
         <TableContainer
           columns={columns}
           data={list || []}

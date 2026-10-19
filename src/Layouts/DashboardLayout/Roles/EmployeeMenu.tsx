@@ -41,6 +41,12 @@ const EmployeeMenu = (props: any) => {
           <span>{props.t ? props.t("Apply Leave") : "Apply Leave"}</span>
         </Link>
       </li>
+      <li>
+        <Link to="/area/evaluation/list" onClick={props.onItemClick}>
+          <i className="mdi mdi-clipboard-check-outline"></i>
+          <span>{props.t ? props.t("Evaluation") : "Evaluation"}</span>
+        </Link>
+      </li>
       {/* <li>
         <Link to="/area/evaluation-submission" onClick={props.onItemClick}>
           <i className="mdi mdi-clipboard-check-outline"></i>

@@ -43,6 +43,12 @@
   object-fit: contain;
 }
 
+/* collapsed sidebar: centre the icon in the narrow rail */
+.app-sidebar.collapsed .sidebar-brand {
+  justify-content: center;
+  padding: 0;
+}
+
 .sidebar-brand-text {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;

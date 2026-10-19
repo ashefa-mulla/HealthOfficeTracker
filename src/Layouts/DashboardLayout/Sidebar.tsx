@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import defaultLogo from '../../assets/images/ho-logo.svg';
+import fullLogo from '../../assets/images/govirtuallogo-white.svg';
+import iconLogo from '../../assets/images/icon-white.svg';
 import SidebarContent from './SidebarContent';
 import {
   getUserFullName,
@@ -20,7 +21,8 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, mobileOpen, onCloseMobile, user, profileInfo }) => {
   const [imgError, setImgError] = useState(false);
   const appName = import.meta.env.VITE_APP_NAME || 'HO Tracker';
-  const logo = import.meta.env.VITE_COMPANYLOGO || defaultLogo;
+  // Full white logo when the sidebar is open, the white icon when it is collapsed
+  const logo = collapsed ? iconLogo : fullLogo;
 
   const fullName = getUserFullName(user, profileInfo);
   const role = getUserRole(profileInfo);

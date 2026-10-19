@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#01a5d6" />
+      <stop offset="100%" stop-color="#0891b2" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c3f2" />
+      <stop offset="100%" stop-color="#01a5d6" />
+    </linearGradient>
+  </defs>
+  <!-- Icon Mark -->
+  <g transform="translate(10, 10)">
+    <rect width="60" height="60" rx="14" fill="url(#logoGrad)"/>
+    <path d="M18 16 L18 44 M18 30 L30 30 M30 16 L30 44" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="43" cy="30" r="10" stroke="#ffffff" stroke-width="5" fill="none"/>
+    <circle cx="43" cy="30" r="3.5" fill="#38bdf8"/>
+  </g>
+  <!-- Text -->
+  <text x="82" y="44" font-family="'Outfit', 'Inter', sans-serif" font-size="28" font-weight="700" fill="#1e293b" letter-spacing="1">HO<tspan fill="#01a5d6"> TRACKER</tspan></text>
+  <text x="84" y="60" font-family="'Inter', sans-serif" font-size="10" font-weight="600" fill="#64748b" letter-spacing="3.5">HOME OFFICE TRACKER</text>
+</svg>

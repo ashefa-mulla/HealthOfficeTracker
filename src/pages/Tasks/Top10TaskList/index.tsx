@@ -1174,6 +1174,11 @@ const Top10TaskList: React.FC = () => {
   return (
     <React.Fragment>
       <div className="task-list-page-container">
+        <div className="page-header-box">
+          <div>
+            <h1 className="page-title-main">My Tracker Task</h1>
+          </div>
+        </div>
         <TableContainer
           columns={columns}
           data={displayData}
