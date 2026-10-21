@@ -5,4 +5,5 @@
 /.vs
 /BusinessApp/.config
 /BusinessApp/bin/Debug/net8.0
+/BusinessApp/obj
 /BusinessApp/appsettings.json
