@@ -610,7 +610,45 @@ const DebouncedInput = ({
     return () => clearTimeout(timeout);
   }, [value]);
 
-  return <input {...props} value={value} onChange={e => setValue(e.target.value)} />;
+  const hasValue = String(value) !== "";
+
+  return (
+    <span style={{ position: "relative", display: "flex", flex: "1 1 auto", minWidth: 0 }}>
+      <input
+        {...props}
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        onKeyDown={e => {
+          if (e.key === "Escape") setValue("");
+          props.onKeyDown?.(e);
+        }}
+        style={{ ...props.style, width: "100%", paddingRight: hasValue ? "2rem" : undefined }}
+      />
+      {hasValue && (
+        <button
+          type="button"
+          aria-label="Clear search"
+          title="Clear search"
+          onClick={() => setValue("")}
+          style={{
+            position: "absolute",
+            right: 8,
+            top: "50%",
+            transform: "translateY(-50%)",
+            border: "none",
+            background: "transparent",
+            color: "#94a3b8",
+            cursor: "pointer",
+            padding: 0,
+            lineHeight: 1,
+            fontSize: "1.1rem",
+          }}
+        >
+          <i className="mdi mdi-close-circle"></i>
+        </button>
+      )}
+    </span>
+  );
 };
 
 // ----------------------
@@ -646,6 +684,7 @@ export interface TableContainerProps<T> {
   handleUserClick?: () => void;
   /** Opt-in toolbar: one wide search box with a pill "+ Add" button on its right */
   searchAddLayout?: boolean;
+  addButtonInFilterRow?: boolean;
 
   // Custom center element (e.g. Projected Hours Badge)
   customCenterHeader?: React.ReactNode;
@@ -694,6 +733,7 @@ const TableContainer = <T,>({
   isAddButton,
   handleUserClick,
   searchAddLayout = false,
+  addButtonInFilterRow = false,
 
   customCenterHeader,
   customRightHeader,
@@ -899,15 +939,21 @@ const TableContainer = <T,>({
                 placeholder={searchPlaceholder}
               />
             )}
-            {isAddButton && (
+            {isAddButton && !addButtonInFilterRow && (
               <button type="button" className="search-add-btn" onClick={handleUserClick}>
                 {buttonName || "+ Add"}
               </button>
             )}
           </div>
-          {(customCenterHeader || customRightHeader) && (
+          {(customCenterHeader || customRightHeader || (isAddButton && addButtonInFilterRow)) && (
             <div className="search-add-extra">
-              <div className="search-add-extra-left" />
+              <div className="search-add-extra-left">
+                {isAddButton && addButtonInFilterRow && (
+                  <button type="button" className="search-add-btn" onClick={handleUserClick}>
+                    {buttonName || "+ Add"}
+                  </button>
+                )}
+              </div>
               <div className="search-add-extra-center">{customCenterHeader}</div>
               <div className="search-add-extra-right">{customRightHeader}</div>
             </div>

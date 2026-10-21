@@ -84,8 +84,53 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
     }
   };
 
+  // Close every open child-menu flyout (toggles each open parent link)
+  const closeFlyouts = (except?: Element | null) => {
+    document
+      .querySelectorAll<HTMLElement>('#side-menu .has-submenu.mm-active')
+      .forEach((li) => {
+        if (li !== except) li.querySelector<HTMLElement>(':scope > a')?.click();
+      });
+  };
+
+  // Collapsed rail: flyouts must not stay open from the expanded state
+  useEffect(() => {
+    if (collapsed) closeFlyouts();
+  }, [collapsed]);
+
+  // Collapsed rail: close flyouts when clicking anywhere outside them
+  useEffect(() => {
+    if (!collapsed) return;
+    const onDown = (e: MouseEvent) => {
+      if (!(e.target as Element).closest?.('#side-menu .has-submenu')) closeFlyouts();
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [collapsed]);
+
+  // Collapsed rail: position the flyout beside the clicked icon, close others,
+  // and close it once a child link has been chosen
+  const handleClickCapture = (e: React.MouseEvent) => {
+    if (!collapsed) return;
+    const target = e.target as Element;
+    const li = target.closest<HTMLElement>('.has-submenu');
+    if (!li) {
+      closeFlyouts();
+      return;
+    }
+    if (target.closest('.sub-menu')) {
+      if (target.closest('.sub-menu-link')) {
+        setTimeout(() => li.querySelector<HTMLElement>(':scope > a')?.click(), 0);
+      }
+      return;
+    }
+    const top = li.querySelector(':scope > a')?.getBoundingClientRect().top ?? 80;
+    li.style.setProperty('--flyout-top', `${top}px`);
+    closeFlyouts(li);
+  };
+
   return (
-    <ul className="sidebar-menu" id="side-menu">
+    <ul className="sidebar-menu" id="side-menu" onClickCapture={handleClickCapture}>
       {renderMenuByRole()}
     </ul>
   );

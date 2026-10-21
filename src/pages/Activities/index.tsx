@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import ClearableInput from '@/Components/Common/ClearableInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { ColumnDef } from '@tanstack/react-table';
 import Flatpickr from 'react-flatpickr';
@@ -729,12 +730,12 @@ const TaskActivityList: React.FC = () => {
           {/* 1. Search */}
           <div className="activity-filter-item">
             <label className="activity-filter-label">Search</label>
-            <input
+            <ClearableInput
               type="text"
               className="activity-filter-input"
               placeholder="Search"
               value={search}
-              onChange={(e) => handleSearchChange(e.target.value)}
+              onValueChange={handleSearchChange}
             />
           </div>
 
@@ -770,12 +771,12 @@ const TaskActivityList: React.FC = () => {
           {showAdminField && (
             <div className="activity-filter-item">
               <label className="activity-filter-label">User</label>
-              <input
+              <ClearableInput
                 type="text"
                 className="activity-filter-input"
                 placeholder="Search User"
                 value={searchUser}
-                onChange={(e) => setSearchUser(e.target.value)}
+                onValueChange={setSearchUser}
               />
             </div>
           )}
@@ -783,12 +784,12 @@ const TaskActivityList: React.FC = () => {
           {/* 4. Client */}
           <div className="activity-filter-item">
             <label className="activity-filter-label">Client</label>
-            <input
+            <ClearableInput
               type="text"
               className="activity-filter-input"
               placeholder="Search Client"
               value={searchClient}
-              onChange={(e) => setSearchClient(e.target.value)}
+              onValueChange={setSearchClient}
             />
           </div>
 

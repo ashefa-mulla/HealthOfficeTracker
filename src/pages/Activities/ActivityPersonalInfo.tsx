@@ -74,7 +74,7 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
     enableSeconds: true,
     time_24hr: false,
     dateFormat: 'm/d/Y h:i:S K',
-    allowInput: false,
+    allowInput: true,
   };
 
   const selectedProject = watch('projectId');

@@ -71,7 +71,7 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
             </>
           )}
         </a>
-        {!collapsed && openSubMenus.clients && (
+        {openSubMenus.clients && (
           <ul className="sub-menu">
             <li>
               <NavLink
@@ -120,7 +120,7 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
             </>
           )}
         </a>
-        {!collapsed && openSubMenus.accounts && (
+        {openSubMenus.accounts && (
           <ul className="sub-menu">
             <li>
               <NavLink
@@ -241,7 +241,7 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
             </>
           )}
         </a>
-        {!collapsed && openSubMenus.reports && (
+        {openSubMenus.reports && (
           <ul className="sub-menu">
             <li>
               <NavLink

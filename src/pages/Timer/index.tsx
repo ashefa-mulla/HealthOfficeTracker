@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import ClearableInput from '@/Components/Common/ClearableInput';
 import {
   Container,
   Row,
@@ -726,13 +727,13 @@ const Timer: React.FC = () => {
                 {/* Search Field */}
                 <div className="search-input-wrapper">
                   <i className="mdi mdi-magnify search-input-icon"></i>
-                  <input
+                  <ClearableInput
                     type="text"
                     className="logs-search-input"
                     placeholder="Search by name or date..."
                     value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
+                    onValueChange={(val) => {
+                      setSearchQuery(val);
                       setCurrentPage(1);
                     }}
                   />

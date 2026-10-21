@@ -72,7 +72,7 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
             </>
           )}
         </a>
-        {!collapsed && openSubMenus.attendance && (
+        {openSubMenus.attendance && (
           <ul className="sub-menu">
             <li>
               <NavLink
@@ -128,7 +128,7 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
             </>
           )}
         </a>
-        {!collapsed && openSubMenus.tasks && (
+        {openSubMenus.tasks && (
           <ul className="sub-menu">
             <li>
               <NavLink

@@ -842,13 +842,13 @@ const Top10TaskList: React.FC = () => {
         header: 'Project',
         accessorKey: 'project',
         enableSorting: true,
-        cell: (info) => info.row.original.project || info.row.original.Project || '-',
+        cell: (info) => <span className="wrap-cell">{info.row.original.project || info.row.original.Project || '-'}</span>,
       },
       {
         header: 'SubProject',
         accessorKey: 'subProject',
         enableSorting: true,
-        cell: (info) => info.row.original.subProject || info.row.original.SubProject || '-',
+        cell: (info) => <span className="wrap-cell">{info.row.original.subProject || info.row.original.SubProject || '-'}</span>,
       },
       {
         header: 'Task',
@@ -858,7 +858,7 @@ const Top10TaskList: React.FC = () => {
           const row = info.row.original;
           const taskText = row.task || row.Task || row.priority || row.Priority || '-';
           return (
-            <span style={{ fontWeight: 500 }}>
+            <span className="task-text-cell" style={{ fontWeight: 500 }}>
               {taskText}
             </span>
           );
@@ -1185,6 +1185,7 @@ const Top10TaskList: React.FC = () => {
           isGlobalFilter={true}
           searchPlaceholder="Search task..."
           searchAddLayout={true}
+          addButtonInFilterRow={true}
           isAddButton={true}
           buttonName="+ Add"
           buttonClass="btn-task-add-new"

@@ -142,7 +142,7 @@ const AncillaryMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = 
           </>
         )}
       </a>
-      {!collapsed && openSubMenus[key] && <ul className="sub-menu">{children}</ul>}
+      {openSubMenus[key] && <ul className="sub-menu">{children}</ul>}
     </li>
   );
 
