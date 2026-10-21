@@ -285,6 +285,22 @@
     ]
   },
   {
+    "ContainingType": "BusinessApp.Controllers.ActivityController",
+    "Method": "Sync",
+    "RelativePath": "api/Activity/sync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.ActivitySyncRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "BusinessApp.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
@@ -1081,6 +1097,80 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DeviceController",
+    "Method": "GetDeviceInfo",
+    "RelativePath": "api/Device",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DeviceController",
+    "Method": "SaveDeviceData",
+    "RelativePath": "api/Device/device-data",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DeviceController",
+    "Method": "GetDeviceStatus",
+    "RelativePath": "api/Device/device-status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DeviceController",
+    "Method": "Heartbeat",
+    "RelativePath": "api/Device/heartbeat",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.HeartbeatAgentModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BusinessApp.Controllers.DeviceController",
+    "Method": "Register",
+    "RelativePath": "api/Device/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BusinessApp.Models.RegistgerAgentModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "BusinessApp.Controllers.EmployeeController",

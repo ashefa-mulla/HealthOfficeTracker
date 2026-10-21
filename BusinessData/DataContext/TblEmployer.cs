@@ -164,6 +164,12 @@ public partial class TblEmployer
     [Column("working_hours")]
     public int? WorkingHours { get; set; }
 
+    [Column("Basic_Payout", TypeName = "decimal(18, 2)")]
+    public decimal? BasicPayout { get; set; }
+
+    [Column("Matrix_Payout", TypeName = "decimal(18, 2)")]
+    public decimal? MatrixPayout { get; set; }
+
     [ForeignKey("CityId")]
     [InverseProperty("TblEmployers")]
     public virtual TblCity City { get; set; }

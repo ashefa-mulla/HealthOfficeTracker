@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessApp\\BusinessApp.csproj": {}
+    "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessApp\\BusinessApp.csproj": {}
   },
   "projects": {
-    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessApp\\BusinessApp.csproj": {
+    "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessApp\\BusinessApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessApp\\BusinessApp.csproj",
+        "projectUniqueName": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessApp\\BusinessApp.csproj",
         "projectName": "BusinessApp",
-        "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessApp\\BusinessApp.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessApp\\obj\\",
+        "projectPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessApp\\BusinessApp.csproj",
+        "packagesPath": "C:\\Users\\GIRISH\\.nuget\\packages\\",
+        "outputPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\GIRISH\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -27,17 +27,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj": {
-                "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj"
+              "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj": {
+                "projectPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj"
               },
-              "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj": {
-                "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj"
+              "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessService\\BusinessService.csproj": {
+                "projectPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessService\\BusinessService.csproj"
               }
             }
           }
@@ -120,25 +121,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj": {
+    "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj",
+        "projectUniqueName": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj",
         "projectName": "BusinessData",
-        "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\obj\\",
+        "projectPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj",
+        "packagesPath": "C:\\Users\\GIRISH\\.nuget\\packages\\",
+        "outputPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\GIRISH\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -147,6 +148,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -208,25 +210,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj": {
+    "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessService\\BusinessService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj",
+        "projectUniqueName": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessService\\BusinessService.csproj",
         "projectName": "BusinessService",
-        "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\BusinessService.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessService\\obj\\",
+        "projectPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessService\\BusinessService.csproj",
+        "packagesPath": "C:\\Users\\GIRISH\\.nuget\\packages\\",
+        "outputPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\GIRISH\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -235,14 +237,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj": {
-                "projectPath": "D:\\Rangsoft Project\\GitHub Project\\HO Tracker\\HO API React\\BusinessData\\BusinessData.csproj"
+              "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj": {
+                "projectPath": "D:\\Workspace\\GitHubProjet\\HOTracker\\HO Tracker React\\API\\BusinessData\\BusinessData.csproj"
               }
             }
           }
@@ -284,7 +287,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

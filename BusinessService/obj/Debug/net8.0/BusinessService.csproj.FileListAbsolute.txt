@@ -45,3 +45,19 @@ D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessService\obj\D
 D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessService\obj\Debug\net8.0\refint\BusinessService.dll
 D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessService\obj\Debug\net8.0\BusinessService.pdb
 D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessService\obj\Debug\net8.0\ref\BusinessService.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\bin\Debug\net8.0\BusinessService.deps.json
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\bin\Debug\net8.0\BusinessService.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\bin\Debug\net8.0\BusinessService.pdb
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\bin\Debug\net8.0\BusinessData.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\bin\Debug\net8.0\BusinessData.pdb
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.csproj.AssemblyReference.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.GeneratedMSBuildEditorConfig.editorconfig
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.AssemblyInfoInputs.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.AssemblyInfo.cs
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.csproj.CoreCompileInputs.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.sourcelink.json
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\Business.EF4CDBBF.Up2Date
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\refint\BusinessService.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.pdb
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\ref\BusinessService.dll

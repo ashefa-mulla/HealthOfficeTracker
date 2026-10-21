@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -73,13 +73,16 @@ public partial class AspNetUser
     public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; } = new List<AspNetUserToken>();
 
     [InverseProperty("User")]
+    public virtual ICollection<OauthAuthorizationCode> OauthAuthorizationCodes { get; set; } = new List<OauthAuthorizationCode>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<OauthCallback> OauthCallbacks { get; set; } = new List<OauthCallback>();
+
+    [InverseProperty("User")]
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     [InverseProperty("User")]
     public virtual ICollection<TrustedDevice> TrustedDevices { get; set; } = new List<TrustedDevice>();
-
-    [InverseProperty("User")]
-    public virtual ICollection<OauthAuthorizationCode> OauthAuthorizationCodes { get; set; } = new List<OauthAuthorizationCode>();
 
     [ForeignKey("UserId")]
     [InverseProperty("Users")]

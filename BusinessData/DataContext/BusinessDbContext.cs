@@ -1,4 +1,4 @@
-using BusinessApp.Data;
+﻿using BusinessApp.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,13 +26,15 @@ public partial class BusinessDbContext : DbContext
 
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
-    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
-
-    public virtual DbSet<TrustedDevice> TrustedDevices { get; set; }
-
     public virtual DbSet<OauthAuthorizationCode> OauthAuthorizationCodes { get; set; }
 
+    public virtual DbSet<OauthCallback> OauthCallbacks { get; set; }
+
+    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+
     public virtual DbSet<TblAccountCategory> TblAccountCategories { get; set; }
+
+    public virtual DbSet<TblApplicationActivity> TblApplicationActivities { get; set; }
 
     public virtual DbSet<TblBankDemo> TblBankDemos { get; set; }
 
@@ -54,6 +56,10 @@ public partial class BusinessDbContext : DbContext
 
     public virtual DbSet<TblDesignation> TblDesignations { get; set; }
 
+    public virtual DbSet<TblDevice> TblDevices { get; set; }
+
+    public virtual DbSet<TblEmployeeDevice> TblEmployeeDevices { get; set; }
+
     public virtual DbSet<TblEmployeeHourlyrate> TblEmployeeHourlyrates { get; set; }
 
     public virtual DbSet<TblEmployeeMatrix> TblEmployeeMatrices { get; set; }
@@ -73,6 +79,8 @@ public partial class BusinessDbContext : DbContext
     public virtual DbSet<TblEvaluationSubmissionCopy> TblEvaluationSubmissionCopies { get; set; }
 
     public virtual DbSet<TblEvent> TblEvents { get; set; }
+
+    public virtual DbSet<TblIdleActivity> TblIdleActivities { get; set; }
 
     public virtual DbSet<TblLeaveMaster> TblLeaveMasters { get; set; }
 
@@ -120,6 +128,8 @@ public partial class BusinessDbContext : DbContext
 
     public virtual DbSet<TblState> TblStates { get; set; }
 
+    public virtual DbSet<TblSyncLog> TblSyncLogs { get; set; }
+
     public virtual DbSet<TblTaskList> TblTaskLists { get; set; }
 
     public virtual DbSet<TblTaskListCopy1> TblTaskListCopy1s { get; set; }
@@ -143,6 +153,8 @@ public partial class BusinessDbContext : DbContext
     public virtual DbSet<TblVandorAccountNumber> TblVandorAccountNumbers { get; set; }
 
     public virtual DbSet<TblVoupcomingEvent> TblVoupcomingEvents { get; set; }
+
+    public virtual DbSet<TrustedDevice> TrustedDevices { get; set; }
 
     public virtual DbSet<VCtccalculation> VCtccalculations { get; set; }
 
@@ -204,9 +216,33 @@ public partial class BusinessDbContext : DbContext
                 .HasConstraintName("FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId");
         });
 
+        modelBuilder.Entity<OauthAuthorizationCode>(entity =>
+        {
+            entity.Property(e => e.IssuedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.UsedAt).HasDefaultValueSql("(getutcdate())");
+        });
+
+        modelBuilder.Entity<OauthCallback>(entity =>
+        {
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+        });
+
         modelBuilder.Entity<RefreshToken>(entity =>
         {
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+        });
+
+        modelBuilder.Entity<TblApplicationActivity>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_ApplicationActivities");
+
+            entity.Property(e => e.CreatedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsInMeeting).HasDefaultValue(false);
+            entity.Property(e => e.ReceivedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Device).WithMany(p => p.TblApplicationActivities)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ApplicationActivities_Devices");
         });
 
         modelBuilder.Entity<TblCity>(entity =>
@@ -237,6 +273,16 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<TblCountry>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<TblDevice>(entity =>
+        {
+            entity.HasKey(e => e.DeviceId).HasName("PK_Devices");
+
+            entity.Property(e => e.DeviceId).ValueGeneratedNever();
+            entity.Property(e => e.CreatedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.RegisteredAtUtc).HasDefaultValueSql("(sysutcdatetime())");
         });
 
         modelBuilder.Entity<TblEmployeeHourlyrate>(entity =>
@@ -308,6 +354,18 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<TblEvaluationSubmissionCopy>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Tbl_Eval__3214EC27567E44C0");
+        });
+
+        modelBuilder.Entity<TblIdleActivity>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_IdleActivities");
+
+            entity.Property(e => e.CreatedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.ReceivedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Device).WithMany(p => p.TblIdleActivities)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_IdleActivities_Devices");
         });
 
         modelBuilder.Entity<TblMatrix4teamAnswer>(entity =>
@@ -387,6 +445,17 @@ public partial class BusinessDbContext : DbContext
                 .HasConstraintName("FK_Tbl_State_Tbl_Country");
         });
 
+        modelBuilder.Entity<TblSyncLog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_SyncLogs");
+
+            entity.Property(e => e.CreatedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+
+            entity.HasOne(d => d.Device).WithMany(p => p.TblSyncLogs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SyncLogs_DeviceId");
+        });
+
         modelBuilder.Entity<TblTaskList>(entity =>
         {
             entity.Property(e => e.ActualTime).HasDefaultValue(0);
@@ -441,6 +510,13 @@ public partial class BusinessDbContext : DbContext
             entity.HasOne(d => d.VandorAccount).WithMany(p => p.TblVandorAccountNumbers).HasConstraintName("FK_Tbl_VandorAccountNumber_Tbl_VandorAccount");
         });
 
+        modelBuilder.Entity<TrustedDevice>(entity =>
+        {
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TrustedDevices).HasConstraintName("FK_TrustedDevices_AspNetUsers");
+        });
+
         modelBuilder.Entity<VCtccalculation>(entity =>
         {
             entity.ToView("v_ctccalculation");
@@ -454,18 +530,6 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<VEmptasklist>(entity =>
         {
             entity.ToView("v_emptasklist");
-        });
-
-        modelBuilder.Entity<TrustedDevice>(entity =>
-        {
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-
-            entity.HasOne(d => d.User).WithMany(p => p.TrustedDevices).HasConstraintName("FK_TrustedDevices_AspNetUsers");
-        });
-
-        modelBuilder.Entity<OauthAuthorizationCode>(entity =>
-        {
-            entity.HasOne(d => d.User).WithMany(p => p.OauthAuthorizationCodes).HasConstraintName("FK_OAuthAuthorizationCode_AspNetUsers");
         });
 
         OnModelCreatingPartial(modelBuilder);
@@ -575,6 +639,7 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<sp_getonlineemployeedashboardsummary_Result>().HasNoKey();
         modelBuilder.Entity<spa_getactivelogofemployee_records_Result>().HasNoKey();
         modelBuilder.Entity<spa_getactivelogofemployee_Result>().HasNoKey();
+        modelBuilder.Entity<sp_employee_clockedin>().HasNoKey();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

@@ -42,3 +42,18 @@ D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessData\obj\Debu
 D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessData\obj\Debug\net8.0\BusinessData.pdb
 D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessData\obj\Debug\net8.0\BusinessData.genruntimeconfig.cache
 D:\Rangsoft Project\GitHub Project\HO Tracker\HO API React\BusinessData\obj\Debug\net8.0\ref\BusinessData.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\bin\Debug\net8.0\BusinessData.deps.json
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\bin\Debug\net8.0\BusinessData.runtimeconfig.json
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\bin\Debug\net8.0\BusinessData.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\bin\Debug\net8.0\BusinessData.pdb
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.csproj.AssemblyReference.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.GeneratedMSBuildEditorConfig.editorconfig
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.AssemblyInfoInputs.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.AssemblyInfo.cs
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.csproj.CoreCompileInputs.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.sourcelink.json
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\refint\BusinessData.dll
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.pdb
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.genruntimeconfig.cache
+D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\ref\BusinessData.dll
