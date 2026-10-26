@@ -36,3 +36,53 @@ export function normalizeToken(token: string | null | undefined): string {
 
   return trimmed;
 }
+
+/**
+ * Decodes the payload of a JWT token.
+ */
+export function parseJwtPayload(token: string | null | undefined): Record<string, any> | null {
+  const norm = normalizeToken(token);
+  if (!norm) return null;
+  try {
+    const parts = norm.split('.');
+    if (parts.length < 2) return null;
+    const base64Url = parts[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (err) {
+    return null;
+  }
+}
+
+/**
+ * Extracts full name from JWT token claims (ClaimTypes.Name -> unique_name or name).
+ */
+export function getJwtFullName(token: string | null | undefined): string | null {
+  const payload = parseJwtPayload(token);
+  if (!payload) return null;
+  return (
+    payload.unique_name ||
+    payload.name ||
+    payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ||
+    null
+  );
+}
+
+/**
+ * Extracts email from JWT token claims.
+ */
+export function getJwtEmail(token: string | null | undefined): string | null {
+  const payload = parseJwtPayload(token);
+  if (!payload) return null;
+  return (
+    payload.email ||
+    payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ||
+    null
+  );
+}

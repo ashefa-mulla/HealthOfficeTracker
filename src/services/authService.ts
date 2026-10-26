@@ -8,7 +8,7 @@ import { axiosErrorToApiError } from '../types/errors';
 import { useAuthStore } from '../store/useAuthStore';
 import { clearDeviceId } from '../helpers/deviceHelper';
 import presenceService from './presenceService';
-import { normalizeToken } from '../helpers/tokenHelper';
+import { normalizeToken, getJwtFullName } from '../helpers/tokenHelper';
 
 type LoginRequest = Record<string, unknown>;
 type AuthResponse = any;
@@ -101,6 +101,23 @@ class AuthService {
       response.profileImage ||
       '';
 
+    const jwtFullName = getJwtFullName(token);
+    let firstName = response.firstName || response.firstname || '';
+    let lastName = response.lastName || response.lastname || '';
+
+    if (!firstName && !lastName && jwtFullName && !jwtFullName.includes('@')) {
+      const parts = jwtFullName.trim().split(/\s+/);
+      firstName = parts[0] || '';
+      lastName = parts.slice(1).join(' ') || '';
+    }
+
+    const fullName =
+      response.fullName ||
+      response.fullname ||
+      (firstName && lastName ? `${firstName} ${lastName}`.trim() : '') ||
+      (jwtFullName && !jwtFullName.includes('@') ? jwtFullName.trim() : '') ||
+      username;
+
     const user =
       response.User ||
       response.user ||
@@ -109,6 +126,8 @@ class AuthService {
             id: String(userid || employeeid || ''),
             username: username,
             userName: username,
+            displayName: fullName,
+            fullName: fullName,
             email: response.email || username,
             userRole: userrole,
           }
@@ -132,6 +151,9 @@ class AuthService {
         offset: response.offset,
         jobStartHr: response.jobstarthr,
         istJobStartHr: response.ISTjobstarthr,
+        fullName: fullName,
+        firstName: firstName,
+        lastName: lastName,
       };
 
     if (token && !normalizedStatus) {
@@ -190,6 +212,11 @@ class AuthService {
     if (profile) {
       useAuthStore.getState().setProfileInfo(profile);
       localStorage.setItem('userProfile', JSON.stringify(profile));
+
+      if (profile.fullName) {
+        localStorage.setItem('fullName', profile.fullName);
+        localStorage.setItem('displayName', profile.fullName);
+      }
 
       const numUid = profile.userId ?? profile.UserId ?? profile.employeeId ?? profile.id;
       if (numUid) {

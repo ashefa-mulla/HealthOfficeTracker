@@ -1,23 +1,58 @@
-/**
- * User & Profile Formatting Helpers for HO Tracker
- */
+import { getJwtFullName } from './tokenHelper';
 
 export const getUserFullName = (user: any, profileInfo?: any): string => {
+  // 1. Direct explicit full name fields
+  if (profileInfo?.fullName && typeof profileInfo.fullName === 'string' && profileInfo.fullName.trim()) {
+    return profileInfo.fullName.trim();
+  }
+  if (profileInfo?.displayName && typeof profileInfo.displayName === 'string' && profileInfo.displayName.trim()) {
+    return profileInfo.displayName.trim();
+  }
+  if (user?.fullName && typeof user.fullName === 'string' && user.fullName.trim()) {
+    return user.fullName.trim();
+  }
+  if (user?.displayName && typeof user.displayName === 'string' && user.displayName.trim()) {
+    return user.displayName.trim();
+  }
+
+  // 2. First name and Last name combination
   if (profileInfo?.firstName && profileInfo?.lastName) {
     return `${profileInfo.firstName} ${profileInfo.lastName}`.trim();
+  }
+  if (profileInfo?.firstname && profileInfo?.lastname) {
+    return `${profileInfo.firstname} ${profileInfo.lastname}`.trim();
   }
   if (profileInfo?.firstName) {
     return profileInfo.firstName;
   }
+  if (profileInfo?.firstname) {
+    return profileInfo.firstname;
+  }
+
+  // 3. Saved in localStorage
+  const savedFullName = localStorage.getItem('fullName') || localStorage.getItem('displayName');
+  if (savedFullName && savedFullName.trim()) {
+    return savedFullName.trim();
+  }
+
+  // 4. Extract from JWT token claim (ClaimTypes.Name holds 'Firstname Lastname' like 'Ashefa Mulla')
+  const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
+  const jwtName = getJwtFullName(token);
+  if (jwtName && jwtName.trim() && !jwtName.includes('@')) {
+    return jwtName.trim();
+  }
+
+  // 5. Fallback to userName / email prefix
   if (user?.userName) {
     return user.userName.includes('@') ? user.userName.split('@')[0] : user.userName;
   }
   if (user?.email) {
     return user.email.split('@')[0];
   }
-  if (user?.displayName) {
-    return user.displayName;
+  if (jwtName && jwtName.trim()) {
+    return jwtName.trim();
   }
+
   return 'Team Member';
 };
 
@@ -46,11 +81,13 @@ export const getUserRole = (profileInfo?: any): string => {
 };
 
 export const getUserInitials = (user: any, profileInfo?: any): string => {
-  if (profileInfo?.firstName && profileInfo?.lastName) {
-    return `${profileInfo.firstName[0]}${profileInfo.lastName[0]}`.toUpperCase();
-  }
-  if (profileInfo?.firstName) {
-    return profileInfo.firstName.substring(0, 2).toUpperCase();
+  const fullName = getUserFullName(user, profileInfo);
+  if (fullName && fullName !== 'Team Member' && fullName !== 'User') {
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return parts[0].substring(0, 2).toUpperCase();
   }
   const name = user?.userName || user?.email || user?.displayName || 'User';
   return name.substring(0, 2).toUpperCase();
