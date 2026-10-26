@@ -4,6 +4,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { getUserFullName, getUserRole, getNumericUserId, getNumericEmployeeId } from '@/helpers/userHelper';
 import dashboardService from '@/services/dashboardService';
 import presenceService from '@/services/presenceService';
+import { normalizeToken } from '@/helpers/tokenHelper';
 import {
   Below3HrEmpDuration,
   MentionPointsSummary,
@@ -90,7 +91,7 @@ const Dashboard: React.FC = () => {
     return `${hours}:${minutes}`;
   };
 
-  // Format profile image path
+  // Format profile image path (matches Angular getProfileImage logic)
   const getProfileImage = (path?: string): string => {
     if (!path || path === 'NoFile' || path.trim() === '') {
       return defaultAvatar;
@@ -101,9 +102,9 @@ const Dashboard: React.FC = () => {
     const rawBaseUrl =
       import.meta.env.VITE_API_FILE_URL ||
       import.meta.env.VITE_API_BASE_URL ||
-      'https://localhost:44301';
+      'https://apiprod.govirtualnow.in';
     const cleanBaseUrl = rawBaseUrl.replace(/\/+$/, '');
-    const cleanPath = path.replace(/\\/g, '/').replace(/^\/+/, '');
+    const cleanPath = path.replace(/^~[\\/]/, '').replace(/\\/g, '/').replace(/^\/+/, '');
     return `${cleanBaseUrl}/${cleanPath}`;
   };
 
@@ -112,10 +113,22 @@ const Dashboard: React.FC = () => {
     (onlineList: OnlineEmployeeDashboard[], onlineIdsList: string[]) => {
       const numOnlineIds = onlineIdsList.map(Number).filter((n) => !isNaN(n));
 
-      const mapped = onlineList.map((user) => {
-        const isOnline = numOnlineIds.includes(Number(user.id));
+      const mapped = onlineList.map((user: any) => {
+        const userId = user.id ?? user.ID;
+        const isOnline = numOnlineIds.includes(Number(userId));
         return {
           ...user,
+          id: userId,
+          user: user.user ?? user.User,
+          totalTasks: user.totalTasks ?? user.TotalTasks ?? 0,
+          pending: user.pending ?? user.Pending ?? 0,
+          completed: user.completed ?? user.Completed ?? 0,
+          assignedHours: user.assignedHours ?? user.AssignedHours ?? 0,
+          actualHours: user.actualHours ?? user.ActualHours ?? 0,
+          efficiency: user.efficiency ?? user.Efficiency ?? 0,
+          oExecDate: user.oExecDate ?? user.OExecDate,
+          oOutDate: user.oOutDate ?? user.OOutDate,
+          profileimage: user.profileimage ?? user.Profileimage,
           online: isOnline,
         };
       });
@@ -136,9 +149,18 @@ const Dashboard: React.FC = () => {
   // Load online employee dashboard data
   const loadOnlineDashboard = useCallback(
     async (currentOnlineIds: string[]) => {
-      const userIdsStr = (currentOnlineIds || []).join(',');
+      // If no online users, clear dashboard directly without firing 404 API call
+      if (!currentOnlineIds || currentOnlineIds.length === 0) {
+        lastOnlineUserKeyRef.current = '';
+        setOnlineDashboard([]);
+        setDashboardUsers([]);
+        setLoadingDashboard(false);
+        return;
+      }
 
-      if (lastOnlineUserKeyRef.current === userIdsStr && userIdsStr !== '') {
+      const userIdsStr = currentOnlineIds.join(',');
+
+      if (lastOnlineUserKeyRef.current === userIdsStr) {
         return;
       }
       lastOnlineUserKeyRef.current = userIdsStr;
@@ -150,6 +172,8 @@ const Dashboard: React.FC = () => {
         buildDashboardUsers(list, currentOnlineIds);
       } catch (err) {
         console.warn('[Dashboard] Failed to fetch online employee dashboard:', err);
+        setOnlineDashboard([]);
+        setDashboardUsers([]);
       } finally {
         setLoadingDashboard(false);
       }
@@ -228,7 +252,7 @@ const Dashboard: React.FC = () => {
     }
   }, [numericUserId]);
 
-  // Initial Load & Lifecycle
+  // Initial Load for static summary and metrics data
   useEffect(() => {
     document.title = 'Dashboard | HO Tracker';
 
@@ -261,35 +285,47 @@ const Dashboard: React.FC = () => {
       loadClientData();
     }
 
-    // Connect SignalR Presence Hub
-    const token = jwt || localStorage.getItem('token') || '';
-    if (token) {
-      presenceService.startConnection(token);
-    }
-
-    // Subscribe to real-time online users
-    const unsubscribe = presenceService.subscribe((users: string[]) => {
-      setOnlineUsers(users);
-      loadOnlineDashboard(users);
-    });
-
-    // Initial dashboard load
-    loadOnlineDashboard([]);
-
     return () => {
       clearInterval(timer);
-      unsubscribe();
-      presenceService.stopConnection();
     };
   }, [
-    jwt,
     isClinician,
     loadMentionPointsSummary,
     loadBelow3HrYesterday,
     loadNotTrackedYesterday,
     loadClientData,
-    loadOnlineDashboard,
   ]);
+
+  // Dedicated SignalR Presence Hub lifecycle (Matches Angular PresenceService pattern)
+  useEffect(() => {
+    const rawToken = jwt || localStorage.getItem('token') || localStorage.getItem('accessToken') || '';
+    const token = normalizeToken(rawToken);
+
+    if (token) {
+      presenceService.startConnection(token);
+    }
+
+    // Subscribe to live online users updates from PresenceHub
+    const unsubscribe = presenceService.subscribe((users: string[]) => {
+      console.log('[Dashboard] Presence updated with users:', users);
+      setOnlineUsers(users);
+      loadOnlineDashboard(users);
+    });
+
+    // Check if presence service already has current online users cached
+    const currentOnline = presenceService.getCurrentOnlineUsers();
+    if (currentOnline && currentOnline.length > 0) {
+      setOnlineUsers(currentOnline);
+      loadOnlineDashboard(currentOnline);
+    } else {
+      loadOnlineDashboard([]);
+    }
+
+    return () => {
+      unsubscribe();
+      presenceService.stopConnection();
+    };
+  }, [jwt, loadOnlineDashboard]);
 
   // Floating scroll navigation
   const scrollNext = () => {
