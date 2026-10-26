@@ -1,8 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import leaveService from '../../services/leaveService';
 import toastService from '../../services/toastService';
-import { LeaveForm } from '../../types/leave/leave.schema';
-import { toLeaveForm, toLeaveModel } from '../../types/leave/leave.mapper';
+import { LeaveApprovalForm, LeaveForm } from '../../types/leave/leave.schema';
+import {
+  toLeaveApprovalForm,
+  toLeaveApprovalModel,
+  toLeaveForm,
+  toLeaveModel,
+} from '../../types/leave/leave.mapper';
 import {
   setLoading,
   setSaving,
@@ -36,6 +41,59 @@ export const fetchLeaveList = createAsyncThunk(
       return list;
     } catch (error: any) {
       const errorMsg = error?.message || 'Failed to fetch leave list';
+      dispatch(setError(errorMsg));
+      toastService.error(errorMsg);
+      throw error;
+    }
+  }
+);
+
+/** Admin Leave Management: every employee's leave transactions */
+export const fetchAllEmployeeLeaves = createAsyncThunk(
+  'leave/fetchAllEmployeeLeaves',
+  async (_: void, { dispatch }) => {
+    try {
+      dispatch(setLoading());
+      const data = await leaveService.getLeaveEmployeeTransactionList();
+      // The stored procedure can return placeholder rows with id 0 (the old screen filtered them too)
+      const list = data.filter((r) => Number(r.id) > 0);
+      dispatch(fetchSuccess(list));
+      return list;
+    } catch (error: any) {
+      const errorMsg = error?.message || 'Failed to fetch leave list';
+      dispatch(setError(errorMsg));
+      toastService.error(errorMsg);
+      throw error;
+    }
+  }
+);
+
+/** Admin Leave Management: one leave for the edit / approve modal (does not touch list loading) */
+export const fetchLeaveApprovalById = createAsyncThunk(
+  'leave/fetchLeaveApprovalById',
+  async (id: number) => {
+    try {
+      const data = await leaveService.getLeaveTransaction(id);
+      return toLeaveApprovalForm(data);
+    } catch (error: any) {
+      toastService.error(error?.message || 'Failed to fetch leave details');
+      throw error;
+    }
+  }
+);
+
+export const saveLeaveApproval = createAsyncThunk(
+  'leave/saveLeaveApproval',
+  async (form: LeaveApprovalForm, { dispatch }) => {
+    try {
+      dispatch(setSaving());
+      const response = await leaveService.addEditLeaveTransaction(toLeaveApprovalModel(form));
+      const msg = form.isApprove ? 'Leave is approved' : 'Record is updated';
+      dispatch(saveSuccess(msg));
+      toastService.success(msg);
+      return response;
+    } catch (error: any) {
+      const errorMsg = error?.message || 'Failed to save leave';
       dispatch(setError(errorMsg));
       toastService.error(errorMsg);
       throw error;

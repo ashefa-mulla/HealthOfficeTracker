@@ -9,6 +9,7 @@ import {
   getUserRole,
   getUserInitials,
   getUserAvatarUrl,
+  getEntityId,
 } from '../../helpers/userHelper';
 
 interface HeaderProps {
@@ -35,6 +36,15 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, user, profileInfo }) =
   const role = getUserRole(profileInfo);
   const initials = getUserInitials(user, profileInfo);
   const avatarUrl = getUserAvatarUrl(profileInfo);
+  const entityId = getEntityId(profileInfo, user);
+
+  const handleAccountSettings = () => {
+    if (entityId) {
+      navigate(`/area/employee/edit/${entityId}`);
+    } else {
+      navigate('/settings');
+    }
+  };
 
   return (
     <header className="app-header">
@@ -55,12 +65,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, user, profileInfo }) =
       </div>
 
       <div className="header-right">
-        <div className="live-status-pill d-none d-sm-inline-flex">
+        {/* <div className="live-status-pill d-none d-sm-inline-flex">
           <span className="live-pulse"></span>
           <span>Live Tracking Active</span>
-        </div>
+        </div> */}
 
-        <div className="header-actions">
+        {/* <div className="header-actions">
           <button className="header-action-btn" title="Notifications">
             <i className="mdi mdi-bell-outline"></i>
             <span className="badge-dot"></span>
@@ -68,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, user, profileInfo }) =
           <button className="header-action-btn d-none d-md-flex" title="Quick Actions">
             <i className="mdi mdi-view-grid-plus-outline"></i>
           </button>
-        </div>
+        </div> */}
 
         {/* User Profile Dropdown */}
         <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
@@ -98,15 +108,15 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, user, profileInfo }) =
               <div className="badge bg-info-subtle text-info mt-1">{role}</div>
             </div>
 
-            <DropdownItem onClick={() => navigate('/settings')}>
+            <DropdownItem onClick={handleAccountSettings}>
               <i className="mdi mdi-account-cog-outline me-2 text-primary"></i>
               Account Settings
             </DropdownItem>
 
-            <DropdownItem onClick={() => navigate('/reports')}>
+            {/* <DropdownItem onClick={() => navigate('/reports')}>
               <i className="mdi mdi-chart-timeline-variant me-2 text-info"></i>
               My Activity Logs
-            </DropdownItem>
+            </DropdownItem> */}
 
             <DropdownItem divider />
 

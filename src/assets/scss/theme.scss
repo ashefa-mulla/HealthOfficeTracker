@@ -716,11 +716,12 @@ h6 {
   min-height: 100vh;
 }
 
+/* All filters on one row; the input filters share the width equally */
 .activity-filter-bar {
   display: flex;
   align-items: flex-end;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 12px;
+  flex-wrap: nowrap;
   margin-bottom: 1.5rem;
   width: 100%;
 }
@@ -728,25 +729,39 @@ h6 {
 .activity-filter-item {
   display: flex;
   flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Date range needs room for "MM/DD/YYYY - MM/DD/YYYY" */
+.activity-filter-item--date {
+  min-width: 240px;
+}
+
+/* Clear / Print buttons keep their own width */
+.activity-filter-item--action {
+  flex: 0 0 auto;
 }
 
 .activity-filter-label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #4b5563;
   font-weight: 500;
   margin-bottom: 6px;
+  white-space: nowrap;
 }
 
 .activity-filter-input {
-  height: 36px;
+  height: 42px;
+  width: 100%;
   border: 1px solid #d1d5db;
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 0.85rem;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
   color: #1f2937;
   background-color: #ffffff;
   outline: none;
-  min-width: 160px;
+  min-width: 0;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus {
@@ -776,14 +791,29 @@ h6 {
   }
 }
 
-.activity-filter-date-input {
-  min-width: 220px;
+/* Small screens: let the filters wrap two per row */
+@media (max-width: 991.98px) {
+  .activity-filter-bar {
+    flex-wrap: wrap;
+  }
+
+  .activity-filter-item {
+    flex: 1 1 calc(50% - 12px);
+  }
+
+  .activity-filter-item--date {
+    min-width: 0;
+  }
+
+  .activity-filter-item--action {
+    flex: 0 0 auto;
+  }
 }
 
 .btn-activity-clear-pill {
-  height: 36px;
+  height: 42px;
   width: 64px;
-  border-radius: 18px;
+  border-radius: 21px;
   background-color: #f1f5f9;
   border: 1px solid #e2e8f0;
   color: #64748b;
@@ -802,8 +832,8 @@ h6 {
 }
 
 .btn-activity-print {
-  height: 36px;
-  border-radius: 18px;
+  height: 42px;
+  border-radius: 21px;
   background-color: #0b4d9c;
   color: #ffffff !important;
   border: none;

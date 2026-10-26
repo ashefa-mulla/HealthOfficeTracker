@@ -1,3 +1,4 @@
+
 // import React from "react";
 // import { Link } from "react-router-dom";
 
@@ -98,10 +99,9 @@ const AncillaryMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = 
           `menu-link ${isActive || (matchPrefix && location.pathname.startsWith(matchPrefix)) ? 'active' : ''}`
         }
         onClick={onItemClick}
-        title={collapsed ? t(label) : undefined}
       >
         <i className={`mdi ${icon}`}></i>
-        {!collapsed && <span>{t(label)}</span>}
+        <span>{t(label)}</span>
       </NavLink>
     </li>
   );
@@ -142,7 +142,12 @@ const AncillaryMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = 
           </>
         )}
       </a>
-      {openSubMenus[key] && <ul className="sub-menu">{children}</ul>}
+      {(openSubMenus[key] || collapsed) && (
+        <ul className="sub-menu">
+          <li className="sub-menu-title">{t(label)}</li>
+          {children}
+        </ul>
+      )}
     </li>
   );
 

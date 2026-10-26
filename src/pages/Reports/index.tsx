@@ -1,63 +1,225 @@
-import React, { useEffect } from 'react';
-import { Container, Card, CardBody, Row, Col, Button, Progress } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Card, CardBody, Row, Col } from 'reactstrap';
+import { useAuthStore } from '@/store/useAuthStore';
+import { ReportItemDefinition } from '@/types/report/report.types';
+import ReportModal from './ReportModal';
+import './reports.scss';
+
+const REPORTS_LIST: ReportItemDefinition[] = [
+  {
+    id: 1,
+    key: 'po_statement',
+    title: 'Purchase Order Statement Report',
+    description: '',
+    category: 'Financial',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 2,
+    key: 'time_sheet',
+    title: 'Time Sheet Report',
+    description: '',
+    category: 'Productivity',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 3,
+    key: 'monthly_invoice',
+    title: 'Monthly Invoice',
+    description: '',
+    category: 'Financial',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 4,
+    key: 'utilization',
+    title: 'Utilization Report',
+    description: '',
+    category: 'Productivity',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 5,
+    key: 'attendance',
+    title: 'Attendance Report',
+    description: '',
+    category: 'Attendance',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 6,
+    key: 'monthly_invoice_excel',
+    title: 'Monthly Invoice in Excel',
+    description: '',
+    category: 'Financial',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 7,
+    key: 'user_utilization',
+    title: 'User Utilization Report',
+    description: '',
+    category: 'Productivity',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 8,
+    key: 'employee_leave',
+    title: 'Employee Leave Report',
+    description: '',
+    category: 'Attendance',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 9,
+    key: 'utilization_with_project',
+    title: 'Utilization Report with Project',
+    description: '',
+    category: 'Productivity',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 10,
+    key: 'productivity_analytics',
+    title: 'Productivity Analytics Report',
+    description: '',
+    category: 'Productivity',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 11,
+    key: 'employee_wise_production',
+    title: 'Employee - Wise Production Report',
+    description: '',
+    category: 'Productivity',
+    icon: '',
+    color: '',
+  },
+  {
+    id: 12,
+    key: 'monthly_eval_summary',
+    title: 'Monthly Evaluation Report Summary',
+    description: '',
+    category: 'Evaluation',
+    icon: '',
+    color: '',
+  },
+];
 
 const Reports: React.FC = () => {
+  const { user, profileInfo } = useAuthStore();
+
+  const sessionRole =
+    localStorage.getItem('sessionrole') ||
+    profileInfo?.userRole ||
+    user?.userRole ||
+    (profileInfo?.utype === 1 || profileInfo?.utype === 4 ? 'Admin' : '');
+
+  const rawSessionType =
+    localStorage.getItem('sessiontype') ||
+    (sessionRole === 'Clinicians' ? 2 : profileInfo?.utype ?? 0);
+  const sessiontype = Number(rawSessionType) && !isNaN(Number(rawSessionType)) ? Number(rawSessionType) : 0;
+
+  const rawCompanyId = localStorage.getItem('companyid') || profileInfo?.companyId || user?.companyId;
+  const companyId = Number(rawCompanyId) && !isNaN(Number(rawCompanyId)) ? Number(rawCompanyId) : 1;
+
+  const rawBranchId = localStorage.getItem('branchid') || profileInfo?.branchId || user?.branchId;
+  const branchId = Number(rawBranchId) && !isNaN(Number(rawBranchId)) ? Number(rawBranchId) : 1;
+
+  const rawAdminId =
+    localStorage.getItem('userid') ||
+    localStorage.getItem('uid') ||
+    profileInfo?.userId ||
+    profileInfo?.entityId ||
+    profileInfo?.id;
+  const adminId = Number(rawAdminId) && !isNaN(Number(rawAdminId)) ? Number(rawAdminId) : 0;
+
+  const isClinician = sessiontype === 2 || sessionRole === 'Clinicians';
+
+  const [activeReport, setActiveReport] = useState<ReportItemDefinition | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   useEffect(() => {
-    document.title = 'Reports & Analytics | HO Tracker';
+    document.title = 'Reports | HO Tracker';
   }, []);
 
+  const handleOpenModal = (report: ReportItemDefinition) => {
+    setActiveReport(report);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <Container fluid className="dashboard-container">
-      <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
-        <div>
-          <h1 className="page-title">Productivity Reports & Analytics</h1>
-          <div className="text-muted small">Comprehensive employee output, attendance ratios, and audit logs</div>
-        </div>
-        <Button color="primary" className="btn-vc1 d-inline-flex align-items-center gap-2" style={{ width: 'auto' }}>
-          <i className="mdi mdi-chart-box-outline"></i> Generate Monthly Report
-        </Button>
-      </div>
-
-      <Row className="g-4 mb-4">
-        <Col md={4}>
-          <Card className="border-0 shadow-sm rounded-3">
-            <CardBody className="p-4">
-              <h6 className="text-muted mb-2">Total Monthly Work Hours</h6>
-              <div className="fs-2 fw-bold text-dark mb-2">24,850 hrs</div>
-              <div className="text-success small fw-semibold mb-3">
-                <i className="mdi mdi-arrow-up"></i> +8.4% compared to last month
-              </div>
-              <Progress value={85} color="primary" className="rounded-pill" style={{ height: '6px' }} />
-            </CardBody>
-          </Card>
+    <Container fluid className="dashboard-container reports-page py-3">
+      <Row className="mb-2">
+        <Col xs={12}>
+          <h4 className="mb-0 text-dark fw-bold">Reports</h4>
+          <hr className="my-3" />
         </Col>
+      </Row>
 
-        <Col md={4}>
-          <Card className="border-0 shadow-sm rounded-3">
-            <CardBody className="p-4">
-              <h6 className="text-muted mb-2">Average Active Engagement</h6>
-              <div className="fs-2 fw-bold text-dark mb-2">91.6%</div>
-              <div className="text-success small fw-semibold mb-3">
-                <i className="mdi mdi-arrow-up"></i> +1.2% above baseline target
-              </div>
-              <Progress value={91.6} color="success" className="rounded-pill" style={{ height: '6px' }} />
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col md={4}>
-          <Card className="border-0 shadow-sm rounded-3">
-            <CardBody className="p-4">
-              <h6 className="text-muted mb-2">On-Time Shift Starts</h6>
-              <div className="fs-2 fw-bold text-dark mb-2">97.4%</div>
-              <div className="text-info small fw-semibold mb-3">
-                <i className="mdi mdi-check-circle"></i> Outstanding consistency
-              </div>
-              <Progress value={97.4} color="info" className="rounded-pill" style={{ height: '6px' }} />
+      <Row>
+        <Col xs={12}>
+          <Card className="reports-card">
+            <CardBody>
+              {sessiontype !== 2 ? (
+                <ol className="reports-simple-list">
+                  {REPORTS_LIST.map((rep) => (
+                    <li key={rep.id}>
+                      <a
+                        href="#/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleOpenModal(rep);
+                        }}
+                      >
+                        {rep.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <ol className="reports-simple-list">
+                  <li>
+                    <a
+                      href="#/"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleOpenModal(REPORTS_LIST[2]); // Monthly Invoice
+                      }}
+                    >
+                      Monthly Invoice
+                    </a>
+                  </li>
+                </ol>
+              )}
             </CardBody>
           </Card>
         </Col>
       </Row>
+
+      <ReportModal
+        isOpen={isModalOpen}
+        toggle={handleCloseModal}
+        report={activeReport}
+        companyId={companyId}
+        branchId={branchId}
+        adminId={adminId}
+        isClinician={isClinician}
+      />
     </Container>
   );
 };

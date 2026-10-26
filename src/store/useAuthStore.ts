@@ -53,14 +53,24 @@ export interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  jwt: null,
-  user: null,
-  profileInfo: null,
-  isAuthenticated: false,
+  jwt: localStorage.getItem('token') || localStorage.getItem('accessToken') || null,
+  user: localStorage.getItem('authUser') ? JSON.parse(localStorage.getItem('authUser')!) : null,
+  profileInfo: localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')!) : null,
+  isAuthenticated: !!(localStorage.getItem('token') || localStorage.getItem('accessToken')),
   mfaRequired: false,
   mfaUserId: null,
 
   setAuth: (jwt: string, user: User, profileInfo?: ProfileInfo) => {
+    if (jwt) {
+      localStorage.setItem('token', jwt);
+      localStorage.setItem('accessToken', jwt);
+    }
+    if (user) {
+      localStorage.setItem('authUser', JSON.stringify(user));
+    }
+    if (profileInfo) {
+      localStorage.setItem('userProfile', JSON.stringify(profileInfo));
+    }
     set({
       jwt,
       user,
@@ -72,6 +82,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   setTokens: (accessToken: string) => {
+    if (accessToken) {
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('accessToken', accessToken);
+    }
     set({
       jwt: accessToken,
       isAuthenticated: true,
@@ -79,14 +93,27 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   setJwt: (jwt: string) => {
+    if (jwt) {
+      localStorage.setItem('token', jwt);
+      localStorage.setItem('accessToken', jwt);
+    } else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+    }
     set({ jwt, isAuthenticated: !!jwt });
   },
 
   setUser: (user: User) => {
+    if (user) {
+      localStorage.setItem('authUser', JSON.stringify(user));
+    }
     set({ user });
   },
 
   setProfileInfo: (profileInfo: ProfileInfo) => {
+    if (profileInfo) {
+      localStorage.setItem('userProfile', JSON.stringify(profileInfo));
+    }
     set({ profileInfo });
   },
 
@@ -106,6 +133,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('authUser');
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('userid');
+    localStorage.removeItem('companyid');
     set({
       jwt: null,
       user: null,
@@ -117,6 +150,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   clearAuth: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('authUser');
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('userid');
+    localStorage.removeItem('companyid');
     set({
       jwt: null,
       user: null,

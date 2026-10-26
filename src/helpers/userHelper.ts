@@ -240,6 +240,78 @@ export const getNumericEmployeeId = (profileInfo?: any, user?: any): number => {
   return getNumericUserId(profileInfo, user);
 };
 
+/**
+ * Extract numeric database Entity ID (employee entityid)
+ */
+export const getEntityId = (profileInfo?: any, user?: any): number => {
+  // 1. Direct profileInfo fields (entityId, entityid, EntityId, EntityID)
+  if (profileInfo) {
+    const raw =
+      profileInfo.entityId ??
+      profileInfo.entityid ??
+      profileInfo.EntityId ??
+      profileInfo.EntityID;
+    if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+      return Number(raw);
+    }
+  }
+
+  // 2. Check localStorage 'entityid' / 'entityId'
+  const lsKeys = ['entityid', 'entityId', 'EntityId', 'EntityID'];
+  for (const key of lsKeys) {
+    const lsVal = localStorage.getItem(key);
+    if (lsVal) {
+      if (!isNaN(Number(lsVal)) && Number(lsVal) > 0) {
+        return Number(lsVal);
+      }
+      try {
+        const parsed = JSON.parse(lsVal);
+        if (Array.isArray(parsed) && parsed.length > 0 && !isNaN(Number(parsed[0])) && Number(parsed[0]) > 0) {
+          return Number(parsed[0]);
+        }
+        if (!isNaN(Number(parsed)) && Number(parsed) > 0) {
+          return Number(parsed);
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  // 3. Check localStorage 'userProfile'
+  const userProfileStr = localStorage.getItem('userProfile');
+  if (userProfileStr) {
+    try {
+      const p = JSON.parse(userProfileStr);
+      const raw =
+        p.entityId ??
+        p.entityid ??
+        p.EntityId ??
+        p.EntityID;
+      if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+        return Number(raw);
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 4. Check user object
+  if (user) {
+    const raw =
+      user.entityId ??
+      user.entityid ??
+      user.EntityId ??
+      user.EntityID;
+    if (raw !== undefined && raw !== null && !isNaN(Number(raw)) && Number(raw) > 0) {
+      return Number(raw);
+    }
+  }
+
+  // 5. Fallback to getNumericEmployeeId
+  return getNumericEmployeeId(profileInfo, user);
+};
+
 /** Admin / Super Admin (utype 1 / 4) */
 export const isAdminUser = (profileInfo?: any): boolean => {
   const type = Number(profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType);

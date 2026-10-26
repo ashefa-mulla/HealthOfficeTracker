@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_blue.css';
+import React from 'react';
+import FlatpickrInput from './FlatpickrInput';
 import { FormGroup, Label, FormFeedback } from 'reactstrap';
 import { parseSafeDate, formatLocalDateToIso } from '@/helpers/dateHelper';
 
@@ -37,8 +36,6 @@ export const FlatPicker: React.FC<FlatPickerProps> = ({
   options = {},
   className = '',
 }) => {
-  const fpRef = useRef<any>(null);
-
   const selectedDate = parseSafeDate(value);
 
   const getOptions = () => {
@@ -101,8 +98,7 @@ export const FlatPicker: React.FC<FlatPickerProps> = ({
       )}
 
       <div style={{ position: 'relative' }}>
-        <Flatpickr
-          ref={fpRef}
+        <FlatpickrInput
           id={id || name}
           name={name}
           value={selectedDate ? selectedDate : ''}

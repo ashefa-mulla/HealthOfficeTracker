@@ -1,8 +1,7 @@
 import React from 'react';
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert, Label } from 'reactstrap';
 import { useFormContext } from 'react-hook-form';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_blue.css';
+import FlatpickrInput from '@/Components/Common/FlatpickrInput';
 import {
   RHFInput,
   RHFSelect,
@@ -10,6 +9,7 @@ import {
   SelectOption,
 } from '@/Components/Common/Forms';
 import { ActivityEditForm } from '@/types/activity/activity.schema';
+import { parseSafeDate, formatLocalDateToIso } from '@/helpers/dateHelper';
 import {
   TrackerProjectItem,
   TrackerSubProjectItem,
@@ -40,6 +40,23 @@ const formatDisplay = (d: Date) => {
   return `${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}/${d.getFullYear()} ${pad2(h % 12 || 12)}:${pad2(d.getMinutes())} ${h >= 12 ? 'PM' : 'AM'}`;
 };
 
+const labelStyle = { fontSize: '12px', fontWeight: 500 };
+
+const timePickerOptions = {
+  enableTime: true,
+  time_24hr: false,
+  minuteIncrement: 1,
+  dateFormat: 'm/d/Y G:i K',
+  allowInput: true,
+};
+
+const SectionTitle: React.FC<{ icon: string; children: React.ReactNode }> = ({ icon, children }) => (
+  <div className="activity-section-title">
+    <i className={`mdi ${icon}`}></i>
+    {children}
+  </div>
+);
+
 const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
   projectList,
   subprojectList,
@@ -54,27 +71,22 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
 
   const startTimeValue = watch('startTime');
   const endTimeValue = watch('endTime');
+  const startTimeDisplay = watch('startTimeDisplay');
+  const endTimeDisplay = watch('endTimeDisplay');
+  const duration = watch('duration');
 
   // Admin edits start/end time: keep display text and duration in sync
   const handleTimeChange = (field: 'startTime' | 'endTime', dates: Date[]) => {
     const picked = dates[0];
     if (!picked) return;
-    const start = field === 'startTime' ? picked : new Date(startTimeValue || picked);
-    const end = field === 'endTime' ? picked : new Date(endTimeValue || picked);
-    setValue(field, picked.toISOString() as any, { shouldDirty: true });
+    const start = field === 'startTime' ? picked : parseSafeDate(startTimeValue) || picked;
+    const end = field === 'endTime' ? picked : parseSafeDate(endTimeValue) || picked;
+    setValue(field, formatLocalDateToIso(picked) as any, { shouldDirty: true });
     setValue(
       field === 'startTime' ? 'startTimeDisplay' : 'endTimeDisplay',
       formatDisplay(picked) as any
     );
     setValue('duration', formatDuration(start, end) as any);
-  };
-
-  const timePickerOptions = {
-    enableTime: true,
-    enableSeconds: true,
-    time_24hr: false,
-    dateFormat: 'm/d/Y h:i:S K',
-    allowInput: true,
   };
 
   const selectedProject = watch('projectId');
@@ -113,9 +125,39 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
     onSubProjectChange?.(subProjectId);
   };
 
+  // Start / End time: date-time picker for admin, read-only value for everyone else
+  const renderTimeField = (
+    field: 'startTime' | 'endTime',
+    label: string,
+    value: string | null | undefined,
+    display: string
+  ) => (
+    <div className="mb-3">
+      <Label style={labelStyle}>{label}</Label>
+      {showAdminField ? (
+        <FlatpickrInput
+          className="form-control fp-small"
+          style={{ fontSize: '12px' }}
+          options={timePickerOptions}
+          value={value || undefined}
+          onChange={(dates: Date[]) => handleTimeChange(field, dates)}
+          placeholder="MM/DD/YYYY hh:mm AM/PM"
+          icon="calendar"
+        />
+      ) : (
+        <div className="activity-time-readonly">
+          <i className="mdi mdi-calendar-clock-outline"></i>
+          {display || '-'}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <>
-      <Row className="g-3">
+      {/* Task details */}
+      <SectionTitle icon="mdi-clipboard-text-outline">Task Details</SectionTitle>
+      <Row className="gx-3">
         {/* Employee Name (for Admin) */}
         {showAdminField && (
           <Col md={6}>
@@ -166,90 +208,50 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
         </Col>
 
         {/* Activity */}
-        <Col md={6}>
+        <Col md={12}>
           <RHFInput<ActivityEditForm>
             name="activity"
             label="Activity"
-            placeholder="Activity"
+            placeholder="What was worked on?"
             required
           />
         </Col>
-
-        {/* Start Time (editable by admin) */}
-        <Col md={6}>
-          {showAdminField ? (
-            <>
-              <label className="form-label">Start Time</label>
-              <Flatpickr
-                className="form-control"
-                options={timePickerOptions}
-                value={startTimeValue ? new Date(startTimeValue) : undefined}
-                onChange={(dates: Date[]) => handleTimeChange('startTime', dates)}
-              />
-            </>
-          ) : (
-            <RHFInput<ActivityEditForm>
-              name="startTimeDisplay"
-              label="Start Time"
-              disabled={true}
-            />
-          )}
-        </Col>
-
-        {/* End Time (editable by admin) */}
-        <Col md={6}>
-          {showAdminField ? (
-            <>
-              <label className="form-label">End Time</label>
-              <Flatpickr
-                className="form-control"
-                options={timePickerOptions}
-                value={endTimeValue ? new Date(endTimeValue) : undefined}
-                onChange={(dates: Date[]) => handleTimeChange('endTime', dates)}
-              />
-            </>
-          ) : (
-            <RHFInput<ActivityEditForm>
-              name="endTimeDisplay"
-              label="End Time"
-              disabled={true}
-            />
-          )}
-        </Col>
-
-        {/* Duration (Non-editable) */}
-        <Col md={6}>
-          <RHFInput<ActivityEditForm>
-            name="duration"
-            label="Duration"
-            disabled={true}
-          />
-        </Col>
-
-        {/* Checkboxes: Invoice & Is Admin */}
-        <Col md={3} className="d-flex align-items-center pt-3">
-          <RHFCheckBox<ActivityEditForm>
-            name="activeInvoice"
-            label="Invoice"
-          />
-        </Col>
-
-        <Col md={3} className="d-flex align-items-center pt-3">
-          <RHFCheckBox<ActivityEditForm>
-            name="isAdmin"
-            label="Is Admin"
-          />
-        </Col>
-
-        {/* Error Alert Banner */}
-        {formError && (
-          <Col md={12}>
-            <Alert color="danger" className="py-2 mb-0">
-              {formError}
-            </Alert>
-          </Col>
-        )}
       </Row>
+
+      {/* Time log */}
+      <SectionTitle icon="mdi-clock-outline">Time Log</SectionTitle>
+      <div className="activity-time-panel">
+        <Row className="gx-3">
+          <Col md={5}>
+            {renderTimeField('startTime', 'Start Time', startTimeValue, startTimeDisplay)}
+          </Col>
+          <Col md={5}>
+            {renderTimeField('endTime', 'End Time', endTimeValue, endTimeDisplay)}
+          </Col>
+          <Col md={2}>
+            <div className="mb-3">
+              <Label style={labelStyle}>Duration</Label>
+              <div className="activity-duration" title="Duration (hh:mm:ss)">
+                {duration || '00:00:00'}
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </div>
+
+      {/* Options */}
+      <div className="activity-options">
+        <RHFCheckBox<ActivityEditForm> name="activeInvoice" label="Invoice" />
+        <RHFCheckBox<ActivityEditForm> name="isAdmin" label="Is Admin" />
+      </div>
+
+      {/* Error Alert Banner */}
+      {formError && (
+        <Alert color="danger" className="py-2 mt-3 mb-0" style={{ fontSize: '12px' }}>
+          <i className="mdi mdi-alert-circle-outline me-1"></i>
+          {formError}
+        </Alert>
+      )}
     </>
   );
 };

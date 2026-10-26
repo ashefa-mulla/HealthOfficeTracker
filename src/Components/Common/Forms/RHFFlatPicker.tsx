@@ -5,8 +5,7 @@ import {
   useFormContext,
   get,
 } from "react-hook-form";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
+import FlatpickrInput from "../FlatpickrInput";
 import { FormGroup, Label, FormFeedback } from "reactstrap";
 import "./RHFFlatPicker.css";
 import { parseSafeDate, formatLocalDateToIso } from "@/helpers/dateHelper";
@@ -117,7 +116,7 @@ export function RHFFlatpickr<T extends FieldValues>({
 
             return (
               <div style={{ position: "relative" }}>
-                <Flatpickr
+                <FlatpickrInput
                   value={selectedDate ? selectedDate : ""}
                   onChange={([date], dateStr) => {
                     const parsed = date || parseSafeDate(dateStr);

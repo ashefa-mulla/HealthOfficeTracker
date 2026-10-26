@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import ClearableInput from '@/Components/Common/ClearableInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { ColumnDef } from '@tanstack/react-table';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_blue.css';
+import flatpickr from 'flatpickr';
+import FlatpickrInput from '@/Components/Common/FlatpickrInput';
 import {
   Modal,
   ModalHeader,
@@ -415,8 +415,8 @@ const TaskActivityList: React.FC = () => {
             subProjectId: subPId,
             subProjectCategoryId: catId,
             activity: String(res.activity ?? res.Activity ?? ''),
-            startTime: sDate.toISOString(),
-            endTime: eDate.toISOString(),
+            startTime: formatLocalDateToIso(sDate),
+            endTime: formatLocalDateToIso(eDate),
             startTimeDisplay: formatDateTimeDisplay(sDate) || '-',
             endTimeDisplay: formatDateTimeDisplay(eDate) || '-',
             duration: res.duration || durationStr,
@@ -438,8 +438,8 @@ const TaskActivityList: React.FC = () => {
           subProjectId: 0,
           subProjectCategoryId: 0,
           activity: '',
-          startTime: now.toISOString(),
-          endTime: now.toISOString(),
+          startTime: formatLocalDateToIso(now),
+          endTime: formatLocalDateToIso(now),
           startTimeDisplay: formatDateTimeDisplay(now) || '-',
           endTimeDisplay: formatDateTimeDisplay(now) || '-',
           duration: '00:00:00',
@@ -505,14 +505,15 @@ const TaskActivityList: React.FC = () => {
     if (
       formValues.startTime &&
       formValues.endTime &&
-      new Date(formValues.endTime).getTime() < new Date(formValues.startTime).getTime()
+      (parseSafeDate(formValues.endTime)?.getTime() ?? 0) <
+        (parseSafeDate(formValues.startTime)?.getTime() ?? 0)
     ) {
       setFormError('End Time cannot be earlier than Start Time.');
       setIsSubmittingModal(false);
       return;
     }
     try {
-      const nowIso = new Date().toISOString();
+      const nowIso = formatLocalDateToIso(new Date());
       const payload = {
         id: formValues.id,
         branchid: formValues.branchid,
@@ -740,19 +741,22 @@ const TaskActivityList: React.FC = () => {
           </div>
 
           {/* 2. From Date - To Date (Flatpickr Range Picker) */}
-          <div className="activity-filter-item">
+          <div className="activity-filter-item activity-filter-item--date">
             <label className="activity-filter-label">From Date - To Date</label>
-            <div className="position-relative d-inline-block">
-              <Flatpickr
-                className="activity-filter-input activity-filter-date-input"
+            <div className="position-relative">
+              <FlatpickrInput
+                className="activity-filter-input"
                 placeholder="MM/DD/YYYY - MM/DD/YYYY"
                 options={{
                   mode: 'range',
                   dateFormat: 'm/d/Y',
-                  allowInput: true,
+                  // Same separator as the placeholder, so a typed range reads back
+                  locale: { ...flatpickr.l10ns.default, rangeSeparator: ' - ' },
                 }}
                 value={datePickerValue}
                 onChange={handleDateRangeChange}
+                icon="calendar"
+                iconRight={datePickerValue.length > 0 ? 28 : 8}
               />
               {datePickerValue.length > 0 && (
                 <button
@@ -794,7 +798,7 @@ const TaskActivityList: React.FC = () => {
           </div>
 
           {/* 5. Clear Button (Pill shaped) */}
-          <div className="activity-filter-item">
+          <div className="activity-filter-item activity-filter-item--action">
             <label className="activity-filter-label">Clear</label>
             <button
               type="button"
@@ -807,7 +811,7 @@ const TaskActivityList: React.FC = () => {
           </div>
 
           {/* 6. Print Button (Navy Blue Pill) */}
-          <div className="activity-filter-item ms-auto">
+          <div className="activity-filter-item activity-filter-item--action">
             <button
               type="button"
               className="btn-activity-print d-flex align-items-center justify-content-center"

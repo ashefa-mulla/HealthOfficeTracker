@@ -34,10 +34,9 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
           to="/dashboard"
           className={({ isActive }) => `menu-link ${isActive ? 'active' : ''}`}
           onClick={onItemClick}
-          title={collapsed ? t('Dashboard') : undefined}
         >
           <i className="mdi mdi-view-dashboard-outline"></i>
-          {!collapsed && <span>{t('Dashboard')}</span>}
+          <span>{t('Dashboard')}</span>
         </NavLink>
       </li>
 
@@ -49,10 +48,9 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
           to="/employees"
           className={({ isActive }) => `menu-link ${isActive ? 'active' : ''}`}
           onClick={onItemClick}
-          title={collapsed ? t('Team Members') : undefined}
         >
           <i className="mdi mdi-account-group-outline"></i>
-          {!collapsed && <span>{t('Team Members')}</span>}
+          <span>{t('Team Members')}</span>
         </NavLink>
       </li>
 
@@ -179,10 +177,9 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
           to="/reports"
           className={({ isActive }) => `menu-link ${isActive ? 'active' : ''}`}
           onClick={onItemClick}
-          title={collapsed ? t('Team Reports') : undefined}
         >
           <i className="mdi mdi-chart-box-outline"></i>
-          {!collapsed && <span>{t('Team Reports')}</span>}
+          <span>{t('Team Reports')}</span>
         </NavLink>
       </li>
 
@@ -192,10 +189,9 @@ const ManagerMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fa
           to="/settings"
           className={({ isActive }) => `menu-link ${isActive ? 'active' : ''}`}
           onClick={onItemClick}
-          title={collapsed ? t('Settings') : undefined}
         >
           <i className="mdi mdi-cog-outline"></i>
-          {!collapsed && <span>{t('Settings')}</span>}
+          <span>{t('Settings')}</span>
         </NavLink>
       </li>
     </>

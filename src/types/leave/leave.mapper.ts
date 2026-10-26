@@ -1,4 +1,4 @@
-import { LeaveForm } from "./leave.schema";
+import { LeaveApprovalForm, LeaveForm } from "./leave.schema";
 import { LeaveTransactionModel } from "./leave.types";
 import { formatLocalDateToIso, parseSafeDate } from "@/helpers/dateHelper";
 
@@ -67,5 +67,44 @@ export const toLeaveModel = (form: LeaveForm): LeaveTransactionModel => {
     pLeaves: 0,
     isApprove: Boolean(form.isApprove),
     isSickLeaves: Boolean(form.isSickLeaves),
+  };
+};
+
+/** GET /GetLeaveTransaction/{id} -> admin approval form (days kept exactly as stored) */
+export const toLeaveApprovalForm = (data: any): LeaveApprovalForm => ({
+  id: Number(data?.id || 0),
+  empId: Number(data?.empId || 0),
+  fromDate: data?.fromDate ? formatLocalDateToIso(data.fromDate) : startOfTodayIso(),
+  toDate: data?.toDate ? formatLocalDateToIso(data.toDate) : startOfTodayIso(),
+  leaves: Number(data?.leaves || 0),
+  sickLeaves: Number(data?.sickLeaves || 0),
+  lwp: Number(data?.lwp || 0),
+  pl: Number(data?.pl || 0),
+  sl: Number(data?.sl || 0),
+  isApprove: Boolean(data?.isApprove),
+});
+
+/**
+ * Admin save: Leaves / SickLeaves / LWP are sent as entered (isSickLeaves stays false).
+ * The API stores Pl from `pLeaves`, so the existing Pl is sent there.
+ * NOTE: when approving with Leaves = 0 and SickLeaves = 0, the API moves LWP into Leaves.
+ */
+export const toLeaveApprovalModel = (form: LeaveApprovalForm): LeaveTransactionModel => {
+  const from = parseSafeDate(form.fromDate) || new Date();
+  return {
+    id: Number(form.id || 0),
+    year: from.getFullYear(),
+    month: from.getMonth() + 1,
+    fromDate: formatLocalDateToIso(form.fromDate),
+    toDate: formatLocalDateToIso(form.toDate),
+    empId: Number(form.empId),
+    leaves: Number(form.leaves || 0),
+    sickLeaves: Number(form.sickLeaves || 0),
+    pl: Number(form.pl || 0),
+    sl: Number(form.sl || 0),
+    lwp: Number(form.lwp || 0),
+    pLeaves: Number(form.pl || 0),
+    isApprove: Boolean(form.isApprove),
+    isSickLeaves: false,
   };
 };

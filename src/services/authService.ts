@@ -82,6 +82,8 @@ class AuthService {
       const token = normalized.accessToken || normalized.AccessToken;
       if (token) {
         useAuthStore.getState().setJwt(token);
+        localStorage.setItem('token', token);
+        localStorage.setItem('accessToken', token);
       }
 
       const user = normalized.user || normalized.User;
@@ -171,6 +173,8 @@ class AuthService {
       const token = normalized.accessToken || normalized.AccessToken;
       if (token) {
         useAuthStore.getState().setJwt(token);
+        localStorage.setItem('token', token);
+        localStorage.setItem('accessToken', token);
       }
 
       const user = normalized.user || normalized.User;
@@ -210,6 +214,8 @@ class AuthService {
       const token = normalized.accessToken || normalized.AccessToken;
       if (token) {
         useAuthStore.getState().setJwt(token);
+        localStorage.setItem('token', token);
+        localStorage.setItem('accessToken', token);
       }
       return normalized;
     } catch (error) {
@@ -226,15 +232,23 @@ class AuthService {
       }
       const authStore = useAuthStore.getState();
       authStore.logout();
+      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
       localStorage.removeItem('authUser');
       localStorage.removeItem('userProfile');
+      localStorage.removeItem('userid');
+      localStorage.removeItem('companyid');
       clearDeviceId();
     } catch (error) {
       console.error('[AuthService] Unexpected logout error:', error);
       const authStore = useAuthStore.getState();
       authStore.logout();
+      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
       localStorage.removeItem('authUser');
       localStorage.removeItem('userProfile');
+      localStorage.removeItem('userid');
+      localStorage.removeItem('companyid');
       clearDeviceId();
     }
   }

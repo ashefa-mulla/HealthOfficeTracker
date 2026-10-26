@@ -22,7 +22,7 @@ import DailyToDo from '../pages/DailyToDo';
 import Locations from '../pages/Locations';
 import Reports from '../pages/Reports';
 import Settings from '../pages/Settings';
-import { ApplyLeaveList, ApplyLeaveCreate } from '../pages/Leave';
+import { ApplyLeaveList, ApplyLeaveCreate, LeaveManagement } from '../pages/Leave';
 
 export interface RouteProps {
   path: string;
@@ -91,6 +91,7 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/area/leavetransaction/list', component: <ApplyLeaveList /> },
   { path: '/area/leavetransaction/create', component: <ApplyLeaveCreate /> },
   { path: '/area/leavetransaction/edit/:id', component: <ApplyLeaveCreate /> },
+  { path: '/area/leavemanagement', component: <LeaveManagement /> },
   { path: '/locations', component: <Locations /> },
   { path: '/reports', component: <Reports /> },
   { path: '/settings', component: <Settings /> },

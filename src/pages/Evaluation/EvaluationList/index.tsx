@@ -236,6 +236,8 @@ const EvaluationList: React.FC = () => {
   }, [list, applied]);
 
   const isLocked = rows.some((r) => r.isLocked);
+  // The lock only stops the employee - admins can still edit answers, comments and points.
+  const readOnly = isLocked && !isAdmin;
 
   // ---- access rules (non-admin) ---------------------------------------------
   // Past month: read-only. Future month: blocked. Current month: only inside a week's
@@ -256,10 +258,11 @@ const EvaluationList: React.FC = () => {
   const savedPoints = rows.length > 0 ? rows[0].weeks[3].additionalPoints : null;
   const savedComment = rows.length > 0 ? rows[0].weeks[3].additionalComment || '' : '';
 
+  // Reset on each fetch (keyed on `loading`, not `list`) so toggling the lock keeps unsaved points
   useEffect(() => {
     setAdditionalPoints(savedPoints === null || savedPoints === undefined ? '' : String(savedPoints));
     setAdditionalComment(savedComment);
-  }, [savedPoints, savedComment, list]);
+  }, [savedPoints, savedComment, loading]);
 
   const additionalChanged =
     additionalPoints !== (savedPoints === null || savedPoints === undefined ? '' : String(savedPoints)) ||
@@ -288,7 +291,7 @@ const EvaluationList: React.FC = () => {
   };
 
   const openComment = (row: EvaluationRow, week: number) => {
-    if (isLocked) {
+    if (readOnly) {
       toastService.error('This month is locked by admin. You cannot add or edit comments.');
       return;
     }
@@ -312,7 +315,7 @@ const EvaluationList: React.FC = () => {
 
   // ---- submit evaluation -----------------------------------------------------
   const handleSubmitEvaluation = async () => {
-    if (isLocked) {
+    if (readOnly) {
       toastService.error('This evaluation month is locked by the admin. You cannot submit changes.');
       return;
     }
@@ -671,14 +674,14 @@ const EvaluationList: React.FC = () => {
                                 <input
                                   type="checkbox"
                                   checked={cellAnswer(row, week)}
-                                  disabled={isLocked || !row.isActive || !canEditWeek(week)}
+                                  disabled={readOnly || !row.isActive || !canEditWeek(week)}
                                   onChange={(e) => setAnswer(row, week, e.target.checked)}
                                 />
                                 <button
                                   type="button"
                                   className={`evaluation-comment-btn ${cellComment(row, week) ? 'has-note' : ''}`}
                                   title={
-                                    isLocked
+                                    readOnly
                                       ? 'Evaluation locked by admin'
                                       : cellComment(row, week) || 'Add comment'
                                   }
@@ -772,7 +775,6 @@ const EvaluationList: React.FC = () => {
                       className="form-control"
                       placeholder="0"
                       value={additionalPoints}
-                      disabled={isLocked}
                       onChange={(e) => setAdditionalPoints(e.target.value)}
                     />
                   </div>
@@ -790,7 +792,6 @@ const EvaluationList: React.FC = () => {
                       rows={1}
                       placeholder="Write comment..."
                       value={additionalComment}
-                      disabled={isLocked}
                       onChange={(e) => setAdditionalComment(e.target.value)}
                     />
                   </div>
@@ -865,7 +866,7 @@ const EvaluationList: React.FC = () => {
             additionalPoints: null,
             additionalComment: '',
           }}
-          readOnly={isLocked}
+          readOnly={readOnly}
           onClose={() => setNoteTarget(null)}
           onApply={applyComment}
         />

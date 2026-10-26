@@ -32,6 +32,21 @@ class LeaveService {
   }
 
   /**
+   * GET /api/LeaveTransaction/GetLeaveEmployeeTransactionList
+   * Every employee's leave transactions (admin Leave Management).
+   */
+  async getLeaveEmployeeTransactionList(): Promise<LeaveTransactionListItem[]> {
+    try {
+      const response = await axiosInstance.get<LeaveTransactionListItem[]>(
+        `${BASE_LEAVE}/GetLeaveEmployeeTransactionList`
+      );
+      return Array.isArray(response.data) ? response.data : [];
+    } catch (error) {
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
    * GET /api/LeaveTransaction/GetLeaveTransaction/{id}
    */
   async getLeaveTransaction(id: number): Promise<any> {

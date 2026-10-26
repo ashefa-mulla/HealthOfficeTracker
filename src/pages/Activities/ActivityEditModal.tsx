@@ -20,6 +20,7 @@ import {
   ActivityEditForm,
 } from '@/types/activity/activity.schema';
 import ActivityPersonalInfo from './ActivityPersonalInfo';
+import './activityEditModal.css';
 
 export interface ActivityEditModalProps {
   isOpen: boolean;
@@ -62,6 +63,7 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
   });
 
   const { reset, handleSubmit } = methods;
+  const isEdit = initialData.id > 0;
 
   useEffect(() => {
     if (isOpen) {
@@ -76,9 +78,20 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
       size="lg"
       centered
       backdrop="static"
+      className="activity-edit-modal"
     >
-      <ModalHeader toggle={toggle}>
-        <span className="fw-bold">{initialData.id > 0 ? 'Edit Task' : 'Add Task'}</span>
+      <ModalHeader toggle={toggle} tag="div">
+        <div className="activity-modal-heading">
+          <span className="activity-modal-icon">
+            <i className={`mdi ${isEdit ? 'mdi-pencil-outline' : 'mdi-plus'}`}></i>
+          </span>
+          <div>
+            <div className="activity-modal-title">{isEdit ? 'Edit Task' : 'Add Task'}</div>
+            <div className="activity-modal-subtitle">
+              {isEdit ? 'Update the activity details and time log' : 'Log a new activity'}
+            </div>
+          </div>
+        </div>
       </ModalHeader>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmitForm as any)} noValidate>
@@ -121,7 +134,9 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
                   <Spinner size="sm" className="me-1" /> Saving...
                 </>
               ) : (
-                'Save'
+                <>
+                  <i className="mdi mdi-content-save-outline me-1"></i> Save
+                </>
               )}
             </Button>
           </ModalFooter>

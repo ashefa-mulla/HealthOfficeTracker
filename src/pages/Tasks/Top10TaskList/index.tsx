@@ -1154,14 +1154,29 @@ const Top10TaskList: React.FC = () => {
     });
   }, [isSearching, searchTerm, fullDataset]);
 
+  const rowId = (t: Top10TaskListItem) => Number(t.id || t.ID || 0);
+  const pinFirst = (rows: Top10TaskListItem[], pinned?: Top10TaskListItem | null) =>
+    pinned ? [pinned, ...rows.filter((t) => rowId(t) !== rowId(pinned))] : rows;
+
+  // The task being tracked shows first in the Pending view, on whichever page is open
+  // (it may live on another server page, so fall back to the full task list)
+  const activeRow = useMemo(() => {
+    if (!activeTimerTaskId || defaultStatus !== 'P') return null;
+    const isActive = (t: Top10TaskListItem) => rowId(t) === activeTimerTaskId;
+    return (list || []).find(isActive) || (allTasks || []).find(isActive) || null;
+  }, [activeTimerTaskId, defaultStatus, list, allTasks]);
+
   // Active display data: locally paginated if searching, otherwise server-paginated list
   const displayData = useMemo(() => {
     if (isSearching) {
+      const match = activeTimerTaskId
+        ? filteredTasks.find((t: Top10TaskListItem) => rowId(t) === activeTimerTaskId)
+        : undefined;
       const startIndex = (pageNumber - 1) * pageSize_Local;
-      return filteredTasks.slice(startIndex, startIndex + pageSize_Local);
+      return pinFirst(filteredTasks, match).slice(startIndex, startIndex + pageSize_Local);
     }
-    return list || [];
-  }, [isSearching, filteredTasks, pageNumber, pageSize_Local, list]);
+    return pinFirst(list || [], activeRow);
+  }, [isSearching, filteredTasks, pageNumber, pageSize_Local, list, activeRow, activeTimerTaskId]);
 
   const displayTotalRecords = isSearching
     ? filteredTasks.length
