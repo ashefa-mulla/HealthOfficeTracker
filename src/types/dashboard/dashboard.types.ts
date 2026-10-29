@@ -77,3 +77,40 @@ export interface OutstandingInvoiceSummary {
   totalOutstandingAmount?: number;
   [key: string]: any;
 }
+
+/** GET /api/Dashborad/GetEmployeeWorkTimeSummary */
+export interface EmployeeWorkTimeSummary {
+  employeeId: number;
+  employeeName: string;
+  reportDate: string;
+  firstActivityLocal?: string;
+  lastActivityLocal?: string;
+  totalSeconds: number;
+  totalHours: number;
+  totalTime: string;
+  meetingSeconds: number;
+  meetingHours: number;
+  activityCount: number;
+  applicationCount: number;
+}
+
+/** GET /api/Dashborad/GetEmployeeActivityDetails */
+export interface EmployeeActivityDetail {
+  id: number;
+  employeeId: number;
+  employeeName: string;
+  reportDate: string;
+  startTimeLocal: string;
+  endTimeLocal: string;
+  applicationName?: string;
+  processName?: string;
+  windowTitle?: string;
+  durationSeconds: number;
+  isInMeeting: boolean;
+  meetingPlatform?: string | null;
+  meetingActivityId?: string | null;
+  deviceId?: string;
+  activityId?: string;
+  startTimeUtc?: string;
+  endTimeUtc?: string;
+}

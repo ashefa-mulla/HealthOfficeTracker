@@ -343,6 +343,46 @@ h6 {
   color: #dc2626;
 }
 
+/* Edit / Delete row actions: soft tinted rounded buttons */
+.task-action-icon[title="Edit"],
+.task-action-icon[title="Delete"] {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.task-action-icon[title="Edit"] {
+  color: #0b4d9c;
+  background: #e8f1fc;
+}
+
+.task-action-icon[title="Edit"]:hover {
+  color: #fff;
+  background: #0b4d9c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(11, 77, 156, 0.3);
+}
+
+.task-action-icon[title="Delete"] {
+  color: #dc2626;
+  background: #fdecec;
+}
+
+.task-action-icon[title="Delete"]:hover,
+.task-action-icon.delete-icon[title="Delete"]:hover {
+  color: #fff;
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+}
+
+.task-action-icon[title="Edit"].me-2 {
+  margin-right: 0.5rem !important;
+}
+
 .task-action-icon.timer-btn-active {
   color: #ef4444;
   animation: activeTimerGlow 1.8s infinite alternate;
@@ -855,23 +895,38 @@ h6 {
 }
 
 .activity-table-action-btn {
-  background: transparent;
+  width: 32px;
+  height: 32px;
+  margin: 0 2px;
+  background: #e8f1fc;
   border: none;
-  color: #64748b;
-  font-size: 1rem;
-  padding: 4px;
+  border-radius: 8px;
+  color: #0b4d9c;
+  font-size: 1.05rem;
+  padding: 0;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:hover {
-    color: #0b4d9c;
+    color: #fff;
+    background: #0b4d9c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(11, 77, 156, 0.3);
+  }
+
+  &.delete-btn {
+    color: #dc2626;
+    background: #fdecec;
   }
 
   &.delete-btn:hover {
-    color: #dc2626;
+    color: #fff;
+    background: #dc2626;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
   }
 }
 /* ==========================================================================

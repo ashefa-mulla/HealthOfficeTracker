@@ -349,6 +349,29 @@ export const getEntityId = (profileInfo?: any, user?: any): number => {
   return getNumericEmployeeId(profileInfo, user);
 };
 
+/**
+ * Logged-in user's own employee id only (no userId / entityId fallback).
+ * Priority: localStorage 'employeeid' > profileInfo.employeeId > localStorage 'userProfile'.employeeId
+ */
+export const getOwnEmployeeId = (profileInfo?: any): number => {
+  const valid = (v: any) => v !== undefined && v !== null && !isNaN(Number(v)) && Number(v) > 0;
+
+  const ls = localStorage.getItem('employeeid');
+  if (valid(ls)) return Number(ls);
+
+  const fromProfile = profileInfo?.employeeId ?? profileInfo?.EmployeeId ?? profileInfo?.employeeid;
+  if (valid(fromProfile)) return Number(fromProfile);
+
+  try {
+    const p = JSON.parse(localStorage.getItem('userProfile') || '{}');
+    const raw = p.employeeId ?? p.EmployeeId ?? p.employeeid;
+    if (valid(raw)) return Number(raw);
+  } catch {
+    // ignore
+  }
+  return 0;
+};
+
 /** Admin / Super Admin (utype 1 / 4) */
 export const isAdminUser = (profileInfo?: any): boolean => {
   const type = Number(profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType);

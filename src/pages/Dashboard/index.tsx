@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Container, Row, Col, Table, Spinner } from 'reactstrap';
 import { useAuthStore } from '@/store/useAuthStore';
-import { getUserFullName, getUserRole, getNumericUserId, getNumericEmployeeId } from '@/helpers/userHelper';
+import { getUserFullName, getUserRole, getNumericUserId, getNumericEmployeeId, isAdminUser } from '@/helpers/userHelper';
 import dashboardService from '@/services/dashboardService';
 import presenceService from '@/services/presenceService';
 import { normalizeToken } from '@/helpers/tokenHelper';
@@ -16,6 +16,7 @@ import {
 import MentionPointsChart from './components/MentionPointsChart';
 import DurationUnder3HrChart from './components/DurationUnder3HrChart';
 import BillableHoursChart from './components/BillableHoursChart';
+import EmployeeWorkSummary from './components/EmployeeWorkSummary';
 import defaultAvatar from '@/assets/images/profile-img.png';
 import './dashboard.scss';
 
@@ -39,6 +40,9 @@ const Dashboard: React.FC = () => {
       (sessionRole === 'Clinicians' ? 2 : userProfile?.utype ?? 0)
   );
 
+  const isAdmin = isAdminUser(userProfile);
+  // Non-admins only ever see their own summary; the id comes from localStorage 'employeeid'
+  const myEmployeeId = Number(localStorage.getItem('employeeid')) || 0;
   const isClinician = sessiontype === 2 || sessionRole === 'Clinicians';
 
   // Live time
@@ -436,6 +440,9 @@ const Dashboard: React.FC = () => {
           ========================================================================= */}
       {sessiontype !== 2 && (
         <React.Fragment>
+          {/* Admin only: employee work-time summary with activity details modal */}
+          <EmployeeWorkSummary employeeId={isAdmin ? undefined : myEmployeeId} />
+
           {/* 1. Live Productivity Dashboard */}
           <section id="liveDashboard" className="live-dashboard mb-4">
             <div className="dashboard-title">

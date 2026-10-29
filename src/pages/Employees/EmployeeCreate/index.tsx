@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { Container, Row, Col, Spinner, Form } from "reactstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,13 +15,16 @@ import { employeeFormSchema, EmployeeForm } from "@/types/employee/employee.sche
 import { emptyEmployeeForm } from "@/types/employee/employee.mapper";
 import { useAuthStore } from "@/store/useAuthStore";
 import toastService from "@/services/toastService";
+import { getOwnEmployeeId } from "@/helpers/userHelper";
 import EmployeePersonalInfo from "./EmployeePersonalInfo";
 
 const LIST_PATH = "/area/employee/list";
+const PROFILE_PATH = "/settings";
 
 const EmployeeCreate: React.FC = () => {
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
+  const location = useLocation();
   const params = useParams<{ id: string }>();
 
   const { user, profileInfo } = useAuthStore();
@@ -32,9 +35,20 @@ const EmployeeCreate: React.FC = () => {
     (state: RootState) => (state as any).Employee
   );
 
-  const numericId = parseInt(params.id || "0", 10) || 0;
+  // Opened from "Account Settings": use the logged-in user's own employee id
+  // and send them back to their profile page instead of the all-users list.
+  const fromProfile = !!(location.state as any)?.fromProfile;
+  const ownEmployeeId = getOwnEmployeeId(profileInfo);
+  const numericId = fromProfile
+    ? ownEmployeeId
+    : parseInt(params.id || "0", 10) || 0;
   const isEdit = numericId > 0;
-  const pageHeading = isEdit ? "Edit Team Member" : "Add Team Member";
+  const backPath = fromProfile ? PROFILE_PATH : LIST_PATH;
+  const pageHeading = fromProfile
+    ? "Edit My Profile"
+    : isEdit
+    ? "Edit Team Member"
+    : "Add Team Member";
 
   document.title = `${pageHeading} | HO Tracker`;
 
@@ -69,7 +83,7 @@ const EmployeeCreate: React.FC = () => {
       await dispatch(
         saveEmployee({ form: formData, raw: isEdit ? selectedRaw : null, updatedBy })
       ).unwrap();
-      navigate(LIST_PATH);
+      navigate(backPath);
     } catch (err: any) {
       console.error("Failed to save team member:", err);
       toastService.error(err?.message || "Failed to save. Please try again.");
@@ -90,14 +104,14 @@ const EmployeeCreate: React.FC = () => {
               <h1 className="page-title-main">{pageHeading}</h1>
               <p className="breadcrumb-nav-custom mt-1">
                 <Link to="/dashboard">Area</Link> /{" "}
-                <Link to={LIST_PATH}>Team Members</Link> /{" "}
+                <Link to={backPath}>{fromProfile ? "Profile" : "Team Members"}</Link> /{" "}
                 <span>{pageHeading}</span>
               </p>
             </div>
             <div>
-              <Link to={LIST_PATH} className="btn-brand-secondary">
+              <Link to={backPath} className="btn-brand-secondary">
                 <i className="mdi mdi-arrow-left font-size-16"></i>
-                <span>Back to List</span>
+                <span>{fromProfile ? "Back to Profile" : "Back to List"}</span>
               </Link>
             </div>
           </div>
@@ -121,7 +135,7 @@ const EmployeeCreate: React.FC = () => {
                         <EmployeePersonalInfo />
 
                         <div className="d-flex align-items-center gap-3 pt-3 border-top">
-                          <Link to={LIST_PATH} className="btn-form-action-back">
+                          <Link to={backPath} className="btn-form-action-back">
                             Back
                           </Link>
                           <button

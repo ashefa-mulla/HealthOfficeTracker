@@ -740,6 +740,9 @@ const Top10TaskList: React.FC = () => {
       }
 
       loadData(pageNumber, pageSize_Local, defaultStatus);
+      if (empId > 0 || isAdmin) {
+        dispatch(fetchTaskListForUser({ empId, status: defaultStatus, isAdmin }));
+      }
     } catch (err: any) {
       console.error('Failed to save task timer duration:', err);
       toastService.error('Failed to save task duration.');
@@ -1163,8 +1166,18 @@ const Top10TaskList: React.FC = () => {
   const activeRow = useMemo(() => {
     if (!activeTimerTaskId || defaultStatus !== 'P') return null;
     const isActive = (t: Top10TaskListItem) => rowId(t) === activeTimerTaskId;
-    return (list || []).find(isActive) || (allTasks || []).find(isActive) || null;
-  }, [activeTimerTaskId, defaultStatus, list, allTasks]);
+    const isDoneRow = (t: Top10TaskListItem) => {
+      const s = String(t.completed || t.Completed || '').toLowerCase();
+      return s === 'done' || s === 'completed';
+    };
+    const fromList = (list || []).find(isActive);
+    if (fromList) return isDoneRow(fromList) ? null : fromList;
+    // allTasks can be stale (e.g. last pending task just marked Done), so never
+    // pin from it when the server reports no pending tasks or the row is done
+    if (!totalRecords) return null;
+    const fromAll = (allTasks || []).find(isActive);
+    return fromAll && !isDoneRow(fromAll) ? fromAll : null;
+  }, [activeTimerTaskId, defaultStatus, list, allTasks, totalRecords]);
 
   // Active display data: locally paginated if searching, otherwise server-paginated list
   const displayData = useMemo(() => {

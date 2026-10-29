@@ -13,10 +13,13 @@ import {
 import { RootState } from "@/slices";
 import { EmployeeForm } from "@/types/employee/employee.schema";
 import { getFileUrl } from "@/types/employee/employee.mapper";
+import AccessToggle from "./AccessToggle";
 import ChangeCredentialModal from "./ChangeCredentialModal";
 import EmployeeFileField from "./EmployeeFileField";
 import employeeService from "@/services/employeeService";
 import toastService from "@/services/toastService";
+import { useAuthStore } from "@/store/useAuthStore";
+import { isAdminUser } from "@/helpers/userHelper";
 import {
   fetchStatesByCountry,
   fetchCitiesByState,
@@ -38,6 +41,9 @@ const EmployeePersonalInfo: React.FC = () => {
   const dispatch = useDispatch<any>();
   const { watch, setValue } = useFormContext<EmployeeForm>();
   const { dropdowns } = useSelector((state: RootState) => (state as any).Employee);
+  const { profileInfo } = useAuthStore();
+  // Only admins may change User Type and Username
+  const isAdmin = isAdminUser(profileInfo);
 
   const id = watch("id");
   const countryId = watch("countryId");
@@ -178,10 +184,20 @@ const EmployeePersonalInfo: React.FC = () => {
       </Row>
       <Row>
         <Col md={4} sm={12} className="d-flex align-items-center">
-          <RHFCheckBox<EmployeeForm> name="payrollOn" label="Payroll On" />
+          <AccessToggle<EmployeeForm>
+            name="payrollOn"
+            label="Payroll"
+            description="Include this employee in payroll"
+            onText="Payroll On"
+            offText="Payroll Off"
+          />
         </Col>
         <Col md={4} sm={12} className="d-flex align-items-center">
-          <RHFCheckBox<EmployeeForm> name="active" label="Active" />
+          <AccessToggle<EmployeeForm>
+            name="active"
+            label="Employee Active"
+            description="Turn off to deactivate this employee"
+          />
         </Col>
       </Row>
 
@@ -286,7 +302,7 @@ const EmployeePersonalInfo: React.FC = () => {
             name="userName"
             label="Username / Email"
             required
-            disabled={isEdit}
+            disabled={isEdit || !isAdmin}
           />
         </Col>
         <Col md={6} sm={12}>
@@ -296,20 +312,24 @@ const EmployeePersonalInfo: React.FC = () => {
             placeholder="-- Select User Type --"
             options={toOptions(dropdowns.userTypes)}
             required
+            isDisabled={!isAdmin}
+            isClearable={isAdmin}
           />
         </Col>
       </Row>
       {isEdit && (
         <Row>
           <Col md={12} className="mb-3 d-flex gap-2">
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              disabled={!identityId}
-              onClick={() => setCredentialModal("username")}
-            >
-              <i className="mdi mdi-account-edit-outline me-1"></i>Change Username
-            </button>
+            {isAdmin && (
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-primary"
+                disabled={!identityId}
+                onClick={() => setCredentialModal("username")}
+              >
+                <i className="mdi mdi-account-edit-outline me-1"></i>Change Username
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-sm btn-outline-primary"
@@ -341,7 +361,13 @@ const EmployeePersonalInfo: React.FC = () => {
           <RHFInput<EmployeeForm> name="pin" label="Pin" />
         </Col>
         <Col md={6} sm={12} className="d-flex align-items-center">
-          <RHFCheckBox<EmployeeForm> name="userActive" label="User Active" />
+          <AccessToggle<EmployeeForm>
+            name="userActive"
+            label="User Login Access"
+            description="Allow or block this user from signing in"
+            onText="Access On"
+            offText="Access Off"
+          />
         </Col>
       </Row>
       <ChangeCredentialModal

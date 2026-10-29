@@ -336,48 +336,66 @@
 }
 
 .evaluation-page .evaluation-action-btn {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
+  margin: 0 2px;
   border: 0;
-  border-radius: 50%;
-  background: transparent;
-  font-size: 1.1rem;
+  border-radius: 8px;
+  background: #eef2f6;
+  font-size: 1.05rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.evaluation-page .evaluation-action-btn:hover {
+  transform: translateY(-1px);
 }
 
 .evaluation-page .evaluation-action-btn.edit {
-  color: var(--ev-brand);
+  color: #0b4d9c;
+  background: #e8f1fc;
 }
 
 .evaluation-page .evaluation-action-btn.edit:hover {
-  background: #e0ecfa;
+  color: #fff;
+  background: #0b4d9c;
+  box-shadow: 0 4px 10px rgba(11, 77, 156, 0.3);
 }
 
 .evaluation-page .evaluation-action-btn.power-on {
   color: #e8a317;
+  background: #fff4dc;
 }
 
 .evaluation-page .evaluation-action-btn.power-on:hover {
-  background: #fff4dc;
+  color: #fff;
+  background: #e8a317;
+  box-shadow: 0 4px 10px rgba(232, 163, 23, 0.3);
 }
 
 .evaluation-page .evaluation-action-btn.power-off {
   color: #94a3b8;
-}
-
-.evaluation-page .evaluation-action-btn.power-off:hover {
   background: #eef2f6;
 }
 
+.evaluation-page .evaluation-action-btn.power-off:hover {
+  color: #fff;
+  background: #94a3b8;
+  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.3);
+}
+
 .evaluation-page .evaluation-action-btn.remove {
-  color: var(--ev-red);
+  color: #dc2626;
+  background: #fdecec;
 }
 
 .evaluation-page .evaluation-action-btn.remove:hover {
-  background: #fdecea;
+  color: #fff;
+  background: #dc2626;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
 }
 
 /* ---- lock / additional points ------------------------------------------ */

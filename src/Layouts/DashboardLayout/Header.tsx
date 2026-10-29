@@ -9,7 +9,7 @@ import {
   getUserRole,
   getUserInitials,
   getUserAvatarUrl,
-  getEntityId,
+  getOwnEmployeeId,
 } from '../../helpers/userHelper';
 
 interface HeaderProps {
@@ -36,11 +36,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, user, profileInfo }) =
   const role = getUserRole(profileInfo);
   const initials = getUserInitials(user, profileInfo);
   const avatarUrl = getUserAvatarUrl(profileInfo);
-  const entityId = getEntityId(profileInfo, user);
+  const entityId = getOwnEmployeeId(profileInfo);
 
   const handleAccountSettings = () => {
     if (entityId) {
-      navigate(`/area/employee/edit/${entityId}`);
+      navigate(`/area/employee/edit/${entityId}`, { state: { fromProfile: true } });
     } else {
       navigate('/settings');
     }

@@ -13,6 +13,8 @@ import {
   PurchaseOrderDueDateEvent,
   ClientProjectSummaryItem,
   OutstandingInvoiceSummary,
+  EmployeeWorkTimeSummary,
+  EmployeeActivityDetail,
 } from '@/types/dashboard/dashboard.types';
 
 const BASE_DASHBOARD = '/api/Dashborad';
@@ -245,6 +247,44 @@ class DashboardService {
       );
       return response.data || [];
     } catch (error) {
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
+   * GET /api/Dashborad/GetEmployeeWorkTimeSummary?reportDate=&employeeId=
+   * Per-employee total tracked time for a day (API returns 404 when there is no data)
+   */
+  async getEmployeeWorkTimeSummary(
+    reportDate?: string,
+    employeeId?: number
+  ): Promise<EmployeeWorkTimeSummary[]> {
+    try {
+      const response = await axiosInstance.get(`${BASE_DASHBOARD}/GetEmployeeWorkTimeSummary`, {
+        params: { reportDate, employeeId },
+      });
+      return response.data || [];
+    } catch (error: any) {
+      if (error?.response?.status === 404) return [];
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
+   * GET /api/Dashborad/GetEmployeeActivityDetails?reportDate=&employeeId=
+   * Activity-level log for an employee on a day (API returns 404 when there is no data)
+   */
+  async getEmployeeActivityDetails(
+    reportDate?: string,
+    employeeId?: number
+  ): Promise<EmployeeActivityDetail[]> {
+    try {
+      const response = await axiosInstance.get(`${BASE_DASHBOARD}/GetEmployeeActivityDetails`, {
+        params: { reportDate, employeeId },
+      });
+      return response.data || [];
+    } catch (error: any) {
+      if (error?.response?.status === 404) return [];
       throw axiosErrorToApiError(error);
     }
   }
