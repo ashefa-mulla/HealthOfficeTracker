@@ -640,6 +640,8 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<spa_getactivelogofemployee_records_Result>().HasNoKey();
         modelBuilder.Entity<spa_getactivelogofemployee_Result>().HasNoKey();
         modelBuilder.Entity<sp_employee_clockedin>().HasNoKey();
+        modelBuilder.Entity<sp_getemployeeworktimesummary_Results>().HasNoKey();
+        modelBuilder.Entity<sp_getemployeeactivitydetails_Results>().HasNoKey();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

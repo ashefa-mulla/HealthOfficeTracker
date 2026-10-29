@@ -265,6 +265,26 @@ namespace BusinessApp.Controllers
         }
 
 
+        [HttpGet("GetEmployeeWorkTimeSummary")]
+        public async Task<ActionResult<IEnumerable<sp_getemployeeworktimesummary_Results>>> GetEmployeeWorkTimeSummary(DateTime? reportDate = null, int? employeeId = null)
+        {
+            var result = await notificationService.GetEmployeeWorkTimeSummaryAsync(reportDate, employeeId);
+            if (result != null && result.Any())
+                return Ok(result);
+            else
+                return NotFound();
+        }
+
+        [HttpGet("GetEmployeeActivityDetails")]
+        public async Task<ActionResult<IEnumerable<sp_getemployeeactivitydetails_Results>>> GetEmployeeActivityDetails(DateTime? reportDate = null, int? employeeId = null)
+        {
+            var result = await notificationService.GetEmployeeActivityDetailsAsync(reportDate, employeeId);
+            if (result != null && result.Any())
+                return Ok(result);
+            else
+                return NotFound();
+        }
+
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,10 @@ namespace BusinessService.Custom.Notification
         Task<IEnumerable<sp_getbelow3hremployeedailyduration_Results>> GetBelow3HrEmployeeDailyDurationAsync(DateTime startDate, DateTime endDate);
         Task<IEnumerable<sp_getemployeesnottrackedyesterday_results>> GetEmployeesNotTrackedYesterdayAsync();
         Task<IEnumerable<sp_getonlineemployeedashboardsummary_Result>>GetOnlineEmployeeDashboardSummary(string userIds);
+
+        //Activity tracking 10-29 2026 GJ
+        Task<IEnumerable<sp_getemployeeworktimesummary_Results>> GetEmployeeWorkTimeSummaryAsync(DateTime? reportDate = null, int? employeeId = null);
+        Task<IEnumerable<sp_getemployeeactivitydetails_Results>> GetEmployeeActivityDetailsAsync(DateTime? reportDate = null, int? employeeId = null);
 
     }
 }

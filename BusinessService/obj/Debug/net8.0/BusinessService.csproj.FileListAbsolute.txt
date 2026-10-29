@@ -61,3 +61,6 @@ D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Deb
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\refint\BusinessService.dll
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\BusinessService.pdb
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessService\obj\Debug\net8.0\ref\BusinessService.dll
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessService.deps.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessService.dll
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessService.pdb

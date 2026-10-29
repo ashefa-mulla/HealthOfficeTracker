@@ -68,7 +68,10 @@ namespace BusinessApp.Settings
              .ReverseMap();
             CreateMap<Matrix4teamAnswerModel, TblMatrix4teamAnswer>()
              .ReverseMap();
+            // UpdatedDate is string on the model but DateOnly? on the entity (no string->DateOnly map),
+            // and EvaluationService.tblInsert/tblUpdate always set it server-side, so skip it here.
             CreateMap<EvaluationSubmissionModel, TblEvaluationSubmission>()
+            .ForMember(d => d.UpdatedDate, o => o.Ignore())
             .ReverseMap();
             //CreateMap<EvaluationQuestionModel, TblEvaluationQuestions>().ReverseMap();
             CreateMap<EvaluationQuestionModel, TblEvaluationQuestion>()

@@ -1098,4 +1098,11 @@ D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessApp\obj\Debug\n
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessApp\obj\Debug\net8.0\BusinessApp.pdb
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessApp\obj\Debug\net8.0\BusinessApp.genruntimeconfig.cache
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessApp\obj\Debug\net8.0\ref\BusinessApp.dll
-D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\appsettings.Development.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\appsettings.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessApp.staticwebassets.endpoints.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessApp.exe
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessApp.deps.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessApp.runtimeconfig.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessApp.dll
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessApp.pdb

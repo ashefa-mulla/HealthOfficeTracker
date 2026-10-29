@@ -57,3 +57,7 @@ D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.pdb
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\BusinessData.genruntimeconfig.cache
 D:\Workspace\GitHubProjet\HOTracker\HO Tracker React\API\BusinessData\obj\Debug\net8.0\ref\BusinessData.dll
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessData.deps.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessData.runtimeconfig.json
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessData.dll
+C:\Users\GIRISH\AppData\Local\Temp\claude\d--Workspace-GitHubProjet-HOTracker-HO-Tracker-React-App\7835bbad-fd87-4a96-8629-ca7c0425daab\scratchpad\apibuild\BusinessData.pdb
