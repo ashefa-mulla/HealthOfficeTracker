@@ -35,7 +35,7 @@ export interface ActivityEditModalProps {
   isSubmittingModal: boolean;
   formError?: string;
   onProjectChange: (projectId: number) => Promise<void> | void;
-  onSubProjectChange: (subProjectId: number) => Promise<void> | void;
+  onSubProjectChange: (projectId: number, subProjectId: number) => Promise<void> | void;
   onSubmitForm: (data: ActivityEditForm) => Promise<void> | void;
 }
 

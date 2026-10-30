@@ -1,6 +1,9 @@
 import { EmployeeForm } from "./employee.schema";
 import { formatLocalDateToIso } from "@/helpers/dateHelper";
 
+/** Initial password given to every newly created user (same as the Angular app). */
+const DEFAULT_PASSWORD = "a2md";
+
 const text = (v: any) => (v === undefined || v === null ? "" : String(v));
 const idOrNull = (v: any) => (v ? Number(v) : null);
 
@@ -80,7 +83,7 @@ export const toEmployeeForm = (data: any): EmployeeForm => {
     cvdoc: getFileUrl(data?.cvdoc) ? text(data?.cvdoc) : "",
     agreementDoc: getFileUrl(data?.agreementDoc) ? text(data?.agreementDoc) : "",
     primaryContact: text(data?.primaryContact),
-    primaryEmail: text(data?.primaryEmail),
+    primaryEmail: text(data?.primaryEmail) || text(user.userName),
     alternateContact: text(data?.alternateContact),
     alternateEmail: text(data?.alternateEmail),
     emergencycontactperson: text(data?.emergencycontactperson),
@@ -154,12 +157,12 @@ export const toEmployeeFormModel = (form: EmployeeForm, raw: any, updatedBy: str
     },
     userDetail: {
       userId: Number(form.userId || 0),
-      userName: form.userName.trim(),
+      // New user: login name is the Primary Email and the password is the default one.
+      userName: isEdit ? (form.userName || "").trim() : (form.primaryEmail || "").trim(),
       // The API model marks Password/ReTypePassword as [Required]. On edit they are
-      // ignored by the update branch (passwords are changed via ChangePassword), so a
-      // matching placeholder is sent to satisfy model validation.
-      password: isEdit ? "NotChanged@1" : form.password || "",
-      reTypePassword: isEdit ? "NotChanged@1" : form.reTypePassword || "",
+      // ignored by the update branch (passwords are changed via ChangePassword).
+      password: isEdit ? "NotChanged@1" : DEFAULT_PASSWORD,
+      reTypePassword: isEdit ? "NotChanged@1" : DEFAULT_PASSWORD,
       userType: Number(form.userType),
       pin: form.pin || "",
       menu: raw?.userMaster?.menu || "",

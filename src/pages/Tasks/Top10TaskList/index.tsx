@@ -163,12 +163,13 @@ const Top10TaskList: React.FC = () => {
         // ignore parse error
       }
 
+      // Running task comes from the server only: it may have been stopped in another
+      // app/browser, so a leftover localStorage entry must not restart the timer
       const taskId = Number(
         trackerTask?.taskListid ||
         trackerTask?.TaskListid ||
         trackerTask?.taskListId ||
         trackerTask?.tasklistid ||
-        savedLocal?.taskId ||
         0
       );
 

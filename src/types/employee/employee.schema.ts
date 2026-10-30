@@ -36,7 +36,7 @@ export const employeeFormSchema = z
     firstname: z.string().trim().min(1, "First Name is required!"),
     middlename: optionalText,
     lastname: z.string().trim().min(1, "Last Name is required!"),
-    designationid: optionalId,
+    designationid: requiredId("Designation is required!"),
     dob: optionalText,
     joiningDate: z.string().min(1, "Joining Date is required!"),
     relieveDate: optionalText,
@@ -49,8 +49,16 @@ export const employeeFormSchema = z
     agreementDoc: optionalText,
 
     // contact
-    primaryContact: optionalText,
-    primaryEmail: optionalEmail,
+    primaryContact: z
+      .string()
+      .trim()
+      .min(1, "Primary Contact is required!")
+      .regex(/^((\+91-?)|0)?[0-9]{10}$/, "Primary Contact is not valid!"),
+    primaryEmail: z
+      .string()
+      .trim()
+      .min(1, "Primary Email is required!")
+      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email is not valid!"),
     alternateContact: optionalText,
     alternateEmail: optionalEmail,
     emergencycontactperson: optionalText,
@@ -59,41 +67,22 @@ export const employeeFormSchema = z
     // address
     addressLine1: optionalText,
     addressLine2: optionalText,
-    countryId: optionalId,
-    stateId: optionalId,
-    cityId: optionalId,
+    countryId: requiredId("Country is required!"),
+    stateId: requiredId("State is required!"),
+    cityId: requiredId("City is required!"),
     zip: optionalText,
-    timezone: optionalText,
+    timezone: z.string().trim().min(1, "Time Zone is required!"),
     comments: optionalText,
 
     // login (UserDetail)
-    userName: z
-      .string()
-      .trim()
-      .min(1, "Username/Email is required!")
-      .regex(/^[a-zA-Z0-9_.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/, "Username/Email is not valid!"),
+    // On create the username is the Primary Email and the password is the default one
+    // (same as the Angular app); both are filled in by the mapper, not entered by the user.
+    userName: optionalText,
     password: optionalText,
     reTypePassword: optionalText,
     userType: requiredId("User Type is required!"),
     pin: optionalText,
     userActive: z.boolean().default(true),
-  })
-  .superRefine((data, ctx) => {
-    // Password is only entered when creating a new user
-    if (!data.id) {
-      if (!data.password) {
-        ctx.addIssue({ code: "custom", path: ["password"], message: "Password is required!" });
-      }
-      if (!data.reTypePassword) {
-        ctx.addIssue({ code: "custom", path: ["reTypePassword"], message: "Re-type Password is required!" });
-      } else if (data.password !== data.reTypePassword) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["reTypePassword"],
-          message: "'Re-type Password' and 'Password' do not match!",
-        });
-      }
-    }
   });
 
 export type EmployeeForm = z.infer<typeof employeeFormSchema>;

@@ -24,7 +24,7 @@ export interface ActivityPersonalInfoProps {
   showAdminField: boolean;
   formError?: string;
   onProjectChange?: (projectId: number) => void;
-  onSubProjectChange?: (subProjectId: number) => void;
+  onSubProjectChange?: (projectId: number, subProjectId: number) => void;
 }
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
@@ -122,7 +122,8 @@ const ActivityPersonalInfo: React.FC<ActivityPersonalInfoProps> = ({
   const handleSubProjectChange = (val: any) => {
     const subProjectId = val ? Number(val) : 0;
     setValue('subProjectCategoryId', 0 as any, { shouldValidate: true });
-    onSubProjectChange?.(subProjectId);
+    // Pass the Client selected in the form; categories are looked up per Client + Project
+    onSubProjectChange?.(Number(selectedProject || 0), subProjectId);
   };
 
   // Start / End time: date-time picker for admin, read-only value for everyone else

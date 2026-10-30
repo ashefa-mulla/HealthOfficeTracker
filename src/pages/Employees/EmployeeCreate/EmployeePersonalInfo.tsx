@@ -155,6 +155,7 @@ const EmployeePersonalInfo: React.FC = () => {
           <RHFSelect<EmployeeForm>
             name="designationid"
             label="Designation"
+            required
             placeholder="-- Select Designation --"
             options={toOptions(dropdowns.designations)}
           />
@@ -204,10 +205,10 @@ const EmployeePersonalInfo: React.FC = () => {
       <SectionTitle title="Contact Information" />
       <Row>
         <Col md={6} sm={12}>
-          <RHFInput<EmployeeForm> name="primaryContact" label="Primary Contact" />
+          <RHFInput<EmployeeForm> name="primaryContact" label="Primary Contact" required />
         </Col>
         <Col md={6} sm={12}>
-          <RHFInput<EmployeeForm> name="primaryEmail" label="Primary Email" type="email" />
+          <RHFInput<EmployeeForm> name="primaryEmail" label="Primary Email" type="email" required />
         </Col>
         <Col md={6} sm={12}>
           <RHFInput<EmployeeForm> name="alternateContact" label="Alternate Contact" />
@@ -237,6 +238,7 @@ const EmployeePersonalInfo: React.FC = () => {
           <RHFSelect<EmployeeForm>
             name="countryId"
             label="Country"
+            required
             placeholder="-- Select Country --"
             options={toOptions(dropdowns.countries)}
             onChange={() => {
@@ -249,6 +251,7 @@ const EmployeePersonalInfo: React.FC = () => {
           <RHFSelect<EmployeeForm>
             name="stateId"
             label="State"
+            required
             placeholder="-- Select State --"
             options={toOptions(dropdowns.states)}
             onChange={() => setValue("cityId", null)}
@@ -258,6 +261,7 @@ const EmployeePersonalInfo: React.FC = () => {
           <RHFSelect<EmployeeForm>
             name="cityId"
             label="City"
+            required
             placeholder="-- Select City --"
             options={toOptions(dropdowns.cities)}
           />
@@ -271,6 +275,7 @@ const EmployeePersonalInfo: React.FC = () => {
           <RHFSelect<EmployeeForm>
             name="timezone"
             label="Time Zone"
+            required
             placeholder="-- Select Time Zone --"
             options={(dropdowns.timeZones || []).map((t: any) => ({
               value: t.name,
@@ -297,14 +302,18 @@ const EmployeePersonalInfo: React.FC = () => {
 
       <SectionTitle title="Login Details" />
       <Row>
-        <Col md={6} sm={12}>
-          <RHFInput<EmployeeForm>
-            name="userName"
-            label="Username / Email"
-            required
-            disabled={isEdit || !isAdmin}
-          />
-        </Col>
+        {isEdit ? (
+          <Col md={6} sm={12}>
+            <RHFInput<EmployeeForm> name="userName" label="Username / Email" disabled />
+          </Col>
+        ) : (
+          <Col md={12} sm={12} className="mb-2">
+            <small className="text-muted">
+              The Primary Email is used as the username, and the initial password is set
+              automatically.
+            </small>
+          </Col>
+        )}
         <Col md={6} sm={12}>
           <RHFSelect<EmployeeForm>
             name="userType"
@@ -342,21 +351,6 @@ const EmployeePersonalInfo: React.FC = () => {
         </Row>
       )}
       <Row>
-        {!isEdit && (
-          <>
-            <Col md={6} sm={12}>
-              <RHFInput<EmployeeForm> name="password" label="Password" type="password" required />
-            </Col>
-            <Col md={6} sm={12}>
-              <RHFInput<EmployeeForm>
-                name="reTypePassword"
-                label="Re-type Password"
-                type="password"
-                required
-              />
-            </Col>
-          </>
-        )}
         <Col md={6} sm={12}>
           <RHFInput<EmployeeForm> name="pin" label="Pin" />
         </Col>

@@ -481,14 +481,15 @@ const TaskActivityList: React.FC = () => {
     }
   };
 
-  // Handle Project (SubProject) dropdown change in modal
-  const handleSubProjectChange = async (subProjectId: number) => {
+  // Handle Project (SubProject) dropdown change in modal.
+  // projectId is the Client currently selected in the form (formData holds the original one)
+  const handleSubProjectChange = async (projectId: number, subProjectId: number) => {
     setSubprojectCategoryList([]);
 
-    if (subProjectId > 0) {
+    if (projectId > 0 && subProjectId > 0) {
       try {
         const cats = await top10TaskService.getTrackerSubProjectCategory(
-          Number(formData.projectId || 0),
+          projectId,
           subProjectId
         );
         setSubprojectCategoryList(cats || []);
