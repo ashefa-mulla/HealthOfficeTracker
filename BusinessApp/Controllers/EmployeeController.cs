@@ -135,12 +135,17 @@ namespace BusinessApp.Controllers
                                 obj.Active = true;
                                 obj.CompanyId = 1;
                                 obj.Branch = 1;
-                                isResult = await employeeService.tblInsert(obj);
+                                // Call Create directly (tblInsert swallows the exception) so the real
+                                // database error can be reported and logged.
+                                await employeeService.Create(obj);
+                                isResult = true;
                             }
                             catch (Exception ex) {
+                                // Roll back the login rows so the same email can be used again.
+                                await userServices.Tbl_Delete(UserID);
                                 await this.userManager.DeleteAsync(identityuser);
                                 Logger.LogError($"Error - : {ex}");
-                                return BadRequest(new { message = "Incorrect!!" });
+                                return BadRequest(new { message = "Unable to save employee profile: " + ex.GetBaseException().Message });
                             }
                         }
                         else
@@ -149,7 +154,12 @@ namespace BusinessApp.Controllers
                             return BadRequest(new { message = "Incorrect!!" });
                         }
                     }
-                    
+                    else
+                    {
+                        var identityErrors = string.Join(" ", result.Result.Errors.Select(e => e.Description));
+                        return BadRequest(new { message = string.IsNullOrWhiteSpace(identityErrors) ? "Incorrect!!" : identityErrors });
+                    }
+
                 }
                 if (isResult)
                 {

@@ -52,6 +52,7 @@ namespace BusinessService.Custom.Employee
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Trace.TraceError($"EmployeeService.tblInsert failed: {ex}");
                 return false;
             }
 
