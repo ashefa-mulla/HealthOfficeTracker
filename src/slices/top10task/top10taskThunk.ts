@@ -79,20 +79,16 @@ export const calculateTodayProjectedHours = (tasks: Top10TaskListItem[]): string
 export const fetchTaskListForUser = createAsyncThunk(
   'top10Task/fetchTaskListForUser',
   async (
-    params: { empId: number; status: string; isAdmin?: boolean },
+    params: { empId: number; status: string },
     { dispatch }
   ) => {
     try {
-      let rawData: Top10TaskListItem[] = [];
-
-      if (params.isAdmin) {
-        rawData = await top10TaskService.getTaskListDetail();
-      } else {
-        rawData = await top10TaskService.getTaskListForUser(
-          params.empId,
-          params.status
-        );
-      }
+      // Admin uses the same per-user list as everyone else (matches Angular update 02-24 2025);
+      // GetTaskListDetail ignores the status filter and has no AssignDate/ETA
+      const rawData: Top10TaskListItem[] = await top10TaskService.getTaskListForUser(
+        params.empId,
+        params.status
+      );
 
       const formatted = formatTaskProjections(rawData);
       dispatch(setAllTasks(formatted));

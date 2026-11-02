@@ -301,7 +301,6 @@ const Top10TaskList: React.FC = () => {
         fetchTaskListForUser({
           empId,
           status: defaultStatus,
-          isAdmin,
         })
       );
     }
@@ -742,7 +741,7 @@ const Top10TaskList: React.FC = () => {
 
       loadData(pageNumber, pageSize_Local, defaultStatus);
       if (empId > 0 || isAdmin) {
-        dispatch(fetchTaskListForUser({ empId, status: defaultStatus, isAdmin }));
+        dispatch(fetchTaskListForUser({ empId, status: defaultStatus }));
       }
     } catch (err: any) {
       console.error('Failed to save task timer duration:', err);
@@ -807,12 +806,13 @@ const Top10TaskList: React.FC = () => {
   const columns = useMemo<ColumnDef<Top10TaskListItem, any>[]>(() => {
     const cols: ColumnDef<Top10TaskListItem, any>[] = [
       {
+        // accountablePerson = task creator (same as Angular "Assigned By")
         header: 'Assigned By',
-        accessorKey: 'pointPerson',
+        accessorKey: 'accountablePerson',
         enableSorting: true,
         cell: (info) => {
           const row = info.row.original;
-          return row.pointPerson || row.PointPerson || row.accountablePerson || row.AccountablePerson || '-';
+          return row.accountablePerson || row.AccountablePerson || '-';
         },
       },
     ];
@@ -824,7 +824,7 @@ const Top10TaskList: React.FC = () => {
         enableSorting: true,
         cell: (info) => {
           const row = info.row.original;
-          return row.secondPerson || row.SecondPerson || row.accountablePerson || row.AccountablePerson || '-';
+          return row.secondPerson || row.SecondPerson || row.pointPerson || row.PointPerson || '-';
         },
       });
     }
@@ -1091,8 +1091,6 @@ const Top10TaskList: React.FC = () => {
 
     return fullDataset.filter((item: Top10TaskListItem) => {
       const assignedBy = String(
-        item.pointPerson ||
-        item.PointPerson ||
         item.accountablePerson ||
         item.AccountablePerson ||
         ''
@@ -1100,8 +1098,8 @@ const Top10TaskList: React.FC = () => {
       const assignedTo = String(
         item.secondPerson ||
         item.SecondPerson ||
-        item.accountablePerson ||
-        item.AccountablePerson ||
+        item.pointPerson ||
+        item.PointPerson ||
         ''
       ).toLowerCase();
       const task = String(
