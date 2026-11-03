@@ -4,6 +4,7 @@ import './employeeWorkSummary.scss';
 import dashboardService from '@/services/dashboardService';
 import {
   EmployeeActivityDetail,
+  EmployeeMeetingDetail,
   EmployeeWorkTimeSummary,
 } from '@/types/dashboard/dashboard.types';
 
@@ -44,6 +45,11 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
   const [details, setDetails] = useState<EmployeeActivityDetail[]>([]);
   const [detailsLoading, setDetailsLoading] = useState<boolean>(false);
   const [detailsError, setDetailsError] = useState<string>('');
+
+  const [meetingsOpen, setMeetingsOpen] = useState<boolean>(false);
+  const [meetings, setMeetings] = useState<EmployeeMeetingDetail[]>([]);
+  const [meetingsLoading, setMeetingsLoading] = useState<boolean>(false);
+  const [meetingsError, setMeetingsError] = useState<string>('');
 
   const loadSummary = useCallback(async (date: string) => {
     // A personal view without a valid employee id must never fall back to "all employees"
@@ -87,6 +93,27 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
     }
   };
 
+  const openMeetings = async () => {
+    setMeetingsOpen(true);
+    setMeetings([]);
+    setMeetingsError('');
+    setMeetingsLoading(true);
+    try {
+      // Admin: all employees (no employeeId). Personal view: only the signed-in employee.
+      const res = await dashboardService.getEmployeeMeetingDetails(reportDate, employeeId);
+      const list = Array.isArray(res) ? res : [];
+      const visible = isPersonal ? list.filter((m) => m.employeeId === employeeId) : list;
+      setMeetings(
+        [...visible].sort((a, b) => (a.meetingStartLocal || '').localeCompare(b.meetingStartLocal || ''))
+      );
+    } catch (err) {
+      console.warn('[Dashboard] Error fetching employee meeting details:', err);
+      setMeetingsError('Failed to load meeting details.');
+    } finally {
+      setMeetingsLoading(false);
+    }
+  };
+
   const totals = useMemo(
     () => ({
       seconds: rows.reduce((sum, r) => sum + (r.totalSeconds || 0), 0),
@@ -102,7 +129,7 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
     const map = new Map<string, number>();
     details.forEach((d) => {
       const key = d.applicationName || d.processName || 'Unknown';
-      map.set(key, (map.get(key) || 0) + (d.durationSeconds || 0));
+      map.set(key, (map.get(key) || 0) + (d.actualSeconds || 0));
     });
     return Array.from(map.entries())
       .map(([name, seconds]) => ({ name, seconds }))
@@ -127,7 +154,7 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
     isPersonal
       ? { icon: 'mdi-apps', label: 'Applications Used', value: String(rows[0]?.applicationCount ?? 0), tone: 'purple' }
       : { icon: 'mdi-chart-timeline-variant', label: 'Average / Employee', value: formatSeconds(avgSeconds), tone: 'purple' },
-    { icon: 'mdi-video-outline', label: 'In Meetings', value: formatSeconds(totals.meeting), tone: 'orange' },
+    { icon: 'mdi-video-outline', label: 'In Meetings', value: formatSeconds(totals.meeting), tone: 'orange', onClick: openMeetings },
   ];
 
   return (
@@ -156,13 +183,19 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
 
       <div className="ews-kpis">
         {kpis.map((k) => (
-          <div key={k.label} className={`ews-kpi ews-kpi-${k.tone}`}>
+          <div
+            key={k.label}
+            className={`ews-kpi ews-kpi-${k.tone}`}
+            style={k.onClick ? { cursor: 'pointer' } : undefined}
+            onClick={k.onClick}
+            title={k.onClick ? 'Click to see meeting times' : undefined}
+          >
             <span className="ews-kpi-icon">
               <i className={`mdi ${k.icon}`}></i>
             </span>
             <div>
               <div className="ews-kpi-value">{k.value}</div>
-              <div className="ews-kpi-label">{k.label}</div>
+              <div className="ews-kpi-label">{k.label}{k.onClick ? ' · view times' : ''}</div>
             </div>
           </div>
         ))}
@@ -272,10 +305,11 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
           )}
 
           {appBreakdown.length > 0 && (
-            <div className="chip-container mb-3">
-              {appBreakdown.map((a) => (
-                <span key={a.name} className="chip">
-                  {a.name}: {formatSeconds(a.seconds)}
+            <div className="ews-app-chips mb-3">
+              {appBreakdown.map((a, i) => (
+                <span key={a.name} className={`ews-app-chip ews-app-chip-${i % 6}`}>
+                  <span className="ews-app-chip-name">{a.name}</span>
+                  <span className="ews-app-chip-time">{formatSeconds(a.seconds)}</span>
                 </span>
               ))}
             </div>
@@ -290,29 +324,87 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
           ) : details.length === 0 ? (
             <div className="text-center text-muted py-4">No activity found.</div>
           ) : (
-            <div className="table-responsive">
-              <Table className="modern-table" size="sm">
+            <div className="ews-modal-wrap">
+              <Table className="modern-table ews-modal-table" size="sm">
                 <thead>
                   <tr>
+                    <th style={{ textAlign: 'left' }}>App</th>
                     <th>Start</th>
                     <th>End</th>
-                    <th>Duration</th>
-                    <th style={{ textAlign: 'left' }}>Application</th>
-                    <th style={{ textAlign: 'left' }}>Window Title</th>
-                    <th>Meeting</th>
+                    <th>Total</th>
+                    <th>Idle</th>
+                    <th>Active</th>
+                    <th style={{ textAlign: 'left' }}>Title</th>
+                    <th>In Meeting</th>
+                    <th>Outside Meeting</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {details.map((d) => (
-                    <tr key={d.id}>
+                  {details.map((d, i) => (
+                    <tr key={`${d.startTimeLocal}-${d.processName}-${i}`}>
+                      <td style={{ textAlign: 'left' }}>{d.applicationName || d.processName}</td>
                       <td>{formatClock(d.startTimeLocal)}</td>
                       <td>{formatClock(d.endTimeLocal)}</td>
-                      <td>{formatSeconds(d.durationSeconds)}</td>
-                      <td style={{ textAlign: 'left' }}>{d.applicationName || d.processName}</td>
-                      <td style={{ textAlign: 'left', maxWidth: 360 }} className="text-truncate" title={d.windowTitle}>
+                      <td>{d.applicationTime}</td>
+                      <td>{d.idleTime}</td>
+                      <td>{d.actualTime}</td>
+                      <td style={{ textAlign: 'left' }} className="ews-cell-fill" title={d.windowTitle}>
                         {d.windowTitle}
                       </td>
-                      <td>{d.isInMeeting ? d.meetingPlatform || 'Yes' : '-'}</td>
+                      <td>{d.timeInMeeting}</td>
+                      <td>{d.timeOutsideMeeting}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
+        </ModalBody>
+      </Modal>
+
+      <Modal isOpen={meetingsOpen} toggle={() => setMeetingsOpen(false)} size="xl" scrollable centered>
+        <ModalHeader toggle={() => setMeetingsOpen(false)}>
+          {isPersonal ? 'My Meetings' : 'Meetings'} ({reportDate})
+        </ModalHeader>
+        <ModalBody>
+          {meetingsLoading ? (
+            <div className="text-center py-5">
+              <Spinner color="primary" />
+            </div>
+          ) : meetingsError ? (
+            <div className="text-center text-danger py-4">{meetingsError}</div>
+          ) : meetings.length === 0 ? (
+            <div className="text-center text-muted py-4">No meetings found.</div>
+          ) : (
+            <div className="ews-modal-wrap">
+              <Table className="modern-table ews-modal-table" size="sm">
+                <thead>
+                  <tr>
+                    {!isPersonal && <th style={{ textAlign: 'left' }}>Employee</th>}
+                    <th style={{ textAlign: 'left' }}>App</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Duration</th>
+                    <th>In Meeting</th>
+                    <th>Other Apps</th>
+                    <th>No Activity</th>
+                    <th style={{ textAlign: 'left' }}>Apps Used</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {meetings.map((m, i) => (
+                    <tr key={m.meetingActivityId || `${m.employeeId}-${i}`}>
+                      {!isPersonal && <td style={{ textAlign: 'left' }}>{m.employeeName}</td>}
+                      <td style={{ textAlign: 'left' }}>{m.meetingPlatform || m.applicationName}</td>
+                      <td>{formatClock(m.meetingStartLocal)}</td>
+                      <td>{formatClock(m.meetingEndLocal)}</td>
+                      <td>{m.meetingDuration}</td>
+                      <td>{m.onMeetingApp}</td>
+                      <td>{m.otherApps}</td>
+                      <td>{m.noActivity}</td>
+                      <td style={{ textAlign: 'left' }} className="ews-cell-fill" title={m.appsUsed}>
+                        {m.appsUsed}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

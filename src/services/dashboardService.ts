@@ -15,6 +15,7 @@ import {
   OutstandingInvoiceSummary,
   EmployeeWorkTimeSummary,
   EmployeeActivityDetail,
+  EmployeeMeetingDetail,
 } from '@/types/dashboard/dashboard.types';
 
 const BASE_DASHBOARD = '/api/Dashborad';
@@ -280,6 +281,25 @@ class DashboardService {
   ): Promise<EmployeeActivityDetail[]> {
     try {
       const response = await axiosInstance.get(`${BASE_DASHBOARD}/GetEmployeeActivityDetails`, {
+        params: { reportDate, employeeId },
+      });
+      return response.data || [];
+    } catch (error: any) {
+      if (error?.response?.status === 404) return [];
+      throw axiosErrorToApiError(error);
+    }
+  }
+
+  /**
+   * GET /api/Dashborad/GetEmployeeMeetingDetails?reportDate=&employeeId=
+   * Meetings (with start/end times) for a day (API returns 404 when there is no data)
+   */
+  async getEmployeeMeetingDetails(
+    reportDate?: string,
+    employeeId?: number
+  ): Promise<EmployeeMeetingDetail[]> {
+    try {
+      const response = await axiosInstance.get(`${BASE_DASHBOARD}/GetEmployeeMeetingDetails`, {
         params: { reportDate, employeeId },
       });
       return response.data || [];

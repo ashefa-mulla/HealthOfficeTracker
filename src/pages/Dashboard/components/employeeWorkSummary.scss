@@ -299,3 +299,75 @@
     }
   }
 }
+
+/* Detail popups (rendered in a portal, outside .ews) */
+.ews-modal-table {
+  font-size: 12px;
+
+  th,
+  td {
+    font-size: 12px;
+    padding: 0.35rem 0.5rem;
+  }
+
+  th {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  td {
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+}
+
+.ews-modal-wrap {
+  overflow-x: hidden;
+}
+
+/* Long text column: takes the leftover width and truncates instead of forcing a scrollbar */
+.ews-modal-table td.ews-cell-fill {
+  width: 100%;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Top apps used (activity details popup) */
+.ews-app-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ews-app-chip {
+  --chip-bg: #e0f4fb;
+  --chip-fg: #0e7490;
+  --chip-accent: #0891b2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 12px;
+  border-radius: 20px;
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  border: 1px solid var(--chip-accent);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  .ews-app-chip-time {
+    background: var(--chip-accent);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1px 8px;
+    font-size: 11px;
+  }
+
+  &.ews-app-chip-1 { --chip-bg: #dcfce7; --chip-fg: #15803d; --chip-accent: #16a34a; }
+  &.ews-app-chip-2 { --chip-bg: #ede9fe; --chip-fg: #6d28d9; --chip-accent: #7c3aed; }
+  &.ews-app-chip-3 { --chip-bg: #fef3c7; --chip-fg: #b45309; --chip-accent: #d97706; }
+  &.ews-app-chip-4 { --chip-bg: #fee2e2; --chip-fg: #b91c1c; --chip-accent: #dc2626; }
+  &.ews-app-chip-5 { --chip-bg: #fce7f3; --chip-fg: #be185d; --chip-accent: #db2777; }
+}

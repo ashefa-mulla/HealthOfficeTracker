@@ -192,7 +192,8 @@ const TaskActivityList: React.FC = () => {
   const profileUserType = Number(
     profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType ?? 0
   );
-  const isAdmin = [1, 4, 12].includes(profileUserType);
+  // Employees 78 and 68 get the same add/edit access (matches legacy Angular taskactivity)
+  const isAdmin = [1, 4, 12].includes(profileUserType) || empId === 78 || empId === 68;
   const showAdminField = isAdmin;
 
   const userType = Number(

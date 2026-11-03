@@ -92,11 +92,20 @@ export interface EmployeeWorkTimeSummary {
   meetingHours: number;
   activityCount: number;
   applicationCount: number;
+  meetingCount?: number;
+  meetingTime?: string;
+  appSeconds?: number;
+  appTime?: string;
+  appTimeInsideMeetingsSeconds?: number;
+  appTimeInsideMeetings?: string;
+  meetingOnlySeconds?: number;
+  meetingOnlyTime?: string;
+  appTimeOutsideMeetingsSeconds?: number;
+  appTimeOutsideMeetings?: string;
 }
 
-/** GET /api/Dashborad/GetEmployeeActivityDetails */
+/** GET /api/Dashborad/GetEmployeeActivityDetails (one row per application window) */
 export interface EmployeeActivityDetail {
-  id: number;
   employeeId: number;
   employeeName: string;
   reportDate: string;
@@ -105,12 +114,37 @@ export interface EmployeeActivityDetail {
   applicationName?: string;
   processName?: string;
   windowTitle?: string;
-  durationSeconds: number;
-  isInMeeting: boolean;
-  meetingPlatform?: string | null;
-  meetingActivityId?: string | null;
-  deviceId?: string;
-  activityId?: string;
-  startTimeUtc?: string;
-  endTimeUtc?: string;
+  applicationSeconds: number;
+  applicationTime: string;
+  idleSeconds: number;
+  idleTime: string;
+  actualSeconds: number;
+  actualTime: string;
+  timeInMeetingSeconds: number;
+  timeInMeeting: string;
+  timeOutsideMeetingSeconds: number;
+  timeOutsideMeeting: string;
+  meetingsUsedIn: number;
+  activityCount: number;
+}
+
+/** GET /api/Dashborad/GetEmployeeMeetingDetails */
+export interface EmployeeMeetingDetail {
+  employeeId: number;
+  employeeName: string;
+  reportDate: string;
+  applicationName?: string;
+  meetingPlatform?: string;
+  meetingStartLocal: string;
+  meetingEndLocal: string;
+  meetingSeconds: number;
+  meetingDuration: string;
+  onMeetingAppSeconds: number;
+  onMeetingApp: string;
+  otherAppsSeconds: number;
+  otherApps: string;
+  noActivitySeconds: number;
+  noActivity: string;
+  appsUsed?: string;
+  meetingActivityId?: string;
 }
