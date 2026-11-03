@@ -642,6 +642,7 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<sp_employee_clockedin>().HasNoKey();
         modelBuilder.Entity<sp_getemployeeworktimesummary_Results>().HasNoKey();
         modelBuilder.Entity<sp_getemployeeactivitydetails_Results>().HasNoKey();
+        modelBuilder.Entity<sp_getemployeemeetingdetails_Results>().HasNoKey();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

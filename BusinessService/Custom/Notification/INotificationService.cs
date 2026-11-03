@@ -36,6 +36,7 @@ namespace BusinessService.Custom.Notification
         //Activity tracking 10-29 2026 GJ
         Task<IEnumerable<sp_getemployeeworktimesummary_Results>> GetEmployeeWorkTimeSummaryAsync(DateTime? reportDate = null, int? employeeId = null);
         Task<IEnumerable<sp_getemployeeactivitydetails_Results>> GetEmployeeActivityDetailsAsync(DateTime? reportDate = null, int? employeeId = null);
+        Task<IEnumerable<sp_getemployeemeetingdetails_Results>> GetEmployeeMeetingDetailsAsync(DateTime? reportDate = null, int? employeeId = null);
 
     }
 }

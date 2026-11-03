@@ -226,15 +226,28 @@ namespace BusinessService.Custom.Notification
                 var reportDateParam = new SqlParameter("@ReportDate", (object?)reportDate?.Date ?? DBNull.Value);
                 var employeeIdParam = new SqlParameter("@EmployeeId", (object?)employeeId ?? DBNull.Value);
 
-                return await spRepository.ExecWithStoreProcedureAsync<sp_getemployeeactivitydetails_Results>(
-                    "exec sp_getemployeeactivitydetails @ReportDate, @EmployeeId",
-                    reportDateParam,
-                    employeeIdParam);
+                return await spRepository.ExecWithStoreProcedureAsync<sp_getemployeeactivitydetails_Results>("exec sp_getemployeeactivitydetails @ReportDate, @EmployeeId",reportDateParam,employeeIdParam);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"GetEmployeeActivityDetailsAsync failed (reportDate={reportDate}, employeeId={employeeId}): {ex}");
                 throw;   // keep the original stack trace
+            }
+        }
+
+        public async Task<IEnumerable<sp_getemployeemeetingdetails_Results>> GetEmployeeMeetingDetailsAsync(DateTime? reportDate = null, int? employeeId = null)
+        {
+            try
+            {
+                var reportDateParam = new SqlParameter("@ReportDate", (object?)reportDate?.Date ?? DBNull.Value);
+                var employeeIdParam = new SqlParameter("@EmployeeId", (object?)employeeId ?? DBNull.Value);
+
+                return await spRepository.ExecWithStoreProcedureAsync<sp_getemployeemeetingdetails_Results>("exec sp_getemployeemeetingdetails @ReportDate, @EmployeeId",reportDateParam,employeeIdParam);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetEmployeeMeetingDetailsAsync failed (reportDate={reportDate}, employeeId={employeeId}): {ex}");
+                throw;
             }
         }
 

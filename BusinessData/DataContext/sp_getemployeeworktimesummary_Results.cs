@@ -20,5 +20,17 @@ namespace BusinessData.DataContext
         public decimal MeetingHours { get; set; }
         public int ActivityCount { get; set; }
         public int ApplicationCount { get; set; }
+
+        // new
+        public int MeetingCount { get; set; }
+        public string MeetingTime { get; set; } = string.Empty;
+        public int AppSeconds { get; set; }
+        public string AppTime { get; set; } = string.Empty;
+        public int AppTimeInsideMeetingsSeconds { get; set; }
+        public string AppTimeInsideMeetings { get; set; } = string.Empty;
+        public int MeetingOnlySeconds { get; set; }
+        public string MeetingOnlyTime { get; set; } = string.Empty;
+        public int AppTimeOutsideMeetingsSeconds { get; set; }
+        public string AppTimeOutsideMeetings { get; set; } = string.Empty;
     }
 }

@@ -285,6 +285,16 @@ namespace BusinessApp.Controllers
                 return NotFound();
         }
 
+        [HttpGet("GetEmployeeMeetingDetails")]
+        public async Task<ActionResult<IEnumerable<sp_getemployeemeetingdetails_Results>>> GetEmployeeMeetingDetails(DateTime? reportDate = null, int? employeeId = null)
+        {
+            var result = await notificationService.GetEmployeeMeetingDetailsAsync(reportDate, employeeId);
+            if (result != null && result.Any())
+                return Ok(result);
+            else
+                return NotFound();
+        }
+
 
     }
 }
