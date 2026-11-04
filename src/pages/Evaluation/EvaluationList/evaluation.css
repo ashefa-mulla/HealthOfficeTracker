@@ -237,6 +237,36 @@
   padding-left: 20px;
 }
 
+/* Desktop: fit the table to the page width (no horizontal scrollbar).
+   Small devices keep the scrollable wrapper above. */
+@media (min-width: 992px) {
+  .evaluation-page .evaluation-table-wrap {
+    overflow-x: visible;
+  }
+
+  .evaluation-page .evaluation-table {
+    table-layout: fixed;
+  }
+
+  .evaluation-page .evaluation-table tbody td.evaluation-question {
+    min-width: 0;
+    width: auto;
+  }
+
+  .evaluation-page .evaluation-table thead th {
+    white-space: normal;
+  }
+
+  .evaluation-page .evaluation-table thead th:not(:first-child) {
+    width: 110px;
+  }
+
+  .evaluation-page .evaluation-table thead th:last-child:not(:nth-child(5)):not(:first-child),
+  .evaluation-page .evaluation-table td.evaluation-actions {
+    width: 120px;
+  }
+}
+
 .evaluation-page .evaluation-question-inner {
   display: flex;
   align-items: flex-start;
@@ -258,7 +288,19 @@
   margin-top: 1px;
 }
 
+.evaluation-page .evaluation-question-inner > div:last-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.evaluation-page .evaluation-table tbody td.evaluation-question {
+  white-space: normal;
+  overflow: hidden;
+}
+
 .evaluation-page .evaluation-question-text {
+  white-space: normal;
+  overflow-wrap: anywhere;
   font-weight: 500;
   color: var(--ev-text);
   line-height: 1.4;

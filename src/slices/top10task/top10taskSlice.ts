@@ -17,9 +17,9 @@ import {
   PaginatedState,
 } from '@/types/reducer.type';
 
-export interface Top10TaskExtendedState
-  extends BaseEntityState<Top10TaskListItem, Top10TaskModel>,
-    PaginatedState {
+export interface Top10TaskExtendedState  
+extends BaseEntityState<Top10TaskListItem, Top10TaskModel>,
+  PaginatedState {
   allTasks: Top10TaskListItem[];
   totalProjectedHours: string;
   pointPersonList: EmployerNameListItem[];

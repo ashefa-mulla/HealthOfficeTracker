@@ -629,14 +629,6 @@ const TaskActivityList: React.FC = () => {
         ),
       },
       {
-        header: 'Duration',
-        accessorKey: 'DURATION',
-        enableSorting: true,
-        cell: (info) => (
-          <span className="text-dark fw-medium">{formatDuration(info.row.original)}</span>
-        ),
-      },
-      {
         header: 'Client',
         accessorKey: 'Project',
         enableSorting: true,
@@ -668,6 +660,14 @@ const TaskActivityList: React.FC = () => {
           <span className="text-dark" style={{ wordBreak: 'break-word' }}>
             {info.row.original.activity || '-'}
           </span>
+        ),
+      },
+      {
+        header: 'Duration',
+        accessorKey: 'DURATION',
+        enableSorting: true,
+        cell: (info) => (
+          <span className="text-dark fw-medium">{formatDuration(info.row.original)}</span>
         ),
       },
       {

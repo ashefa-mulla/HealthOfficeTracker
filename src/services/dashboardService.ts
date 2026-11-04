@@ -304,7 +304,8 @@ class DashboardService {
       });
       return response.data || [];
     } catch (error: any) {
-      if (error?.response?.status === 404) return [];
+      // The axios interceptor already wraps errors as ApiError (status on error.status)
+      if (error?.response?.status === 404 || error?.status === 404) return [];
       throw axiosErrorToApiError(error);
     }
   }
