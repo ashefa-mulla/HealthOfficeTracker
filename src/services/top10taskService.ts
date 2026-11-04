@@ -30,6 +30,11 @@ class Top10TaskService {
             EmpID: empId,
             employeeid: empId,
             status,
+             _t: Date.now(),
+          },
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
           },
         }
       );

@@ -14,6 +14,7 @@ import {
 import timerService from '../../services/timerService';
 import { useAuthStore } from '../../store/useAuthStore';
 import { getNumericUserId } from '../../helpers/userHelper';
+import { parseSafeDate } from '../../helpers/dateHelper';
 import { PunchLogItem, CompanyBranchInfo, GeolocationState, PunchDetailPayload } from '../../types/timer/timer.types';
 import './timer.css';
 
@@ -243,62 +244,26 @@ const Timer: React.FC = () => {
     setMyClockTime(`${hours}:${minutes}:${seconds}`);
   };
 
-  // Format date/time string matching Angular date: 'MM/dd/yyyy hh:mm:ss a'
+  // Format date/time string to Military Time (24-hour): 'MM/dd/yyyy HH:mm:ss'
   const formatClockDateTime = (dateStr: string | null | undefined): string => {
     if (!dateStr || dateStr.trim() === '' || dateStr === 'null' || dateStr === 'N/A') {
       return '';
     }
 
-    // If already formatted with AM/PM
-    if (dateStr.toUpperCase().includes('AM') || dateStr.toUpperCase().includes('PM')) {
+    const d = parseSafeDate(dateStr);
+    if (!d || isNaN(d.getTime())) {
       return dateStr;
     }
 
-    try {
-      const normalized =
-        dateStr.includes(' ') && !dateStr.includes('T')
-          ? dateStr.replace(' ', 'T')
-          : dateStr;
-
-      const d = new Date(normalized);
-      if (isNaN(d.getTime())) {
-        const parts = dateStr.split(/[- :T]/);
-        if (parts.length >= 6) {
-          const year = parseInt(parts[0], 10);
-          const month = parseInt(parts[1], 10) - 1;
-          const day = parseInt(parts[2], 10);
-          const hour = parseInt(parts[3], 10);
-          const minute = parseInt(parts[4], 10);
-          const second = parseInt(parts[5], 10);
-          const manualDate = new Date(year, month, day, hour, minute, second);
-          if (!isNaN(manualDate.getTime())) {
-            return formatTo12Hour(manualDate);
-          }
-        }
-        return dateStr;
-      }
-
-      return formatTo12Hour(d);
-    } catch {
-      return dateStr;
-    }
-  };
-
-  const formatTo12Hour = (d: Date): string => {
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const dd = String(d.getDate()).padStart(2, '0');
     const yyyy = d.getFullYear();
 
-    let hours = d.getHours();
+    const hh = String(d.getHours()).padStart(2, '0');
     const minutes = String(d.getMinutes()).padStart(2, '0');
     const seconds = String(d.getSeconds()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
 
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    const hh = String(hours).padStart(2, '0');
-
-    return `${mm}/${dd}/${yyyy} ${hh}:${minutes}:${seconds} ${ampm}`;
+    return `${mm}/${dd}/${yyyy} ${hh}:${minutes}:${seconds}`;
   };
 
   // Initial Load (matching Angular ngOnInit)
@@ -424,7 +389,9 @@ const Timer: React.FC = () => {
       (log) =>
         log.fullname?.toLowerCase().includes(q) ||
         log.oExecDate?.toLowerCase().includes(q) ||
-        (log.oOutDate && log.oOutDate.toLowerCase().includes(q))
+        (log.oOutDate && log.oOutDate.toLowerCase().includes(q)) ||
+        formatClockDateTime(log.oExecDate).toLowerCase().includes(q) ||
+        (log.oOutDate && formatClockDateTime(log.oOutDate).toLowerCase().includes(q))
     );
   }, [logs, searchQuery]);
 

@@ -103,6 +103,9 @@ const top10TaskSlice = createSlice({
       state.saving = false;
       state.success = true;
       state.message = action.payload;
+      state.selected = null;
+      state.list = [];
+      state.allTasks = [];
     },
 
     deleteSuccess: (state, action: PayloadAction<number>) => {

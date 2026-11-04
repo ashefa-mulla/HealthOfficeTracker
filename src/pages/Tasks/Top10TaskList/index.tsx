@@ -25,6 +25,17 @@ import { useAuthStore } from '../../../store/useAuthStore';
 import { getNumericEmployeeId } from '../../../helpers/userHelper';
 import { formatDateOnly } from '@/helpers/dateHelper';
 
+
+
+
+// Helper: Safely parse integer with fallback
+const toSafeInt = (val: any, fallback = 0): number => {
+  if (val === undefined || val === null || val === '') return fallback;
+  const n = Number(val);
+  return isNaN(n) ? fallback : Math.floor(n);
+};
+
+
 const Top10TaskList: React.FC = () => {
   document.title = 'My Tracker Task | HO Tracker';
 
@@ -33,6 +44,16 @@ const Top10TaskList: React.FC = () => {
 
   const { user, profileInfo } = useAuthStore();
   const empId = getNumericEmployeeId(profileInfo, user);
+
+    const effectiveEmpId =
+    empId > 0
+      ? empId
+      : toSafeInt(
+          localStorage.getItem('employerId') ||
+          localStorage.getItem('employeeid') ||
+          localStorage.getItem('userid'),
+          0
+        );
 
   // Check admin session role
   const sessionRole =
@@ -63,7 +84,8 @@ const Top10TaskList: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize_Local, setPageSize_Local] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  // const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const isFirstRender = useRef(true);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedDeleteId, setSelectedDeleteId] = useState<number | null>(null);
 
@@ -86,11 +108,11 @@ const Top10TaskList: React.FC = () => {
   const isHideEdit = false;
 
   // Helper: Safely parse integer with fallback
-  const toSafeInt = (val: any, fallback = 0): number => {
-    if (val === undefined || val === null || val === '') return fallback;
-    const n = Number(val);
-    return isNaN(n) ? fallback : Math.floor(n);
-  };
+  // const toSafeInt = (val: any, fallback = 0): number => {
+  //   if (val === undefined || val === null || val === '') return fallback;
+  //   const n = Number(val);
+  //   return isNaN(n) ? fallback : Math.floor(n);
+  // };
 
   // Helper: Parse duration string/number into total seconds
   const parseDurationToSeconds = (durationVal?: any): number => {
@@ -123,12 +145,30 @@ const Top10TaskList: React.FC = () => {
   };
 
   // Load paginated data
+  // const loadData = useCallback(
+  //   async (page: number, size: number, status: string) => {
+  //     if (empId > 0 || isAdmin) {
+  //       await dispatch(
+  //         fetchTaskListWithPagination({
+  //           empId,
+  //           status,
+  //           pageNumber: page,
+  //           pageSize: size,
+  //         })
+  //       );
+  //     }
+  //   },
+  //   [dispatch, empId, isAdmin]
+  // );
+
+
+  // Load paginated data
   const loadData = useCallback(
     async (page: number, size: number, status: string) => {
-      if (empId > 0 || isAdmin) {
+      if (effectiveEmpId > 0 || isAdmin) {
         await dispatch(
           fetchTaskListWithPagination({
-            empId,
+            empId: effectiveEmpId,
             status,
             pageNumber: page,
             pageSize: size,
@@ -136,13 +176,165 @@ const Top10TaskList: React.FC = () => {
         );
       }
     },
-    [dispatch, empId, isAdmin]
+    [dispatch, effectiveEmpId, isAdmin]
   );
 
   // Check on load if user has an active/ongoing tracker task (endTime === null)
+  // const checkAndResumeActiveTrackerTask = useCallback(async () => {
+  //   const checkEmpId = toSafeInt(
+  //     empId ||
+  //     localStorage.getItem('employerId') ||
+  //     localStorage.getItem('employeeid') ||
+  //     localStorage.getItem('userid'),
+  //     37
+  //   );
+
+  //   if (!checkEmpId) return;
+
+  //   try {
+  //     const res = await top10TaskService.getTrackerTask(checkEmpId);
+  //     const trackerTask = Array.isArray(res) ? res[0] : res;
+
+  //     let savedLocal: any = null;
+  //     try {
+  //       const localStr = localStorage.getItem('active_tracker_timer');
+  //       if (localStr) savedLocal = JSON.parse(localStr);
+  //     } catch (e) {
+  //       // ignore parse error
+  //     }
+
+  //     // Running task comes from the server only: it may have been stopped in another
+  //     // app/browser, so a leftover localStorage entry must not restart the timer
+  //     const taskId = Number(
+  //       trackerTask?.taskListid ||
+  //       trackerTask?.TaskListid ||
+  //       trackerTask?.taskListId ||
+  //       trackerTask?.tasklistid ||
+  //       0
+  //     );
+
+  //     const isEnded = Boolean(trackerTask?.endTime || trackerTask?.EndTime);
+
+  //     if (taskId > 0 && !isEnded) {
+  //       let taskItem: Top10TaskListItem | null = null;
+  //       try {
+  //         const taskDetail = await top10TaskService.getTaskById(taskId);
+  //         if (taskDetail) {
+  //           taskItem = taskDetail as any;
+  //         }
+  //       } catch (e) {
+  //         console.warn('Could not fetch task detail on resume:', e);
+  //       }
+
+  //       if (!taskItem) {
+  //         taskItem = {
+  //           id: taskId,
+  //           task: trackerTask?.activity || savedLocal?.taskName || 'Task',
+  //           project: trackerTask?.projectId,
+  //           subProject: trackerTask?.subProjectId,
+  //           subProjectCategory: trackerTask?.subProjectCategoryId,
+  //         } as any;
+  //       }
+
+  //       // Determine base task duration before current running session
+  //       let baseSec = 0;
+  //       if (savedLocal && savedLocal.taskId === taskId && typeof savedLocal.baseSec === 'number') {
+  //         baseSec = savedLocal.baseSec;
+  //       } else if (taskItem) {
+  //         baseSec = parseDurationToSeconds(
+  //           taskItem.duration ?? taskItem.Duration ?? taskItem.actualTime ?? 0
+  //         );
+  //       }
+
+  //       const isPaused = trackerTask?.button === 'pause' || (savedLocal?.taskId === taskId && savedLocal.isPaused);
+  //       setIsTimerPaused(isPaused);
+
+  //       let sessionStartTime = Date.now();
+  //       let elapsedSeconds = 0;
+
+  //       if (savedLocal && savedLocal.taskId === taskId && savedLocal.startTime && !savedLocal.isPaused) {
+  //         sessionStartTime = Number(savedLocal.startTime);
+  //         elapsedSeconds = Math.max(0, Math.floor((Date.now() - sessionStartTime) / 1000));
+  //       } else if (!isPaused) {
+  //         const startTimeStr = trackerTask?.startTime || trackerTask?.StartTime;
+  //         if (startTimeStr) {
+  //           const startMs = new Date(startTimeStr).getTime();
+  //           if (!isNaN(startMs) && startMs > 0) {
+  //             sessionStartTime = startMs;
+  //             elapsedSeconds = Math.max(0, Math.floor((Date.now() - startMs) / 1000));
+  //           }
+  //         }
+  //       }
+
+  //       let totalSec = baseSec + elapsedSeconds;
+
+  //       if (isPaused) {
+  //         if (savedLocal && savedLocal.taskId === taskId && typeof savedLocal.pausedTotalSec === 'number') {
+  //           totalSec = savedLocal.pausedTotalSec;
+  //         } else {
+  //           const trackerDurationSec = parseDurationToSeconds(
+  //             trackerTask?.duration || trackerTask?.Duration
+  //           );
+  //           if (trackerDurationSec >= baseSec && trackerDurationSec > 0) {
+  //             totalSec = trackerDurationSec;
+  //           } else {
+  //             totalSec = baseSec + trackerDurationSec;
+  //           }
+  //         }
+  //       }
+
+  //       activeTaskRef.current = {
+  //         id: taskId,
+  //         baseSec,
+  //         initialSec: totalSec,
+  //         startTime: sessionStartTime,
+  //         item: taskItem,
+  //       };
+
+  //       localStorage.setItem(
+  //         'active_tracker_timer',
+  //         JSON.stringify({
+  //           taskId,
+  //           taskName: taskItem?.task || taskItem?.subject || 'Task',
+  //           baseSec,
+  //           startTime: sessionStartTime,
+  //           isPaused,
+  //           pausedTotalSec: isPaused ? totalSec : undefined,
+  //         })
+  //       );
+
+  //       setActiveTimerTaskId(taskId);
+  //       setTimerRunningSeconds(totalSec);
+
+  //       if (timerIntervalRef.current) {
+  //         clearInterval(timerIntervalRef.current);
+  //       }
+
+  //       if (!isPaused) {
+  //         timerIntervalRef.current = setInterval(() => {
+  //           if (activeTaskRef.current) {
+  //             const elapsed = Math.floor(
+  //               (Date.now() - activeTaskRef.current.startTime) / 1000
+  //             );
+  //             setTimerRunningSeconds(activeTaskRef.current.baseSec + elapsed);
+  //           }
+  //         }, 1000);
+  //       }
+  //     } else {
+  //       if (savedLocal) {
+  //         localStorage.removeItem('active_tracker_timer');
+  //       }
+  //       setActiveTimerTaskId(null);
+  //       setIsTimerPaused(false);
+  //     }
+  //   } catch (err) {
+  //     console.warn('Error checking active tracker task on load:', err);
+  //   }
+  // }, [empId]);
+
   const checkAndResumeActiveTrackerTask = useCallback(async () => {
     const checkEmpId = toSafeInt(
-      empId ||
+      effectiveEmpId ||
       localStorage.getItem('employerId') ||
       localStorage.getItem('employeeid') ||
       localStorage.getItem('userid'),
@@ -290,30 +482,59 @@ const Top10TaskList: React.FC = () => {
     } catch (err) {
       console.warn('Error checking active tracker task on load:', err);
     }
-  }, [empId]);
+  }, [effectiveEmpId]);
+
+  // Initial load and status filter change
+  // useEffect(() => {
+  //   loadData(1, pageSize_Local, defaultStatus);
+  //   checkAndResumeActiveTrackerTask();
+  //   if (empId > 0 || isAdmin) {
+  //     dispatch(
+  //       fetchTaskListForUser({
+  //         empId,
+  //         status: defaultStatus,
+  //       })
+  //     );
+  //   }
+  //   setIsFirstLoad(false);
+  // }, [defaultStatus, empId, isAdmin, checkAndResumeActiveTrackerTask]);
+
+
 
   // Initial load and status filter change
   useEffect(() => {
     loadData(1, pageSize_Local, defaultStatus);
     checkAndResumeActiveTrackerTask();
-    if (empId > 0 || isAdmin) {
+    if (effectiveEmpId > 0 || isAdmin) {
       dispatch(
         fetchTaskListForUser({
-          empId,
+          empId: effectiveEmpId,
           status: defaultStatus,
         })
       );
     }
-    setIsFirstLoad(false);
-  }, [defaultStatus, empId, isAdmin, checkAndResumeActiveTrackerTask]);
+  }, [defaultStatus, effectiveEmpId, isAdmin, checkAndResumeActiveTrackerTask, loadData]);
+
+
+  // Reactive load on pagination or size changes (only when not searching)
+  // useEffect(() => {
+  //   if (isFirstLoad) return;
+  //   if (!searchTerm || !searchTerm.trim()) {
+  //     loadData(pageNumber, pageSize_Local, defaultStatus);
+  //   }
+  // }, [pageNumber, pageSize_Local, defaultStatus, searchTerm, loadData, isFirstLoad]);
 
   // Reactive load on pagination or size changes (only when not searching)
   useEffect(() => {
-    if (isFirstLoad) return;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (!searchTerm || !searchTerm.trim()) {
       loadData(pageNumber, pageSize_Local, defaultStatus);
     }
-  }, [pageNumber, pageSize_Local, defaultStatus, searchTerm, loadData, isFirstLoad]);
+  }, [pageNumber, pageSize_Local, defaultStatus, searchTerm, loadData]);
+
 
   // Handle server-side query changes from TableContainer
   const handleServerChange = (query: any) => {
@@ -352,6 +573,9 @@ const Top10TaskList: React.FC = () => {
       setDeleteModal(false);
       setSelectedDeleteId(null);
       loadData(pageNumber, pageSize_Local, defaultStatus);
+        if (effectiveEmpId > 0 || isAdmin) {
+        dispatch(fetchTaskListForUser({ empId: effectiveEmpId, status: defaultStatus }));
+      }
     }
   };
 
@@ -740,9 +964,12 @@ const Top10TaskList: React.FC = () => {
       }
 
       loadData(pageNumber, pageSize_Local, defaultStatus);
-      if (empId > 0 || isAdmin) {
-        dispatch(fetchTaskListForUser({ empId, status: defaultStatus }));
+      // if (empId > 0 || isAdmin) {
+      //   dispatch(fetchTaskListForUser({ empId, status: defaultStatus }));
+            if (effectiveEmpId > 0 || isAdmin) {
+        dispatch(fetchTaskListForUser({ empId: effectiveEmpId, status: defaultStatus }));
       }
+      
     } catch (err: any) {
       console.error('Failed to save task timer duration:', err);
       toastService.error('Failed to save task duration.');

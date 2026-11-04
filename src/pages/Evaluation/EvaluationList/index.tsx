@@ -61,14 +61,32 @@ const weekRange = (year: number, month: number, week: number): string => {
  * The week whose evaluation window is open right now: from that week's Friday 00:00
  * through the following Monday 23:59:59 (same rule as the old Angular screen). Null if none.
  */
+// const evaluationWindowWeek = (year: number, month: number): number | null => {
+//   const now = new Date();
+//   const first = new Date(year, month - 1, 1);
+//   while (first.getDay() !== 1) first.setDate(first.getDate() + 1);
+//   for (let w = 0; w < 4; w++) {
+//     const friday = new Date(first.getFullYear(), first.getMonth(), first.getDate() + 7 * w + 4, 0, 0, 0, 0);
+//     const mondayEnd = new Date(friday.getFullYear(), friday.getMonth(), friday.getDate() + 3, 23, 59, 59, 999);
+//     if (now >= friday && now <= mondayEnd) return w + 1;
+//   }
+//   return null;
+// };
+
+
+
 const evaluationWindowWeek = (year: number, month: number): number | null => {
   const now = new Date();
   const first = new Date(year, month - 1, 1);
   while (first.getDay() !== 1) first.setDate(first.getDate() + 1);
   for (let w = 0; w < 4; w++) {
+    const monday = new Date(first.getFullYear(), first.getMonth(), first.getDate() + 7 * w, 0, 0, 0, 0);
     const friday = new Date(first.getFullYear(), first.getMonth(), first.getDate() + 7 * w + 4, 0, 0, 0, 0);
     const mondayEnd = new Date(friday.getFullYear(), friday.getMonth(), friday.getDate() + 3, 23, 59, 59, 999);
+    // 1. Inside standard Friday 00:00 -> Monday 23:59:59 window for this week
     if (now >= friday && now <= mondayEnd) return w + 1;
+    // 2. Current month week 1 active on its starting Monday if before the Friday
+    if (w === 0 && now >= monday && now <= mondayEnd && now.getDay() === 1) return 1;
   }
   return null;
 };
