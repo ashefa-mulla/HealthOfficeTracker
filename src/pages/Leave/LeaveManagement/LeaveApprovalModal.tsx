@@ -13,7 +13,7 @@ import {
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { leaveApprovalSchema, LeaveApprovalForm } from '@/types/leave/leave.schema';
-import { RHFInput, RHFCheckBox, RHFFlatpickr } from '@/Components/Common/Forms';
+import { RHFInput, RHFFlatpickr } from '@/Components/Common/Forms';
 import toastService from '@/services/toastService';
 
 export interface LeaveApprovalModalProps {
@@ -43,7 +43,7 @@ const LeaveApprovalModal: React.FC<LeaveApprovalModalProps> = ({
     reValidateMode: 'onChange',
   });
 
-  const { reset, handleSubmit, watch } = methods;
+  const { reset, handleSubmit, watch, setValue } = methods;
 
   useEffect(() => {
     if (isOpen) {
@@ -132,7 +132,23 @@ const LeaveApprovalModal: React.FC<LeaveApprovalModalProps> = ({
 
                 <Row>
                   <Col md={12}>
-                    <RHFCheckBox<LeaveApprovalForm> name="isApprove" label="Approve" />
+                    <button
+                      type="button"
+                      onClick={() => setValue('isApprove', !isApprove, { shouldDirty: true })}
+                      aria-pressed={!!isApprove}
+                      className="d-inline-flex align-items-center gap-2 border-0 fw-semibold"
+                      style={{
+                        padding: '0.6rem 1.4rem',
+                        borderRadius: 999,
+                        color: isApprove ? '#fff' : '#16a34a',
+                        background: isApprove ? 'linear-gradient(135deg, #22c55e, #16a34a)' : '#e8f8ee',
+                        boxShadow: isApprove ? '0 4px 12px rgba(22, 163, 74, 0.4)' : 'inset 0 0 0 1.5px #16a34a',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <i className={`mdi ${isApprove ? 'mdi-check-circle' : 'mdi-check-circle-outline'}`} style={{ fontSize: 20 }}></i>
+                      {isApprove ? 'Approved' : 'Approve'}
+                    </button>
                     {lwpBecomesLeaves && (
                       <small className="text-muted d-block mt-1">
                         With Leaves and Sick Leaves at 0, approving moves the LWP days into Leaves.

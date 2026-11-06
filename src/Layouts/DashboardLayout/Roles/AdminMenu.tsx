@@ -207,11 +207,11 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
         </NavLink>
       </li>
 
-      {/* Leave Management (admin: all employees, add/edit/delete) */}
+      {/* Leave Management (admin: all employees - apply/add, edit, approve, delete) */}
       <li className="menu-item">
         <NavLink
-          to="/area/leavetransaction/list"
-          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
+          to="/area/leavemanagement"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/leavemanagement') || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
           onClick={onItemClick}
         >
           <i className="mdi mdi-calendar-account-outline"></i>

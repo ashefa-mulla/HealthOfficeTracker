@@ -340,9 +340,16 @@
     padding: 0.35rem 0.5rem;
   }
 
+  /* Frozen header row: stays visible while the popup body scrolls */
   th {
     white-space: nowrap;
     font-weight: 600;
+    position: sticky;
+    top: -1rem; /* cancels the popup body top padding so no rows peek above the header */
+    z-index: 2;
+    background: #01a5d6; /* theme primary */
+    color: #fff;
+    box-shadow: 0 1px 0 #0891b2;
   }
 
   td {
@@ -352,7 +359,8 @@
 }
 
 .ews-modal-wrap {
-  overflow-x: hidden;
+  /* clip (not hidden) so the wrapper is not a scroll container and the sticky header sticks to the popup body */
+  overflow-x: clip;
 }
 
 /* Long text column: takes the leftover width and truncates instead of forcing a scrollbar */
@@ -402,4 +410,38 @@
   &.ews-app-chip-3 { --chip-bg: #fef3c7; --chip-fg: #b45309; --chip-accent: #d97706; }
   &.ews-app-chip-4 { --chip-bg: #fee2e2; --chip-fg: #b91c1c; --chip-accent: #dc2626; }
   &.ews-app-chip-5 { --chip-bg: #fce7f3; --chip-fg: #be185d; --chip-accent: #db2777; }
+}
+
+/* Activity Details tabs (All Activity / Group Activity) */
+.ews-tabs {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: #eef2f6;
+}
+
+.ews-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #74788d;
+  background: transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #01a5d6;
+    background: rgba(1, 165, 214, 0.1);
+  }
+
+  &.active {
+    color: #fff;
+    background: linear-gradient(135deg, #01a5d6, #0891b2);
+    box-shadow: 0 3px 8px rgba(1, 165, 214, 0.35);
+  }
 }

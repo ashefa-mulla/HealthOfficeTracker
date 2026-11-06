@@ -3,6 +3,10 @@ import { Modal, ModalHeader, ModalBody, Spinner, Table } from 'reactstrap';
 import './employeeWorkSummary.scss';
 import chromeLogo from '@/assets/images/apps/chrome.svg';
 import edgeLogo from '@/assets/images/apps/edge.svg';
+import taskSchedulerLogo from '@/assets/images/apps/task-scheduler.svg';
+import snippingToolLogo from '@/assets/images/apps/snipping-tool.svg';
+import screenshotLogo from '@/assets/images/apps/screenshot.svg';
+import remoteDesktopLogo from '@/assets/images/apps/remote-desktop.svg';
 import dashboardService from '@/services/dashboardService';
 import {
   EmployeeActivityDetail,
@@ -11,6 +15,9 @@ import {
 } from '@/types/dashboard/dashboard.types';
 
 const AUTO_REFRESH_MS = 2 * 60 * 1000;
+// App theme colours (src/assets/scss/_variables.scss): $primary / $secondary
+const ACTIVE_COLOUR = '#01a5d6';
+const IDLE_COLOUR = '#f59e0b';
 
 const todayYmd =(): string => {
   const d = new Date();
@@ -35,6 +42,14 @@ const formatSeconds = (total: number): string => {
 
 /** Brand colours per app (matched on a lowercase substring of the app name): accent, tint, text */
 const APP_BRANDS: { match: string[]; accent: string; bg: string; fg: string; grad?: string }[] = [
+  // File Explorer, or a folder/drive path used as the window name (e.g. "C:\Windows\...") - checked first
+  { match: ['explorer', ':\\'], accent: '#f5b400', bg: '#fff6d9', fg: '#8a6500' },
+  { match: ['activepresenter'], accent: '#f26522', bg: '#fdebe2', fg: '#b84712' },
+  { match: ['photos'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['calculator', 'calc'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['brave'], accent: '#fb542b', bg: '#ffece7', fg: '#c23a17' },
+  { match: ['dropbox'], accent: '#0061ff', bg: '#e0ebff', fg: '#0047bb' },
+  { match: ['powershell'], accent: '#5391fe', bg: '#e8f0ff', fg: '#2f5fc4' },
   { match: ['zoom'], accent: '#2d8cff', bg: '#e6f1ff', fg: '#1565c0' },
   { match: ['teams'], accent: '#6264a7', bg: '#ececf7', fg: '#464775' },
   { match: ['meet'], accent: '#00ac47', bg: '#e0f6e9', fg: '#087a36' },
@@ -55,7 +70,19 @@ const APP_BRANDS: { match: string[]; accent: string; bg: string; fg: string; gra
   { match: ['onenote'], accent: '#7719aa', bg: '#f1e5f7', fg: '#5a1280' },
   { match: ['visual studio code', 'vscode'], accent: '#007acc', bg: '#e0f0fa', fg: '#005a96' },
   { match: ['visual studio'], accent: '#68217a', bg: '#f0e6f3', fg: '#4e195c' },
-  { match: ['explorer'], accent: '#f5b400', bg: '#fff6d9', fg: '#8a6500' },
+  { match: ['anydesk'], accent: '#ef443b', bg: '#fdeceb', fg: '#b3261e' },
+  { match: ['premiere', 'primear'], accent: '#9999ff', bg: '#ececff', fg: '#4b4bb3' },
+  { match: ['docker'], accent: '#2496ed', bg: '#e3f1fd', fg: '#1565a8' },
+  { match: ['remote desktop'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['snipping'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['codex'], accent: '#10a37f', bg: '#e1f5ef', fg: '#0b7a5f' },
+  { match: ['lightshot'], accent: '#7b3fe4', bg: '#efe9fc', fg: '#5527b0' },
+  { match: ['camo'], accent: '#6c4cf1', bg: '#eeeafe', fg: '#4a31b5' },
+  { match: ['windows shell', 'shell experience'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['searchhost', 'search'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['copilot'], accent: '#7c4dff', bg: '#efeaff', fg: '#5a35c4' },
+  { match: ['task scheduler'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['screenshot'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
   { match: ['slack'], accent: '#4a154b', bg: '#f1e6f1', fg: '#4a154b' },
   { match: ['skype'], accent: '#00aff0', bg: '#e0f6fd', fg: '#00749f' },
   { match: ['whatsapp'], accent: '#25d366', bg: '#e1f9ea', fg: '#128c4a' },
@@ -89,19 +116,84 @@ const APP_LOGOS: Record<string, string> = {
   claude: logoUrl('claude', '14.0.0'),
   acrobat: logoUrl('adobeacrobatreader'),
   sql: logoUrl('microsoftsqlserver'),
+  anydesk: logoUrl('anydesk'),
+  premiere: logoUrl('adobepremierepro'),
+  docker: logoUrl('docker'),
+  codex: logoUrl('openai'),
+  powershell: logoUrl('powershell'),
+  dropbox: logoUrl('dropbox'),
+  brave: logoUrl('brave'),
 };
 
 /** Full-colour official logos bundled with the app (shown as-is, not tinted) */
 const APP_COLOUR_LOGOS: Record<string, string> = {
   chrome: chromeLogo,
   edge: edgeLogo,
+  'task scheduler': taskSchedulerLogo,
+  snipping: snippingToolLogo,
+  screenshot: screenshotLogo,
+  'remote desktop': remoteDesktopLogo,
 };
 
 /** No brand logo available: fall back to a generic mdi icon */
 const APP_FALLBACK_ICONS: Record<string, string> = {
   explorer: 'mdi-folder',
   notepad: 'mdi-notebook-outline',
+  premiere: 'mdi-movie-open',
+  'remote desktop': 'mdi-remote-desktop',
+  snipping: 'mdi-monitor-screenshot',
+  camo: 'mdi-webcam',
+  lightshot: 'mdi-feather',
+  codex: 'mdi-console',
+  powershell: 'mdi-powershell',
+  dropbox: 'mdi-dropbox',
+  brave: 'mdi-shield-half-full',
+  calculator: 'mdi-calculator-variant',
+  photos: 'mdi-image-multiple',
+  activepresenter: 'mdi-presentation-play',
+  searchhost: 'mdi-magnify',
+  copilot: 'mdi-creation',
+  screenshot: 'mdi-monitor-screenshot',
+  'windows shell': 'mdi-microsoft-windows',
+  'shell experience': 'mdi-microsoft-windows',
 };
+
+/** Proper product names for raw process names (e.g. "chrome" -> "Google Chrome"); other names are shown as-is */
+const APP_DISPLAY_NAMES: Record<string, string> = {
+  chrome: 'Google Chrome',
+  msedge: 'Microsoft Edge',
+  edge: 'Microsoft Edge',
+  firefox: 'Mozilla Firefox',
+  winword: 'Microsoft Word',
+  word: 'Microsoft Word',
+  excel: 'Microsoft Excel',
+  powerpnt: 'Microsoft PowerPoint',
+  powerpoint: 'Microsoft PowerPoint',
+  outlook: 'Microsoft Outlook',
+  onenote: 'Microsoft OneNote',
+  teams: 'Microsoft Teams',
+  ms_teams: 'Microsoft Teams',
+  zoom: 'Zoom',
+  code: 'Visual Studio Code',
+  devenv: 'Visual Studio',
+  explorer: 'File Explorer',
+  taskschd: 'Task Scheduler',
+  notepad: 'Notepad',
+  powershell: 'Windows PowerShell',
+  anydesk: 'AnyDesk',
+  dropbox: 'Dropbox',
+  brave: 'Brave',
+  slack: 'Slack',
+  whatsapp: 'WhatsApp',
+  claude: 'Claude',
+  codex: 'Codex',
+  lightshot: 'Lightshot',
+  acrord32: 'Adobe Acrobat',
+  ssms: 'SQL Server Management Studio',
+};
+
+const displayAppName = (name: string): string =>
+  APP_DISPLAY_NAMES[name.trim().toLowerCase().replace(/\.exe$/, '')] ?? name;
 
 /** App logo in its brand colour (generic grey icon for unknown apps); hover shows the app name */
 const renderAppIcon = (name: string) => {
@@ -169,6 +261,7 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
   const [details, setDetails] = useState<EmployeeActivityDetail[]>([]);
   const [detailsLoading, setDetailsLoading] = useState<boolean>(false);
   const [detailsError, setDetailsError] = useState<string>('');
+  const [detailsTab, setDetailsTab] = useState<'all' | 'group'>('all');
 
   const [meetingsOpen, setMeetingsOpen] = useState<boolean>(false);
   const [meetings, setMeetings] = useState<EmployeeMeetingDetail[]>([]);
@@ -224,6 +317,7 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
 
   const openDetails = async (row: EmployeeWorkTimeSummary) => {
     setSelected(row);
+    setDetailsTab('all');
     setDetails([]);
     setDetailsError('');
     setDetailsLoading(true);
@@ -284,6 +378,25 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
       .map(([name, seconds]) => ({ name, seconds }))
       .sort((a, b) => b.seconds - a.seconds)
       .slice(0, 6);
+  }, [details]);
+
+  // Group Activity tab: one block per app, with its window titles in time order
+  const groupedActivity = useMemo(() => {
+    const map = new Map<string, { name: string; seconds: number; items: EmployeeActivityDetail[] }>();
+    details.forEach((d) => {
+      const name = d.applicationName || d.processName || 'Unknown';
+      const g = map.get(name) ?? { name, seconds: 0, items: [] };
+      g.seconds += d.applicationSeconds || 0;
+      g.items.push(d);
+      map.set(name, g);
+    });
+    return Array.from(map.values())
+      .map((g) => ({
+        ...g,
+        titleCount: new Set(g.items.map((i) => i.windowTitle || '')).size,
+        items: [...g.items].sort((a, b) => (a.startTimeLocal || '').localeCompare(b.startTimeLocal || '')),
+      }))
+      .sort((a, b) => b.seconds - a.seconds);
   }, [details]);
 
   const avgSeconds = rows.length ? totals.seconds / rows.length : 0;
@@ -429,9 +542,9 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
                       <td>
                         <span
                           className="ews-badge ews-badge-orange"
-                          style={!isPersonal ? { cursor: 'pointer' } : undefined}
-                          title={!isPersonal ? `View ${r.employeeName}'s meetings` : undefined}
-                          onClick={!isPersonal ? () => openMeetings(r) : undefined}
+                          style={{ cursor: 'pointer' }}
+                          title={isPersonal ? 'View my meetings' : `View ${r.employeeName}'s meetings`}
+                          onClick={() => openMeetings(isPersonal ? undefined : r)}
                         >
                           <i className="mdi mdi-video-outline"></i> {formatSeconds(r.meetingSeconds)}
                         </span>
@@ -496,6 +609,74 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
           ) : details.length === 0 ? (
             <div className="text-center text-muted py-4">No activity found.</div>
           ) : (
+            <>
+            <div className="d-flex align-items-center gap-2 mb-3">
+              <div className="ews-tabs">
+              {([['all', 'All Activity', 'mdi-format-list-bulleted'], ['group', 'Group Activity', 'mdi-view-grid-outline']] as const).map(([key, label, icon]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setDetailsTab(key)}
+                  className={`ews-tab ${detailsTab === key ? 'active' : ''}`}
+                >
+                  <i className={`mdi ${icon}`}></i> {label}
+                </button>
+              ))}
+              </div>
+              {detailsTab === 'group' && (
+                <div className="ms-auto d-flex align-items-center gap-3 small">
+                  <span className="d-inline-flex align-items-center gap-1">
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: ACTIVE_COLOUR }} /> Active
+                  </span>
+                  <span className="d-inline-flex align-items-center gap-1">
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: IDLE_COLOUR }} /> Idle
+                  </span>
+                </div>
+              )}
+            </div>
+            {detailsTab === 'group' ? (
+              <div className="d-flex flex-column gap-3">
+                {groupedActivity.map((g) => (
+                  <div key={g.name} className="border rounded p-3">
+                    <div className="d-flex align-items-center gap-2 mb-2">
+                      {renderAppIcon(g.name)}
+                      <div>
+                        <div className="fw-bold">{displayAppName(g.name)}</div>
+                        <div className="text-muted small">Application duration: {formatSeconds(g.seconds)}</div>
+                      </div>
+                      <span className="ms-auto badge bg-light text-secondary border">
+                        {g.titleCount} window title{g.titleCount === 1 ? '' : 's'}
+                      </span>
+                    </div>
+                    <div className="d-flex flex-column gap-2 ps-2">
+                      {g.items.map((d, i) => {
+                        const active = Math.max(0, d.actualSeconds || 0);
+                        const idle = Math.max(0, d.idleSeconds || 0);
+                        const sum = active + idle;
+                        const activePct = sum > 0 ? (active / sum) * 100 : 0;
+                        return (
+                          <div key={`${d.startTimeLocal}-${i}`}>
+                            <div className="d-flex justify-content-between gap-3">
+                              <div className="fw-semibold">{d.windowTitle || '(no title)'}</div>
+                              <div className="small text-nowrap">
+                                {formatClock(d.startTimeLocal)} – {formatClock(d.endTimeLocal)}
+                              </div>
+                            </div>
+                            <div className="d-flex my-1" style={{ height: 14, borderRadius: 7, overflow: 'hidden', background: '#cbd5e1', gap: 2 }}>
+                              {active > 0 && <div style={{ width: `${activePct}%`, background: ACTIVE_COLOUR }} title={`Active: ${formatSeconds(active)}`} />}
+                              {idle > 0 && <div style={{ flex: 1, background: IDLE_COLOUR }} title={`Idle: ${formatSeconds(idle)}`} />}
+                            </div>
+                            <div className="small text-muted">
+                              Active: {formatSeconds(active)} · Idle: {formatSeconds(idle)}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
             <div className="ews-modal-wrap">
               <Table className="modern-table ews-modal-table" size="sm">
                 <thead>
@@ -530,6 +711,8 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
                 </tbody>
               </Table>
             </div>
+            )}
+            </>
           )}
         </ModalBody>
       </Modal>
@@ -584,7 +767,9 @@ const EmployeeWorkSummary: React.FC<Props> = ({ employeeId }) => {
                   {meetings.map((m, i) => (
                     <tr key={m.meetingActivityId || `${m.employeeId}-${i}`}>
                       {!isPersonal && !meetingsEmployee && <td style={{ textAlign: 'left' }}>{m.employeeName}</td>}
-                      <td style={{ textAlign: 'left' }}>{m.meetingPlatform || m.applicationName}</td>
+                      <td style={{ textAlign: 'left' }}>
+                        {renderAppIcon(m.meetingPlatform || m.applicationName || 'Unknown')}
+                      </td>
                       <td>{formatClock(m.meetingStartLocal)}</td>
                       <td>{formatClock(m.meetingEndLocal)}</td>
                       <td>{m.meetingDuration}</td>
