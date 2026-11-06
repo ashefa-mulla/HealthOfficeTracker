@@ -1011,8 +1011,14 @@ h6 {
     grid-template-columns: 1fr;
   }
 
-  .search-add-extra-left {
+  /* keep the Add button visible on phones (it used to be hidden here): full-width, above the other controls */
+  .search-add-extra-left:empty {
     display: none;
+  }
+
+  .search-add-extra-left .search-add-btn {
+    width: 100%;
+    padding: 9px 20px;
   }
 
   .search-add-extra-right {
