@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Card, CardBody, Row, Col } from 'reactstrap';
 import { useAuthStore } from '@/store/useAuthStore';
 import { ReportItemDefinition } from '@/types/report/report.types';
+import { getNumericEmployeeId, getOwnEmployeeId } from '@/helpers/userHelper';
 import ReportModal from './ReportModal';
 import './reports.scss';
 
@@ -38,7 +39,7 @@ const REPORTS_LIST: ReportItemDefinition[] = [
     key: 'utilization',
     title: 'Utilization Report',
     description: '',
-    category: 'Productivity',
+    category: 'Financial',
     icon: '',
     color: '',
   },
@@ -65,7 +66,7 @@ const REPORTS_LIST: ReportItemDefinition[] = [
     key: 'user_utilization',
     title: 'User Utilization Report',
     description: '',
-    category: 'Productivity',
+    category: 'Financial',
     icon: '',
     color: '',
   },
@@ -114,6 +115,22 @@ const REPORTS_LIST: ReportItemDefinition[] = [
     icon: '',
     color: '',
   },
+  {
+    id: 13,
+    key: 'employee_payslip',
+    title: 'Employee Pay Slip Report',
+    description: '',
+    category: 'Financial',
+    icon: '',
+    color: '',
+  },
+];
+
+// Employee-accessible reports (strictly the 3 employee reports)
+const EMPLOYEE_REPORT_KEYS = [
+  'time_sheet',
+  'employee_leave',
+  'employee_payslip',
 ];
 
 const Reports: React.FC = () => {
@@ -144,7 +161,58 @@ const Reports: React.FC = () => {
     profileInfo?.id;
   const adminId = Number(rawAdminId) && !isNaN(Number(rawAdminId)) ? Number(rawAdminId) : 0;
 
+  const storedProfile = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('userProfile') || '{}');
+    } catch {
+      return {};
+    }
+  })();
+
+  const profileUserType = Number(
+    profileInfo?.utype ??
+    profileInfo?.usertype ??
+    profileInfo?.userType ??
+    storedProfile?.utype ??
+    storedProfile?.usertype ??
+    storedProfile?.userType ??
+    0
+  );
+
+  const ownEmpId = getOwnEmployeeId(profileInfo) || getNumericEmployeeId(profileInfo, user);
+
+  // Admin / Super Admin (1, 4, 12)
+  const isAdmin =
+    [1, 4, 12].includes(profileUserType) ||
+    ownEmpId === 78 ||
+    ownEmpId === 68 ||
+    sessionRole.toLowerCase() === 'admin' ||
+    sessionRole.toLowerCase() === 'administrator';
+
+  // Ancillary Staff (7)
+  const isAncillary =
+    profileUserType === 7 ||
+    sessionRole.toLowerCase().includes('ancillary');
+
+  // Manager / Supervisor / SubAdmin (2, 13)
+  const isManager =
+    [2, 13].includes(profileUserType) ||
+    sessionRole.toLowerCase().includes('manager') ||
+    sessionRole.toLowerCase().includes('supervisor');
+
+  // Clinician (sessiontype 2 or Clinicians role)
   const isClinician = sessiontype === 2 || sessionRole === 'Clinicians';
+
+  // Strictly Employee: userType 3, or non-admin, non-ancillary, non-manager, non-clinician
+  const isEmployee =
+    !isAdmin &&
+    !isAncillary &&
+    !isManager &&
+    !isClinician &&
+    (profileUserType === 3 ||
+      sessionRole.toLowerCase().includes('employee') ||
+      sessionRole.toLowerCase().includes('member') ||
+      profileUserType === 0);
 
   const [activeReport, setActiveReport] = useState<ReportItemDefinition | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -152,6 +220,16 @@ const Reports: React.FC = () => {
   useEffect(() => {
     document.title = 'Reports | HO Tracker';
   }, []);
+
+  const visibleReports = useMemo(() => {
+    if (isClinician) {
+      return REPORTS_LIST.filter((rep) => rep.key === 'monthly_invoice');
+    }
+    if (isEmployee) {
+      return REPORTS_LIST.filter((rep) => EMPLOYEE_REPORT_KEYS.includes(rep.key));
+    }
+    return REPORTS_LIST;
+  }, [isClinician, isEmployee]);
 
   const handleOpenModal = (report: ReportItemDefinition) => {
     setActiveReport(report);
@@ -166,7 +244,9 @@ const Reports: React.FC = () => {
     <Container fluid className="dashboard-container reports-page py-3">
       <Row className="mb-2">
         <Col xs={12}>
-          <h4 className="mb-0 text-dark fw-bold">Reports</h4>
+          <h4 className="mb-0 text-dark fw-bold">
+            {isEmployee ? 'My Reports' : 'Reports'}
+          </h4>
           <hr className="my-3" />
         </Col>
       </Row>
@@ -175,37 +255,21 @@ const Reports: React.FC = () => {
         <Col xs={12}>
           <Card className="reports-card">
             <CardBody>
-              {sessiontype !== 2 ? (
-                <ol className="reports-simple-list">
-                  {REPORTS_LIST.map((rep) => (
-                    <li key={rep.id}>
-                      <a
-                        href="#/"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleOpenModal(rep);
-                        }}
-                      >
-                        {rep.title}
-                      </a>
-                    </li>
-                  ))}
-                </ol>
-              ) : (
-                <ol className="reports-simple-list">
-                  <li>
+              <ol className="reports-simple-list">
+                {visibleReports.map((rep) => (
+                  <li key={rep.id}>
                     <a
                       href="#/"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleOpenModal(REPORTS_LIST[2]); // Monthly Invoice
+                        handleOpenModal(rep);
                       }}
                     >
-                      Monthly Invoice
+                      {rep.title}
                     </a>
                   </li>
-                </ol>
-              )}
+                ))}
+              </ol>
             </CardBody>
           </Card>
         </Col>

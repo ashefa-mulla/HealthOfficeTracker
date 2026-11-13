@@ -381,6 +381,33 @@ class ReportService {
     }
   }
 
+  /**
+   * 12. Employee Pay Slip Report
+   * GET /api/Reports/DownloadEmployeePaySlip?empId={empId}&month={month}&year={year}&format=pdf
+   */
+  async downloadEmployeePaySlip(params: {
+    empId: number;
+    month?: number;
+    year?: number;
+    format?: string;
+  }): Promise<Blob> {
+    try {
+      const response = await axiosInstance.get(`${BASE_REPORTS}/DownloadEmployeePaySlip`, {
+        params: {
+          empId: params.empId,
+          month: params.month,
+          year: params.year,
+          format: params.format || 'pdf',
+        },
+        responseType: 'blob',
+      });
+      return response.data;
+    } catch (error) {
+      const msg = await extractBlobErrorMessage(error);
+      throw new Error(msg);
+    }
+  }
+
   // -------------------------------------------------------------
   // Parameter Lookups
   // -------------------------------------------------------------

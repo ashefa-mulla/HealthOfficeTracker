@@ -1,11 +1,11 @@
-export type ReportCategory = 'All' | 'Financial' | 'Productivity' | 'Attendance' | 'Evaluation';
+export type ReportCategory = 'All' | 'Financial' | 'Productivity' | 'Attendance' | 'Evaluation' | 'Payroll';
 
 export interface ReportItemDefinition {
   id: number;
   key: string;
   title: string;
   description: string;
-  category: 'Financial' | 'Productivity' | 'Attendance' | 'Evaluation';
+  category: 'Financial' | 'Productivity' | 'Attendance' | 'Evaluation' | 'Payroll';
   icon: string;
   color: string;
   badge?: string;
@@ -17,14 +17,16 @@ export interface ReportFormParams {
   stDt?: string;
   endDt?: string;
   empid?: number;
+  empId?: number;
   projectId?: number;
   subProjectId?: number;
   invoicelayout?: number;
   invoiceactive?: number;
-  month?: string;
+  month?: string | number;
   year?: number;
   currentyear?: boolean;
   hidedate?: boolean;
+  format?: string;
 }
 
 export interface LookupOption {

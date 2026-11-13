@@ -218,6 +218,18 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
           <span>{t('Leave Management')}</span>
         </NavLink>
       </li>
+
+      {/* Employee Attendance (admin: insert, update, delete) */}
+      <li className="menu-item">
+        <NavLink
+          to="/area/employeeattendance/list"
+          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/employeeattendance') ? 'active' : ''}`}
+          onClick={onItemClick}
+        >
+          <i className="mdi mdi-calendar-clock-outline"></i>
+          <span>{t('Employee Attendance')}</span>
+        </NavLink>
+      </li>
   
 
 

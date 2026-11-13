@@ -14,6 +14,7 @@ import { BankMasterList, BankMasterCreate } from '../pages/BankMasters';
 import { PurchaseOrderList, PurchaseOrderCreate } from '../pages/PurchaseOrders';
 import { ChequeRequestList, ChequeRequestCreate } from '../pages/ChequeRequests';
 import { EvaluationList } from '../pages/Evaluation';
+import { EmployeeAttendanceList, EmployeeAttendanceCreate } from '../pages/EmployeeAttendance';
 import Attendance from '../pages/Attendance';
 import Timer from '../pages/Timer';
 import Tasks, { Top10TaskList, Top10TaskCreate } from '../pages/Tasks';
@@ -68,6 +69,9 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/area/chequerequest/create', component: <ChequeRequestCreate /> },
   { path: '/area/chequerequest/edit/:id', component: <ChequeRequestCreate /> },
   { path: '/area/evaluation/list', component: <EvaluationList /> },
+  { path: '/area/employeeattendance/list', component: <EmployeeAttendanceList /> },
+  { path: '/area/employeeattendance/create', component: <EmployeeAttendanceCreate /> },
+  { path: '/area/employeeattendance/edit/:id', component: <EmployeeAttendanceCreate /> },
   { path: '/attendance', component: <Attendance /> },
   { path: '/timer', component: <Timer /> },
   { path: '/area/timer', component: <Timer /> },
@@ -94,6 +98,7 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/area/leavemanagement', component: <LeaveManagement /> },
   { path: '/locations', component: <Locations /> },
   { path: '/reports', component: <Reports /> },
+  { path: '/area/reports', component: <Reports /> },
   { path: '/settings', component: <Settings /> },
   { path: '/', component: <Dashboard /> },
 ];

@@ -13,6 +13,7 @@ import BankMasterReducer from './bankMaster/bankMasterSlice';
 import PurchaseOrderReducer from './purchaseOrder/purchaseOrderSlice';
 import ChequeRequestReducer from './chequeRequest/chequeRequestSlice';
 import EvaluationReducer from './evaluation/evaluationSlice';
+import EmployeeAttendanceReducer from './employeeAttendance/employeeAttendanceSlice';
 const rootReducer = combineReducers({
   Login: LoginReducer,
   Top10Task: Top10TaskReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   PurchaseOrder: PurchaseOrderReducer,
   ChequeRequest: ChequeRequestReducer,
   Evaluation: EvaluationReducer,
+  EmployeeAttendance: EmployeeAttendanceReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

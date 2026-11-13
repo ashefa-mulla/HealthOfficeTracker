@@ -57,6 +57,12 @@ const EmployeeMenu: React.FC<MenuProps> = ({
       label: 'Evaluation',
       isActive: location.pathname.startsWith('/area/evaluation'),
     },
+    {
+      to: '/reports',
+      icon: 'mdi mdi-chart-box-outline',
+      label: 'Reports',
+      isActive: location.pathname.startsWith('/reports') || location.pathname.startsWith('/area/reports'),
+    },
   ];
 
   return (

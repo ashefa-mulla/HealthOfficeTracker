@@ -15,6 +15,8 @@ import { RHFInput, RHFSelect, RHFCheckBox } from '@/Components/Common/Forms';
 import { ReportItemDefinition, LookupOption } from '@/types/report/report.types';
 import reportService, { openPdfBlob } from '@/services/reportService';
 import toastService from '@/services/toastService';
+import { useAuthStore } from '@/store/useAuthStore';
+import { getNumericEmployeeId, getOwnEmployeeId, getUserFullName } from '@/helpers/userHelper';
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -63,6 +65,19 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   adminId,
   isClinician,
 }) => {
+  const { user, profileInfo } = useAuthStore();
+  const profileUserType = Number(
+    profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType ?? 0
+  );
+  const ownEmpId = getOwnEmployeeId(profileInfo) || getNumericEmployeeId(profileInfo, user);
+  const userFullName = getUserFullName(user, profileInfo);
+
+  // Admin (1, 4, 12), Ancillary Staff (7), Manager (2, 13)
+  const isAdmin = [1, 4, 12].includes(profileUserType) || ownEmpId === 78 || ownEmpId === 68;
+  const isAncillary = profileUserType === 7;
+  const isManager = [2, 13].includes(profileUserType);
+  const showEmployeeSelect = isAdmin || isAncillary || isManager;
+
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
@@ -82,7 +97,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
       poid: null,
       stDt: formatDateToYMD(firstDayOfMonth),
       endDt: formatDateToYMD(now),
-      empId: null,
+      empId: !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : null,
       projectId: null,
       subProjectId: null,
       invoiceLayout: 2,
@@ -103,12 +118,13 @@ export const ReportModal: React.FC<ReportModalProps> = ({
     if (isOpen && report) {
       const currentDate = new Date();
       const firstOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const defaultEmpId = !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : null;
 
       reset({
         poid: null,
         stDt: formatDateToYMD(firstOfMonth),
         endDt: formatDateToYMD(currentDate),
-        empId: null,
+        empId: defaultEmpId,
         projectId: null,
         subProjectId: null,
         invoiceLayout: 2,
@@ -141,18 +157,22 @@ export const ReportModal: React.FC<ReportModalProps> = ({
     try {
       const safeCompanyId = Number(companyId) && !isNaN(Number(companyId)) ? Number(companyId) : 1;
       const safeBranchId = Number(branchId) && !isNaN(Number(branchId)) ? Number(branchId) : 1;
-      // const safeAdminId = Number(adminId) && !isNaN(Number(adminId)) ? Number(adminId) : 0;
       const safeAdminId = 0;
+
       if (key === 'po_statement') {
         const pos = await reportService.getPurchaseOrderList(safeCompanyId);
         setPoList(pos);
       }
 
       if (
-        ['time_sheet', 'utilization', 'employee_leave', 'utilization_with_project', 'employee_wise_production'].includes(key)
+        ['time_sheet', 'utilization', 'employee_leave', 'utilization_with_project', 'employee_wise_production', 'employee_payslip'].includes(key)
       ) {
-        const emps = await reportService.getEmployeeList(safeCompanyId);
-        setEmployeeList(emps);
+        if (showEmployeeSelect) {
+          const emps = await reportService.getEmployeeList(safeCompanyId);
+          setEmployeeList(emps);
+        } else if (ownEmpId > 0) {
+          setEmployeeList([{ id: ownEmpId, name: userFullName || `Employee #${ownEmpId}` }]);
+        }
       }
 
       if (['monthly_invoice', 'monthly_invoice_excel', 'utilization_with_project'].includes(key)) {
@@ -160,7 +180,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         setProjectList(projs);
       }
 
-      if (key === 'monthly_eval_summary') {
+      if (['monthly_eval_summary', 'employee_payslip'].includes(key)) {
         const [yrs, mths] = await Promise.all([reportService.getYears(), reportService.getMonths()]);
         setYearList(yrs);
         setMonthList(mths);
@@ -232,7 +252,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           setError('endDt', { message: 'To Date is required' });
           isValid = false;
         }
-        if (!data.empId || Number(data.empId) <= 0) {
+        if (showEmployeeSelect && (!data.empId || Number(data.empId) <= 0)) {
           setError('empId', { message: 'Employee is required' });
           isValid = false;
         }
@@ -261,7 +281,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           setError('endDt', { message: 'To Date is required' });
           isValid = false;
         }
-        if (!data.empId || Number(data.empId) <= 0) {
+        if (showEmployeeSelect && (!data.empId || Number(data.empId) <= 0)) {
           setError('empId', { message: 'Employee is required' });
           isValid = false;
         }
@@ -281,6 +301,23 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           isValid = false;
         }
         break;
+
+      case 'employee_payslip': {
+        const resolvedEmpId = !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : Number(data.empId);
+        if (!resolvedEmpId || resolvedEmpId <= 0) {
+          setError('empId', { message: 'Employee is required' });
+          isValid = false;
+        }
+        if (!data.selectedMonth || Number(data.selectedMonth) <= 0) {
+          setError('selectedMonth', { message: 'Month is required' });
+          isValid = false;
+        }
+        if (!data.selectedYear || Number(data.selectedYear) <= 0) {
+          setError('selectedYear', { message: 'Year is required' });
+          isValid = false;
+        }
+        break;
+      }
 
       default:
         break;
@@ -323,7 +360,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           blob = await reportService.downloadUserLogReport({
             stdt: data.stDt,
             enddt: data.endDt,
-            empid: Number(data.empId) || 0,
+            empid: !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : (Number(data.empId) || 0),
           });
           break;
 
@@ -338,15 +375,17 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           });
           break;
 
-        case 'utilization':
-          fileName = `UtilizationReport_${data.empId}_${data.stDt}_to_${data.endDt}.pdf`;
+        case 'utilization': {
+          const targetEmpId = !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : Number(data.empId)!;
+          fileName = `UtilizationReport_${targetEmpId}_${data.stDt}_to_${data.endDt}.pdf`;
           blob = await reportService.downloadUtilizationUserTaskReport({
             stdt: data.stDt,
             enddt: data.endDt,
-            empid: Number(data.empId)!,
+            empid: targetEmpId,
             uid: 3,
           });
           break;
+        }
 
         case 'attendance':
           fileName = `AttendanceReport_${data.monthStr}.pdf`;
@@ -367,7 +406,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
             month: data.getCurrentYearLeaves ? '0' : data.monthStr,
             currentyear: data.getCurrentYearLeaves,
             hidedate: data.getCurrentYearLeaves,
-            empid: Number(data.empId) || 0,
+            empid: !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : (Number(data.empId) || 0),
           });
           break;
 
@@ -376,7 +415,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           blob = await reportService.downloadUtilizationReportwithProject({
             stdt: data.stDt,
             enddt: data.endDt,
-            empid: Number(data.empId)!,
+            empid: !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : Number(data.empId)!,
             projectid: Number(data.projectId)!,
             subprojectid: Number(data.subProjectId) || 0,
             uid: 3,
@@ -391,14 +430,16 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           });
           break;
 
-        case 'employee_wise_production':
-          fileName = `EmployeeProduction_${data.empId}_${data.stDt}_to_${data.endDt}.pdf`;
+        case 'employee_wise_production': {
+          const targetEmpId = !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : Number(data.empId)!;
+          fileName = `EmployeeProduction_${targetEmpId}_${data.stDt}_to_${data.endDt}.pdf`;
           blob = await reportService.downloadUserTrackerTaskwithAmount({
-            eid: Number(data.empId)!,
+            eid: targetEmpId,
             stdt: data.stDt,
             enddt: data.endDt,
           });
           break;
+        }
 
         case 'monthly_eval_summary':
           fileName = `MonthlyEvaluationReportSummary_${data.selectedMonth}_${data.selectedYear}.pdf`;
@@ -407,6 +448,20 @@ export const ReportModal: React.FC<ReportModalProps> = ({
             month: Number(data.selectedMonth),
           });
           break;
+
+        case 'employee_payslip': {
+          const targetEmpId = !showEmployeeSelect && ownEmpId > 0 ? ownEmpId : Number(data.empId)!;
+          const emp = employeeList.find((e) => Number(e.id) === Number(targetEmpId));
+          const empNameStr = emp?.name ? `_${emp.name.replace(/\s+/g, '_')}` : userFullName ? `_${userFullName.replace(/\s+/g, '_')}` : `_${targetEmpId}`;
+          fileName = `PaySlip${empNameStr}_${data.selectedMonth}_${data.selectedYear}.pdf`;
+          blob = await reportService.downloadEmployeePaySlip({
+            empId: targetEmpId,
+            month: Number(data.selectedMonth)!,
+            year: Number(data.selectedYear)!,
+            format: 'pdf',
+          });
+          break;
+        }
 
         default:
           throw new Error('Unsupported report type');
@@ -528,8 +583,8 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                   />
                 )}
 
-                {/* Employee Select */}
-                {['time_sheet', 'utilization', 'employee_leave', 'employee_wise_production'].includes(report.key) && (
+                {/* Employee Select - Only shown for Admin and Ancillary Staff */}
+                {showEmployeeSelect && ['time_sheet', 'utilization', 'employee_leave', 'employee_wise_production'].includes(report.key) && (
                   <RHFSelect<ReportFormData>
                     name="empId"
                     label={`Employee ${['utilization', 'employee_wise_production'].includes(report.key) ? '' : '(Optional)'}`}
@@ -546,13 +601,15 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                 {/* Utilization with Project specific options */}
                 {report.key === 'utilization_with_project' && (
                   <>
-                    <RHFSelect<ReportFormData>
-                      name="empId"
-                      label="Employee"
-                      placeholder="-- Select Employee --"
-                      required
-                      options={employeeList.map((e) => ({ value: e.id, label: e.name }))}
-                    />
+                    {showEmployeeSelect && (
+                      <RHFSelect<ReportFormData>
+                        name="empId"
+                        label="Employee"
+                        placeholder="-- Select Employee --"
+                        required
+                        options={employeeList.map((e) => ({ value: e.id, label: e.name }))}
+                      />
+                    )}
 
                     <RHFSelect<ReportFormData>
                       name="projectId"
@@ -627,6 +684,45 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                       />
                     </Col>
                   </Row>
+                )}
+
+                {/* Employee Pay Slip Report */}
+                {report.key === 'employee_payslip' && (
+                  <>
+                    {/* Employee selection only shown for Admin, Ancillary Staff, Manager */}
+                    {showEmployeeSelect && (
+                      <RHFSelect<ReportFormData>
+                        name="empId"
+                        label="Employee"
+                        placeholder="-- Select Employee --"
+                        required
+                        options={employeeList.map((e) => ({ value: e.id, label: e.name }))}
+                      />
+                    )}
+
+                    <Row>
+                      <Col md={6}>
+                        <RHFSelect<ReportFormData>
+                          name="selectedMonth"
+                          label="Month"
+                          placeholder="Select Month"
+                          required
+                          isClearable={false}
+                          options={monthList.map((m) => ({ value: m.id, label: m.name }))}
+                        />
+                      </Col>
+                      <Col md={6}>
+                        <RHFSelect<ReportFormData>
+                          name="selectedYear"
+                          label="Year"
+                          placeholder="Select Year"
+                          required
+                          isClearable={false}
+                          options={yearList.map((y) => ({ value: y, label: String(y) }))}
+                        />
+                      </Col>
+                    </Row>
+                  </>
                 )}
               </>
             )}

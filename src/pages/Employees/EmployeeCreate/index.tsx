@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { Container, Row, Col, Spinner, Form } from "reactstrap";
@@ -15,8 +15,9 @@ import { employeeFormSchema, EmployeeForm } from "@/types/employee/employee.sche
 import { emptyEmployeeForm } from "@/types/employee/employee.mapper";
 import { useAuthStore } from "@/store/useAuthStore";
 import toastService from "@/services/toastService";
-import { getOwnEmployeeId } from "@/helpers/userHelper";
+import { getOwnEmployeeId, isAdminUser, getNumericEmployeeId } from "@/helpers/userHelper";
 import EmployeePersonalInfo from "./EmployeePersonalInfo";
+import EmployeeSalaryTab from "./EmployeeSalaryTab";
 
 const LIST_PATH = "/area/employee/list";
 const PROFILE_PATH = "/settings";
@@ -38,7 +39,7 @@ const EmployeeCreate: React.FC = () => {
   // Opened from "Account Settings": use the logged-in user's own employee id
   // and send them back to their profile page instead of the all-users list.
   const fromProfile = !!(location.state as any)?.fromProfile;
-  const ownEmployeeId = getOwnEmployeeId(profileInfo);
+  const ownEmployeeId = getOwnEmployeeId(profileInfo) || getNumericEmployeeId(profileInfo, user);
   const numericId = fromProfile
     ? ownEmployeeId
     : parseInt(params.id || "0", 10) || 0;
@@ -50,6 +51,18 @@ const EmployeeCreate: React.FC = () => {
     ? "Edit Team Member"
     : "Add Team Member";
 
+  const profileUserType = Number(
+    profileInfo?.utype ?? profileInfo?.usertype ?? profileInfo?.userType ?? 0
+  );
+  const sessionRole = (localStorage.getItem("sessionrole") || profileInfo?.userRole || user?.userRole || "").toLowerCase();
+  const isAdmin =
+    isAdminUser(profileInfo) ||
+    [1, 4, 12].includes(profileUserType) ||
+    ownEmployeeId === 78 ||
+    ownEmployeeId === 68 ||
+    sessionRole === "admin" ||
+    sessionRole === "administrator";
+
   document.title = `${pageHeading} | HO Tracker`;
 
   const methods = useForm<EmployeeForm>({
@@ -60,6 +73,7 @@ const EmployeeCreate: React.FC = () => {
   });
 
   const { reset, handleSubmit } = methods;
+  const [activeTab, setActiveTab] = useState<'personal' | 'salary'>('personal');
 
   useEffect(() => {
     dispatch(fetchEmployeeDropdowns());
@@ -120,41 +134,94 @@ const EmployeeCreate: React.FC = () => {
             <Col lg={12}>
               <div className="tracker-card">
                 <div className="tracker-card-body">
-                  {loading && numericId > 0 ? (
-                    <div className="text-center py-5">
-                      <Spinner color="primary" />
-                      <p className="mt-2 text-muted fw-medium">Loading details...</p>
+                  {/* Tab Navigation - Only shown for Admin logins */}
+                  {isAdmin && (
+                    <div className="d-flex align-items-center gap-2 mb-4 border-bottom pb-3">
+                      <button
+                        type="button"
+                        className={`btn btn-sm d-flex align-items-center gap-2 px-3 py-2 ${
+                          activeTab === 'personal'
+                            ? 'btn-primary shadow-sm fw-semibold'
+                            : 'btn-light text-muted'
+                        }`}
+                        style={{ borderRadius: 8, fontSize: '13px' }}
+                        onClick={() => setActiveTab('personal')}
+                      >
+                        <i className="mdi mdi-account-circle-outline font-size-16"></i>
+                        <span>Personal Information</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`btn btn-sm d-flex align-items-center gap-2 px-3 py-2 ${
+                          activeTab === 'salary'
+                            ? 'btn-primary shadow-sm fw-semibold'
+                            : 'btn-light text-muted'
+                        }`}
+                        style={{ borderRadius: 8, fontSize: '13px' }}
+                        onClick={() => {
+                          if (!isEdit) {
+                            toastService.info('Please save the team member first before managing salary.');
+                            return;
+                          }
+                          setActiveTab('salary');
+                        }}
+                        title={!isEdit ? 'Please save team member first' : undefined}
+                      >
+                        <i className="mdi mdi-cash-multiple font-size-16"></i>
+                        <span>Salary</span>
+                        {!isEdit && (
+                          <span className="badge bg-secondary-subtle text-muted ms-1" style={{ fontSize: '10px' }}>
+                            Save first
+                          </span>
+                        )}
+                      </button>
                     </div>
-                  ) : (
-                    <FormProvider {...methods}>
-                      <Form onSubmit={handleSubmit(onSubmit as any, onInvalid)} noValidate>
-                        <input type="hidden" {...methods.register("id")} />
-                        <input type="hidden" {...methods.register("userId")} />
-                        <input type="hidden" {...methods.register("identityId")} />
+                  )}
 
-                        <EmployeePersonalInfo />
-
-                        <div className="d-flex align-items-center gap-3 pt-3 border-top">
-                          <Link to={backPath} className="btn-form-action-back">
-                            Back
-                          </Link>
-                          <button
-                            type="submit"
-                            className="btn-form-action-save"
-                            disabled={saving}
-                          >
-                            {saving ? (
-                              <>
-                                <Spinner size="sm" className="me-2 text-white" />
-                                Saving...
-                              </>
-                            ) : (
-                              <>{isEdit ? "Update" : "Save"}</>
-                            )}
-                          </button>
+                  {(!isAdmin || activeTab === 'personal') && (
+                    <>
+                      {loading && numericId > 0 ? (
+                        <div className="text-center py-5">
+                          <Spinner color="primary" />
+                          <p className="mt-2 text-muted fw-medium">Loading details...</p>
                         </div>
-                      </Form>
-                    </FormProvider>
+                      ) : (
+                        <FormProvider {...methods}>
+                          <Form onSubmit={handleSubmit(onSubmit as any, onInvalid)} noValidate>
+                            <input type="hidden" {...methods.register("id")} />
+                            <input type="hidden" {...methods.register("userId")} />
+                            <input type="hidden" {...methods.register("identityId")} />
+
+                            <EmployeePersonalInfo />
+
+                            <div className="d-flex align-items-center gap-3 pt-3 border-top">
+                              <Link to={backPath} className="btn-form-action-back">
+                                Back
+                              </Link>
+                              <button
+                                type="submit"
+                                className="btn-form-action-save"
+                                disabled={saving}
+                              >
+                                {saving ? (
+                                  <>
+                                    <Spinner size="sm" className="me-2 text-white" />
+                                    Saving...
+                                  </>
+                                ) : (
+                                  <>{isEdit ? "Update" : "Save"}</>
+                                )}
+                              </button>
+                            </div>
+                          </Form>
+                        </FormProvider>
+                      )}
+                    </>
+                  )}
+
+                  {isAdmin && activeTab === 'salary' && (
+                    <EmployeeSalaryTab employeeId={numericId} />
                   )}
                 </div>
               </div>
