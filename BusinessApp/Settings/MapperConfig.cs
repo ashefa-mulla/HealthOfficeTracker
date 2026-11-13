@@ -79,6 +79,8 @@ namespace BusinessApp.Settings
     .ReverseMap();
 
             CreateMap<EvaluationLockModel, TblEvaluationLock>().ReverseMap();
+            CreateMap<EmployeeAttendanceModel, TblEmployeeAttendance>().ReverseMap();
+            CreateMap<EmployeeSalaryRevisionModel, TblEmployeeSalaryRevision>().ReverseMap();
             
         }
     }

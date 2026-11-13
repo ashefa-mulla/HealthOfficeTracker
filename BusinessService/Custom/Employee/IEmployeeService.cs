@@ -1,4 +1,4 @@
-﻿using BusinessData.DataContext;
+using BusinessData.DataContext;
 using BusinessData.Pagination;
 using BusinessService.Common;
 using System.Collections.Generic;
@@ -21,11 +21,6 @@ namespace BusinessService.Custom.Employee
         Task<IEnumerable<GetEmployeeByUserID_Result>> GetEmployeeByUserID(int id);
         Task<IEnumerable<GetOffsetByEmployeeID_Result>> GetOffsetByEmployeeID(int id);
         Task<bool> ChangePassword(string IdentityID, string NewPassword);
-        //Task<IEnumerable<sp_get_userforfeedbackform_Results>> Getuserforfeedback();
-        //Task<IEnumerable<sp_get_questionsforfeedbackform_Results>> Getquestionsforfeedback();
-        //Task<bool> tblInsert(TblMatrix4teamAnswer tbl);
-        //Task<bool> tblUpdate(TblMatrix4teamAnswer tbl);
-
-
+        Task<IEnumerable<sp_GetEmployeePaySlip_Result>> GetEmployeePaySlip(int empId, int month, int year);
     }
 }

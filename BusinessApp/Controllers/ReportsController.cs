@@ -2448,6 +2448,176 @@ namespace BusinessApp.Controllers
             }
         }
 
+        [HttpGet("DownloadEmployeePaySlip")]
+        public async Task<IActionResult> DownloadEmployeePaySlip([FromQuery] int empId, [FromQuery] int? month = null, [FromQuery] int? year = null, [FromQuery] string format = "pdf")
+        {
+            try
+            {
+                if (empId <= 0)
+                {
+                    return BadRequest("Employee ID is required.");
+                }
+
+                int payYear = year ?? DateTime.Now.Year;
+                int payMonth = month ?? DateTime.Now.Month;
+
+                if (payMonth < 1 || payMonth > 12)
+                {
+                    return BadRequest("Month must be between 1 and 12.");
+                }
+
+                if (_employeeService == null)
+                {
+                    return StatusCode(500, "EmployeeService is not available.");
+                }
+
+                // 1. Fetch result from stored procedure
+                var rawResult = await _employeeService.GetEmployeePaySlip(empId, payMonth, payYear);
+                var dataList = rawResult?.ToList() ?? new List<sp_GetEmployeePaySlip_Result>();
+
+                if (string.Equals(format, "json", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (dataList.Any())
+                        return Ok(dataList);
+                    else
+                        return NotFound("No payslip data found for the given parameters.");
+                }
+
+                if (!dataList.Any())
+                {
+                    return NotFound("No payslip data found for the given parameters.");
+                }
+
+                string host = $"{Request.Scheme}://{Request.Host}/";
+                string reportpath = _hostingEnvironment.ContentRootPath;
+
+                var baseData = dataList.First();
+
+                // 2. Separate into Earnings ('E') and Deductions ('D')
+                var earnings = dataList
+                    .Where(x => string.Equals(x.ComponentType, "E", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                var deductions = dataList
+                    .Where(x => string.Equals(x.ComponentType, "D", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                // 3. Pair into two-column rows (Earnings on left, Deductions on right)
+                int maxRows = Math.Max(earnings.Count, deductions.Count);
+                var items = new List<EmployeePaySlipItem>();
+
+                for (int i = 0; i < maxRows; i++)
+                {
+                    var item = new EmployeePaySlipItem
+                    {
+                        EmployeeID = baseData.EmployeeID,
+                        EmployeeName = baseData.EmployeeName ?? "",
+                        DesignationID = baseData.DesignationID ?? "",
+                        PaySlipMonth = baseData.PaySlipMonth ?? "",
+                        Year = baseData.Year,
+                        Month = baseData.Month,
+
+                        GrossWages = baseData.GrossWages,
+                        WorkingDays = baseData.WorkingDays,
+                        Leaves = baseData.Leaves,
+                        LOPDays = baseData.LOPDays,
+                        PaidDays = baseData.PaidDays,
+
+                        Attendance = baseData.Attendance,
+                        PL = baseData.PL,
+                        CL = baseData.CL,
+                        SL = baseData.SL,
+
+                        MatrixRate = baseData.MatrixRate,
+                        GrandTotalPoints = baseData.GrandTotalPoints,
+                        TotalEarnings = baseData.TotalEarnings,
+                        TotalDeductions = baseData.TotalDeductions,
+                        NetSalary = baseData.NetSalary,
+
+                        CompanyName = baseData.CompanyName ?? "",
+                        AddressLine1 = baseData.AddressLine1 ?? "",
+                        AddressLine2 = baseData.AddressLine2 ?? "",
+                        City = baseData.City ?? "",
+                        State = baseData.State ?? "",
+                        Country = baseData.Country ?? "",
+                        ZipCode = baseData.ZipCode ?? "",
+                        Website = baseData.Website ?? "",
+                        PrimaryContact = baseData.PrimaryContact ?? "",
+                        PrimaryEmail = baseData.PrimaryEmail ?? "",
+
+                        ComponentCode = i < dataList.Count ? dataList[i].ComponentCode : "",
+                        ComponentName = i < dataList.Count ? dataList[i].ComponentName : "",
+                        ComponentType = i < dataList.Count ? dataList[i].ComponentType : "",
+                        Amount = i < dataList.Count ? dataList[i].Amount : 0,
+
+                        EarningName = i < earnings.Count ? earnings[i].ComponentName : "",
+                        EarningAmount = i < earnings.Count ? earnings[i].Amount : (decimal?)null,
+                        DeductionName = i < deductions.Count ? deductions[i].ComponentName : "",
+                        DeductionAmount = i < deductions.Count ? deductions[i].Amount : (decimal?)null
+                    };
+
+                    items.Add(item);
+                }
+
+                // 4. Setup RDLC Report
+                string reportFile = System.IO.Path.Combine(reportpath, "Reports", "rptEmployeePaySlip.rdlc");
+                if (!System.IO.File.Exists(reportFile))
+                    throw new FileNotFoundException("RDLC file not found", reportFile);
+
+                LocalReport report = new LocalReport();
+                LoadReportDefinitionSafe(report, reportFile);
+                report.EnableExternalImages = true;
+
+                // 5. Bind DataSource
+                report.DataSources.Add(new ReportDataSource("EmployeePaySlip", items));
+
+                // 6. Setup Parameters
+                string reportTitle = $"Pay Slip - ({payMonth}/{payYear})";
+                string logoPath = System.IO.Path.Combine(reportpath, "FileServer", "Logo", "Small-VO-LOGO.png");
+                if (!System.IO.File.Exists(logoPath))
+                {
+                    logoPath = System.IO.Path.Combine(reportpath, "assets", "img", "Logo", "Small-VO-LOGO.png");
+                }
+                string reportLogo = System.IO.File.Exists(logoPath) ? new Uri(logoPath).AbsoluteUri : $"{host}FileServer/Logo/Small-VO-LOGO.png";
+
+                var paramList = new List<ReportParameter>
+                {
+                    new ReportParameter("logoPath", reportLogo),
+                    new ReportParameter("reportTitle", reportTitle)
+                };
+
+                report.SetParameters(paramList);
+                report.Refresh();
+
+                // 7. Render PDF
+                byte[] pdf = report.Render("PDF");
+                string safeEmpName = !string.IsNullOrWhiteSpace(baseData.EmployeeName) ? $"_{baseData.EmployeeName.Replace(" ", "_")}" : "";
+                string fileName = $"PaySlip{safeEmpName}_{payMonth}_{payYear}.pdf";
+
+                return File(pdf, "application/pdf", fileName);
+            }
+            catch (Exception ex)
+            {
+                var baseEx = ex.GetBaseException();
+                string errorMsg = $"{ex.Message}";
+                if (baseEx != null && baseEx != ex && !errorMsg.Contains(baseEx.Message))
+                {
+                    errorMsg += $" --> {baseEx.Message}";
+                }
+                Exception curr = ex;
+                while (curr.InnerException != null)
+                {
+                    curr = curr.InnerException;
+                    if (!errorMsg.Contains(curr.Message))
+                    {
+                        errorMsg += $" | {curr.Message}";
+                    }
+                }
+                Logger.LogError($"Error in DownloadEmployeePaySlip: {ex}");
+                return BadRequest(errorMsg);
+            }
+        }
+
         private static string FormatLeaveNumber(double val)
         {
             return val % 1 == 0 ? val.ToString("0") : val.ToString("0.##");

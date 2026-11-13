@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using BusinessData.DataContext;
@@ -199,11 +199,16 @@ namespace BusinessService.Custom.Employee
         //}
 
 
-        //public async Task<IEnumerable<sp_get_questionsforfeedbackform_Results>> Getquestionsforfeedback()
-        //{
-        //    return await spRepository.ExecWithStoreProcedureAsync<sp_get_questionsforfeedbackform_Results>("exec sp_get_questionsforfeedbackform");
-        //}
+        public async Task<IEnumerable<sp_GetEmployeePaySlip_Result>> GetEmployeePaySlip(int empId, int month, int year)
+        {
+            var pEmpId = new SqlParameter("@Emp_ID", empId);
+            var pMonth = new SqlParameter("@Month", month);
+            var pYear = new SqlParameter("@Year", year);
 
-       
+            return await spRepository.ExecWithStoreProcedureAsync<sp_GetEmployeePaySlip_Result>(
+                "EXEC dbo.sp_GetEmployeePaySlip @Emp_ID, @Month, @Year",
+                pEmpId, pMonth, pYear
+            );
+        }
     }
 }

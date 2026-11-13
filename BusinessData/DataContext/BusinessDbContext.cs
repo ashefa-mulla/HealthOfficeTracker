@@ -1,4 +1,4 @@
-﻿using BusinessApp.Data;
+using BusinessApp.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -58,11 +58,15 @@ public partial class BusinessDbContext : DbContext
 
     public virtual DbSet<TblDevice> TblDevices { get; set; }
 
+    public virtual DbSet<TblEmployeeAttendance> TblEmployeeAttendances { get; set; }
+
     public virtual DbSet<TblEmployeeDevice> TblEmployeeDevices { get; set; }
 
     public virtual DbSet<TblEmployeeHourlyrate> TblEmployeeHourlyrates { get; set; }
 
     public virtual DbSet<TblEmployeeMatrix> TblEmployeeMatrices { get; set; }
+
+    public virtual DbSet<TblEmployeeSalaryRevision> TblEmployeeSalaryRevisions { get; set; }
 
     public virtual DbSet<TblEmployeeTemplate> TblEmployeeTemplates { get; set; }
 
@@ -283,6 +287,18 @@ public partial class BusinessDbContext : DbContext
             entity.Property(e => e.CreatedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.RegisteredAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+        });
+
+        modelBuilder.Entity<TblEmployeeAttendance>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("Tbl_Employee_Attendance");
+        });
+
+        modelBuilder.Entity<TblEmployeeSalaryRevision>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("Tbl_Employee_SalaryRevision");
         });
 
         modelBuilder.Entity<TblEmployeeHourlyrate>(entity =>
@@ -643,6 +659,11 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<sp_getemployeeworktimesummary_Results>().HasNoKey();
         modelBuilder.Entity<sp_getemployeeactivitydetails_Results>().HasNoKey();
         modelBuilder.Entity<sp_getemployeemeetingdetails_Results>().HasNoKey();
+        modelBuilder.Entity<sp_GetEmployeePaySlip_Result>().HasNoKey();
+        modelBuilder.Entity<spa_getemployeeattendance_records_Result>().HasNoKey();
+        modelBuilder.Entity<spa_getemployeeattendance_Result>().HasNoKey();
+        modelBuilder.Entity<spa_getemployeesalaryrevision_records_Result>().HasNoKey();
+        modelBuilder.Entity<spa_getemployeesalaryrevision_Result>().HasNoKey();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
