@@ -210,5 +210,16 @@ namespace BusinessService.Custom.Employee
                 pEmpId, pMonth, pYear
             );
         }
+
+        public async Task<IEnumerable<sp_GetAllEmployeePayoutLedger_Result>> GetAllEmployeePayoutLedger(int month, int year)
+        {
+            var pMonth = new SqlParameter("@Month", month);
+            var pYear = new SqlParameter("@Year", year);
+
+            return await spRepository.ExecWithStoreProcedureAsync<sp_GetAllEmployeePayoutLedger_Result>(
+                "EXEC dbo.sp_GetAllEmployeePayoutLedger @Month, @Year",
+                pMonth, pYear
+            );
+        }
     }
 }

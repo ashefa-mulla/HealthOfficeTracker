@@ -22,5 +22,6 @@ namespace BusinessService.Custom.Employee
         Task<IEnumerable<GetOffsetByEmployeeID_Result>> GetOffsetByEmployeeID(int id);
         Task<bool> ChangePassword(string IdentityID, string NewPassword);
         Task<IEnumerable<sp_GetEmployeePaySlip_Result>> GetEmployeePaySlip(int empId, int month, int year);
+        Task<IEnumerable<sp_GetAllEmployeePayoutLedger_Result>> GetAllEmployeePayoutLedger(int month, int year);
     }
 }

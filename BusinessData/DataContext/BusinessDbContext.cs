@@ -660,6 +660,7 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<sp_getemployeeactivitydetails_Results>().HasNoKey();
         modelBuilder.Entity<sp_getemployeemeetingdetails_Results>().HasNoKey();
         modelBuilder.Entity<sp_GetEmployeePaySlip_Result>().HasNoKey();
+        modelBuilder.Entity<sp_GetAllEmployeePayoutLedger_Result>().HasNoKey();
         modelBuilder.Entity<spa_getemployeeattendance_records_Result>().HasNoKey();
         modelBuilder.Entity<spa_getemployeeattendance_Result>().HasNoKey();
         modelBuilder.Entity<spa_getemployeesalaryrevision_records_Result>().HasNoKey();

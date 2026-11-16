@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DSEmployeePayoutLedger">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>d1e2f3a4-b5c6-4789-9012-123456789abc</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="EmployeePayoutLedger">
+      <Query>
+        <DataSourceName>DSEmployeePayoutLedger</DataSourceName>
+        <CommandText>/* Command Text */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="EmployeeID">
+          <DataField>EmployeeID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Designation">
+          <DataField>Designation</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PaySlipMonth">
+          <DataField>PaySlipMonth</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Year">
+          <DataField>Year</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Month">
+          <DataField>Month</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="WorkingDays">
+          <DataField>WorkingDays</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Attendance">
+          <DataField>Attendance</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PL">
+          <DataField>PL</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CL">
+          <DataField>CL</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SL">
+          <DataField>SL</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Leaves">
+          <DataField>Leaves</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LOPDays">
+          <DataField>LOPDays</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PaidDays">
+          <DataField>PaidDays</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="GrossWages">
+          <DataField>GrossWages</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MatrixRate">
+          <DataField>MatrixRate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="GrandTotalPoints">
+          <DataField>GrandTotalPoints</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MatrixAmount">
+          <DataField>MatrixAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Conveyance">
+          <DataField>Conveyance</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Miscellaneous">
+          <DataField>Miscellaneous</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="OtherAllowance">
+          <DataField>OtherAllowance</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IncentivePay">
+          <DataField>IncentivePay</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TotalEarnings">
+          <DataField>TotalEarnings</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalTax">
+          <DataField>ProfessionalTax</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LOPDeduction">
+          <DataField>LOPDeduction</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Deduction1">
+          <DataField>Deduction1</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Deduction2">
+          <DataField>Deduction2</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Deduction3">
+          <DataField>Deduction3</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TotalDeductions">
+          <DataField>TotalDeductions</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="NetSalary">
+          <DataField>NetSalary</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AddressLine1">
+          <DataField>AddressLine1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AddressLine2">
+          <DataField>AddressLine2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ZipCode">
+          <DataField>ZipCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Website">
+          <DataField>Website</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrimaryContact">
+          <DataField>PrimaryContact</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrimaryEmail">
+          <DataField>PrimaryEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <!-- Report Header Banner -->
+          <Textbox Name="TxtCompanyName">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!CompanyName.Value, "EmployeePayoutLedger")</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>13pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>#1e293b</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.08in</Top>
+            <Left>0in</Left>
+            <Height>0.26in</Height>
+            <Width>10.06in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Textbox>
+
+          <Textbox Name="TxtReportTitle">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Parameters!reportTitle.Value</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>10.5pt</FontSize>
+                      <FontWeight>SemiBold</FontWeight>
+                      <Color>#2563eb</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=" - " &amp; First(Fields!PaySlipMonth.Value, "EmployeePayoutLedger")</Value>
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>10.5pt</FontSize>
+                      <FontWeight>SemiBold</FontWeight>
+                      <Color>#475569</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.35in</Top>
+            <Left>0in</Left>
+            <Height>0.22in</Height>
+            <Width>10.06in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Textbox>
+
+          <!-- Main Payout Ledger Tablix (19 Columns, ID removed) -->
+          <Tablix Name="TablixPayoutLedger">
+            <TablixBody>
+              <TablixColumns>
+                <!-- 1. # -->
+                <TablixColumn><Width>0.28in</Width></TablixColumn>
+                <!-- 2. Employee Name -->
+                <TablixColumn><Width>1.35in</Width></TablixColumn>
+                <!-- 3. Designation -->
+                <TablixColumn><Width>1.05in</Width></TablixColumn>
+                <!-- 4. WD -->
+                <TablixColumn><Width>0.30in</Width></TablixColumn>
+                <!-- 5. Att -->
+                <TablixColumn><Width>0.30in</Width></TablixColumn>
+                <!-- 6. Leaves -->
+                <TablixColumn><Width>0.36in</Width></TablixColumn>
+                <!-- 7. Paid -->
+                <TablixColumn><Width>0.33in</Width></TablixColumn>
+                <!-- 8. LOP -->
+                <TablixColumn><Width>0.33in</Width></TablixColumn>
+                <!-- 9. Gross Wages -->
+                <TablixColumn><Width>0.76in</Width></TablixColumn>
+                <!-- 10. Matrix Rate -->
+                <TablixColumn><Width>0.42in</Width></TablixColumn>
+                <!-- 11. Points -->
+                <TablixColumn><Width>0.34in</Width></TablixColumn>
+                <!-- 12. Matrix Amount -->
+                <TablixColumn><Width>0.66in</Width></TablixColumn>
+                <!-- 13. Allowances -->
+                <TablixColumn><Width>0.66in</Width></TablixColumn>
+                <!-- 14. Total Earnings -->
+                <TablixColumn><Width>0.80in</Width></TablixColumn>
+                <!-- 15. P.Tax -->
+                <TablixColumn><Width>0.45in</Width></TablixColumn>
+                <!-- 16. LOP Ded -->
+                <TablixColumn><Width>0.56in</Width></TablixColumn>
+                <!-- 17. Other Ded -->
+                <TablixColumn><Width>0.56in</Width></TablixColumn>
+                <!-- 18. Total Ded -->
+                <TablixColumn><Width>0.70in</Width></TablixColumn>
+                <!-- 19. Net Salary -->
+                <TablixColumn><Width>0.86in</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <!-- HEADER ROW -->
+                <TablixRow>
+                  <Height>0.36in</Height>
+                  <TablixCells>
+                    <!-- 1. # -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_SrNo">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>#</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 2. Employee Name -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_EmpName">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Employee Name</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>4pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 3. Designation -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_Designation">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Designation</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>4pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 4. WD -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_WD">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>WD</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 5. Att -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_Att">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Att</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 6. Leaves -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_Leaves">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Leaves</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 7. Paid -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_PaidDays">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Paid</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 8. LOP -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_LOPDays">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>LOP</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 9. Gross Wages -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_Gross">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Gross Wages</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 10. Rate -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_MatrixRate">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Rate</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 11. Pts -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_Points">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Pts</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 12. Matrix Amt -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_MatrixAmt">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Matrix Amt</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 13. Allowances -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_Allowances">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Allowances</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 14. Total Earnings -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_TotalEarnings">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Total Earnings</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#0f766e</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 15. P.Tax -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_PTax">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>P.Tax</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 16. LOP Ded -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_LOPDed">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>LOP Ded</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 17. Other Ded -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_OtherDed">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Other Ded</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e293b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 18. Total Ded -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_TotalDed">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Total Ded</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#991b1b</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 19. Net Salary -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Hdr_NetSalary">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Net Salary</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>Bold</FontWeight><Color>#ffffff</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#1e40af</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>4pt</PaddingTop><PaddingBottom>4pt</PaddingBottom><Border><Color>#cbd5e1</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+
+                <!-- DATA ROW -->
+                <TablixRow>
+                  <Height>0.24in</Height>
+                  <TablixCells>
+                    <!-- 1. Row Index -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtRowIndex">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=RowNumber(Nothing)</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 2. Employee Name -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtEmpName">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!EmployeeName.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>SemiBold</FontWeight><Color>#0f172a</Color></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>4pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 3. Designation -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtDesignation">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Designation.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>4pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 4. WD -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtWD">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!WorkingDays.Value, "0.##")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#334155</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 5. Att -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtAtt">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!Attendance.Value, "0.##")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#334155</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 6. Leaves -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtLeaves">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!Leaves.Value, "0.##")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#334155</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 7. Paid -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtPaidDays">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!PaidDays.Value, "0.##")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>SemiBold</FontWeight><Color>#15803d</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 8. LOP -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtLOPDays">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!LOPDays.Value, "0.##")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><FontWeight>SemiBold</FontWeight><Color>=IIf(Fields!LOPDays.Value > 0, "#b91c1c", "#64748b")</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 9. Gross Wages -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtGross">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!GrossWages.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#0f172a</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 10. Matrix Rate -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtMatrixRate">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!MatrixRate.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 11. Points -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtPoints">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!GrandTotalPoints.Value, "0.##")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#334155</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 12. Matrix Amount -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtMatrixAmt">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!MatrixAmount.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#0f172a</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 13. Allowances -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtAllowances">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!Conveyance.Value + Fields!Miscellaneous.Value + Fields!OtherAllowance.Value + Fields!IncentivePay.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 14. Total Earnings -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtTotalEarnings">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!TotalEarnings.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#0f766e</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f0fdfa", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 15. P.Tax -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtPTax">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!ProfessionalTax.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 16. LOP Ded -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtLOPDed">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!LOPDeduction.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 17. Other Ded -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtOtherDed">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!Deduction1.Value + Fields!Deduction2.Value + Fields!Deduction3.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7pt</FontSize><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#f8fafc", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 18. Total Ded -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtTotalDed">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!TotalDeductions.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#991b1b</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#fef2f2", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 19. Net Salary -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TxtNetSalary">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Fields!NetSalary.Value, "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#1e40af</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>=IIf(RowNumber(Nothing) Mod 2 = 0, "#eff6ff", "#ffffff")</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#e2e8f0</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+
+                <!-- TOTAL SUMMARY FOOTER ROW (19 Columns) -->
+                <TablixRow>
+                  <Height>0.28in</Height>
+                  <TablixCells>
+                    <!-- 1. SrNo -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_SrNo">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 2. EmpName -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_EmpName">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 3. Designation -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_Designation">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 4. WD -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_WD">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 5. Att -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_Att">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 6. Leaves -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_Leaves">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 7. Paid -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_Paid">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 8. LOP -> Total Label -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Lbl_Total">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Total</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#1e293b</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 9. Sum(GrossWages) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_GrossWages">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!GrossWages.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#0f172a</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 10. empty -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_Empty1">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 11. empty -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Tot_Empty2">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value /></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 12. Sum(MatrixAmount) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_MatrixAmount">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!MatrixAmount.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#0f172a</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 13. Sum(Allowances) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_Allowances">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!Conveyance.Value + Fields!Miscellaneous.Value + Fields!OtherAllowance.Value + Fields!IncentivePay.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 14. Sum(TotalEarnings) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_TotalEarnings">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!TotalEarnings.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#0f766e</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#ccfbf1</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 15. Sum(ProfessionalTax) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_PTax">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!ProfessionalTax.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 16. Sum(LOPDeduction) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_LOPDed">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!LOPDeduction.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 17. Sum(OtherDed) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_OtherDed">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!Deduction1.Value + Fields!Deduction2.Value + Fields!Deduction3.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#475569</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#e2e8f0</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>3pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 18. Sum(TotalDeductions) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_TotalDeductions">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!TotalDeductions.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>7.5pt</FontSize><FontWeight>Bold</FontWeight><Color>#991b1b</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#fee2e2</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <!-- 19. Sum(NetSalary) -->
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Sum_NetSalary">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Format(Sum(Fields!NetSalary.Value), "#,##0.00")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8pt</FontSize><FontWeight>Bold</FontWeight><Color>#1e40af</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>#dbeafe</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>4pt</PaddingRight><PaddingTop>3pt</PaddingTop><PaddingBottom>3pt</PaddingBottom><Border><Color>#94a3b8</Color><Style>Solid</Style></Border></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>EmployeePayoutLedger</DataSetName>
+            <Top>0.65in</Top>
+            <Left>0in</Left>
+            <Height>0.88in</Height>
+            <Width>10.18in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>1.60in</Height>
+        <Style />
+      </Body>
+      <Width>10.2in</Width>
+      <Page>
+        <PageFooter>
+          <Height>0.35in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="TxtFooterDate">
+              <CanGrow>true</CanGrow>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Generated on: " &amp; Format(Globals!ExecutionTime, "dd-MMM-yyyy hh:mm tt")</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Color>#94a3b8</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.08in</Top>
+              <Left>0in</Left>
+              <Height>0.2in</Height>
+              <Width>4.5in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Textbox>
+            <Textbox Name="TxtFooterPage">
+              <CanGrow>true</CanGrow>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Color>#94a3b8</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.08in</Top>
+              <Left>5.70in</Left>
+              <Height>0.2in</Height>
+              <Width>4.5in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>8.27in</PageHeight>
+        <PageWidth>11.69in</PageWidth>
+        <LeftMargin>0.3in</LeftMargin>
+        <RightMargin>0.3in</RightMargin>
+        <TopMargin>0.3in</TopMargin>
+        <BottomMargin>0.3in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="logoPath">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Logo Path</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="reportTitle">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Title</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e</rd:ReportID>
+</Report>

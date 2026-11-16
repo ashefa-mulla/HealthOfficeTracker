@@ -2618,6 +2618,110 @@ namespace BusinessApp.Controllers
             }
         }
 
+        [HttpGet("DownloadEmployeePayoutLedger")]
+        public async Task<IActionResult> DownloadEmployeePayoutLedger([FromQuery] int? month = null, [FromQuery] int? year = null, [FromQuery] string format = "pdf")
+        {
+            try
+            {
+                int payYear = year ?? DateTime.Now.Year;
+                int payMonth = month ?? DateTime.Now.Month;
+
+                if (payMonth < 1 || payMonth > 12)
+                {
+                    return BadRequest("Month must be between 1 and 12.");
+                }
+
+                if (_employeeService == null)
+                {
+                    return StatusCode(500, "EmployeeService is not available.");
+                }
+
+                // 1. Fetch raw data from stored procedure
+                var rawResult = await _employeeService.GetAllEmployeePayoutLedger(payMonth, payYear);
+                var dataList = rawResult?.ToList() ?? new List<sp_GetAllEmployeePayoutLedger_Result>();
+
+                // Return JSON if requested
+                if (string.Equals(format, "json", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (dataList.Any())
+                        return Ok(dataList);
+                    else
+                        return NotFound("No payout ledger data found for the given parameters.");
+                }
+
+                if (!dataList.Any())
+                {
+                    return NotFound("No payout ledger data found for the given parameters.");
+                }
+
+                string host = $"{Request.Scheme}://{Request.Host}/";
+                string reportpath = _hostingEnvironment.ContentRootPath;
+
+                // 2. Setup RDLC Report
+                string reportFile = System.IO.Path.Combine(reportpath, "Reports", "rptEmployeePayoutLedger.rdlc");
+                if (!System.IO.File.Exists(reportFile))
+                    throw new FileNotFoundException("RDLC file not found", reportFile);
+
+                LocalReport report = new LocalReport();
+                LoadReportDefinitionSafe(report, reportFile);
+                report.EnableExternalImages = true;
+
+                // 3. Bind DataSource
+                report.DataSources.Add(new ReportDataSource("EmployeePayoutLedger", dataList));
+
+                // 4. Setup Parameters
+                string reportTitle = "Employee Payout Ledger";
+                string logoPath = System.IO.Path.Combine(reportpath, "FileServer", "Logo", "Small-VO-LOGO.png");
+                if (!System.IO.File.Exists(logoPath))
+                {
+                    logoPath = System.IO.Path.Combine(reportpath, "assets", "img", "Logo", "Small-VO-LOGO.png");
+                }
+                string reportLogo = System.IO.File.Exists(logoPath) ? new Uri(logoPath).AbsoluteUri : $"{host}FileServer/Logo/Small-VO-LOGO.png";
+
+                var paramList = new List<ReportParameter>
+                {
+                    new ReportParameter("logoPath", reportLogo),
+                    new ReportParameter("reportTitle", reportTitle)
+                };
+
+                report.SetParameters(paramList);
+                report.Refresh();
+
+                // 5. Render Output
+                if (string.Equals(format, "excel", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(format, "xlsx", StringComparison.OrdinalIgnoreCase))
+                {
+                    byte[] excel = report.Render("EXCELOPENXML");
+                    string excelFileName = $"EmployeePayoutLedger_{payMonth:D2}_{payYear}.xlsx";
+                    return File(excel, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
+                }
+
+                byte[] pdf = report.Render("PDF");
+                string pdfFileName = $"EmployeePayoutLedger_{payMonth:D2}_{payYear}.pdf";
+                return File(pdf, "application/pdf", pdfFileName);
+            }
+            catch (Exception ex)
+            {
+                var baseEx = ex.GetBaseException();
+                string errorMsg = $"{ex.Message}";
+                if (baseEx != null && baseEx != ex && !errorMsg.Contains(baseEx.Message))
+                {
+                    errorMsg += $" --> {baseEx.Message}";
+                }
+                Exception curr = ex;
+                while (curr.InnerException != null)
+                {
+                    curr = curr.InnerException;
+                    if (!errorMsg.Contains(curr.Message))
+                    {
+                        errorMsg += $" | {curr.Message}";
+                    }
+                }
+                Logger.LogError($"Error in DownloadEmployeePayoutLedger: {ex}");
+                return BadRequest(errorMsg);
+            }
+        }
+
         private static string FormatLeaveNumber(double val)
         {
             return val % 1 == 0 ? val.ToString("0") : val.ToString("0.##");
