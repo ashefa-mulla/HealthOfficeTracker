@@ -294,9 +294,21 @@ const EmployeeSalaryTab: React.FC<EmployeeSalaryTabProps> = ({ employeeId }) => 
                           </span>
                         </td>
                         <td>
-                          <span className="fw-semibold text-primary">
-                            {formatCurrency(rev.matrix ?? rev.Matrix)}
-                          </span>
+                          <div className="d-flex align-items-center gap-1">
+                            <span className="fw-semibold text-primary">
+                              {formatCurrency(rev.matrix ?? rev.Matrix)}
+                            </span>
+                            {Boolean(
+                              rev.isCurrentMonthMatrix ??
+                              rev.IsCurrentMonthMatrix ??
+                              (rev as any).iscurrentmonthmatrix ??
+                              (rev as any).is_current_month_matrix
+                            ) && (
+                              <Badge color="info" pill className="font-size-10 px-1 py-0 ms-1" title="Current Month Matrix">
+                                Current
+                              </Badge>
+                            )}
+                          </div>
                         </td>
                         <td>
                           <span className="text-muted">

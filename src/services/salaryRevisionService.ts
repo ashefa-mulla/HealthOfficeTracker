@@ -130,6 +130,8 @@ class SalaryRevisionService {
         seqNo: Number(model.seqNo ?? model.SeqNo ?? 1),
         IsActive: model.isActive !== undefined ? Boolean(model.isActive) : true,
         isActive: model.isActive !== undefined ? Boolean(model.isActive) : true,
+        IsCurrentMonthMatrix: Boolean(model.isCurrentMonthMatrix ?? model.IsCurrentMonthMatrix ?? false),
+        isCurrentMonthMatrix: Boolean(model.isCurrentMonthMatrix ?? model.IsCurrentMonthMatrix ?? false),
         CreatedBy: model.createdBy ?? model.CreatedBy ?? null,
         UpdatedBy: model.updatedBy ?? model.UpdatedBy ?? null,
       };

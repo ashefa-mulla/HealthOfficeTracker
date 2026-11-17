@@ -137,7 +137,7 @@ const EmployeeAttendanceList: React.FC = () => {
   useEffect(() => {
     dispatch(fetchEmployeeAttendanceDropdowns());
     loadData(pageNumber, pageSize_Local, selectedEmpId, selectedMonth, selectedYear, searchTerm);
-  }, [dispatch, pageNumber, pageSize_Local, selectedEmpId, selectedMonth, selectedYear, searchTerm, loadData]);
+  }, [dispatch, pageNumber, pageSize_Local, selectedEmpId, selectedMonth, selectedYear, searchTerm]);
 
   // Handle server-side query changes from TableContainer (search, pagination, pageSize)
   const handleServerChange = (query: any) => {
@@ -334,6 +334,24 @@ const EmployeeAttendanceList: React.FC = () => {
         },
       },
       {
+        header: 'Status',
+        accessorKey: 'isApproved',
+        enableColumnFilter: false,
+        cell: (info) => {
+          const row = info.row.original;
+          const isApp = Boolean(row.isApproved ?? row.isapproved ?? row.IsApproved);
+          return isApp ? (
+            <span className="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
+              <i className="mdi mdi-check-circle-outline me-1"></i>Approved
+            </span>
+          ) : (
+            <span className="badge bg-secondary-subtle text-muted border px-2 py-1">
+              Pending
+            </span>
+          );
+        },
+      },
+      {
         header: 'Actions',
         accessorKey: 'id',
         enableColumnFilter: false,
@@ -341,6 +359,32 @@ const EmployeeAttendanceList: React.FC = () => {
         cell: (info) => {
           const row = info.row.original;
           const id = Number(row.id ?? row.ID ?? 0);
+          const isApp = Boolean(
+            row.isApproved ??
+            row.isapproved ??
+            row.IsApproved ??
+            row.Isapproved ??
+            row.is_approved
+          );
+
+          if (isApp) {
+            return (
+              <div className="d-flex align-items-center gap-2">
+                <Link
+                  to={`/area/employeeattendance/edit/${id}?view=1`}
+                  className="btn btn-sm btn-subtle-secondary"
+                  title="View Attendance (Approved)"
+                  style={{ padding: '4px 8px' }}
+                >
+                  <i className="mdi mdi-eye font-size-14 align-middle"></i>
+                </Link>
+                <span className="text-muted small" title="Attendance is approved and locked">
+                  <i className="mdi mdi-lock-outline font-size-14 align-middle"></i>
+                </span>
+              </div>
+            );
+          }
+
           return (
             <div className="d-flex align-items-center gap-2">
               <Link

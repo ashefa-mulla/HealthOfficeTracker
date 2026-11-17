@@ -124,6 +124,15 @@ const REPORTS_LIST: ReportItemDefinition[] = [
     icon: '',
     color: '',
   },
+  {
+    id: 14,
+    key: 'payroll_ledger',
+    title: 'Payroll Ledger',
+    description: '',
+    category: 'Payroll',
+    icon: '',
+    color: '',
+  },
 ];
 
 // Employee-accessible reports (strictly the 3 employee reports)

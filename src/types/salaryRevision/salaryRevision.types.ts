@@ -33,6 +33,8 @@ export interface EmployeeSalaryRevisionModel {
   UpdatedDate?: string | null;
   isActive?: boolean | number;
   IsActive?: boolean | number;
+  isCurrentMonthMatrix?: boolean | null;
+  IsCurrentMonthMatrix?: boolean | null;
   status?: string | null;
   Status?: string | null;
   [key: string]: any;
@@ -61,4 +63,6 @@ export interface SalaryRevisionFormData {
   toDate?: string | null;
   seqNo?: number;
   isActive: boolean;
+  isCurrentMonthMatrix?: boolean;
+  IsCurrentMonthMatrix?: boolean;
 }

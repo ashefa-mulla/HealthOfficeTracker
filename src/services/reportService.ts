@@ -53,6 +53,17 @@ function triggerDownload(url: string, fileName: string) {
   document.body.removeChild(link);
 }
 
+/**
+ * Helper to download any file blob directly (e.g. excel, csv)
+ */
+export function downloadFileBlob(blob: Blob, fileName: string, mimeType?: string): void {
+  const fileUrl = window.URL.createObjectURL(
+    new Blob([blob], { type: mimeType || 'application/octet-stream' })
+  );
+  triggerDownload(fileUrl, fileName);
+  setTimeout(() => window.URL.revokeObjectURL(fileUrl), 30000);
+}
+
 class ReportService {
   /**
    * 1. Purchase Order Statement Report
@@ -403,6 +414,44 @@ class ReportService {
       });
       return response.data;
     } catch (error) {
+      const msg = await extractBlobErrorMessage(error);
+      throw new Error(msg);
+    }
+  }
+
+  /**
+   * 13. Payroll Ledger (Employee Payout Ledger)
+   * GET /api/Reports/DownloadEmployeePayoutLedger?month={month}&year={year}&format={format}
+   */
+  async downloadEmployeePayoutLedger(params: {
+    month?: number;
+    year?: number;
+    format?: string;
+  }): Promise<Blob> {
+    const queryParams = {
+      month: params.month,
+      year: params.year,
+      format: params.format || 'pdf',
+    };
+    try {
+      const response = await axiosInstance.get(`${BASE_REPORTS}/DownloadEmployeePayoutLedger`, {
+        params: queryParams,
+        responseType: 'blob',
+      });
+      return response.data;
+    } catch (error: any) {
+      // Fallback in case endpoint is mapped under /api/Employee
+      if (error?.response?.status === 404) {
+        try {
+          const fallback = await axiosInstance.get(`/api/Employee/DownloadEmployeePayoutLedger`, {
+            params: queryParams,
+            responseType: 'blob',
+          });
+          return fallback.data;
+        } catch {
+          // Ignore and let standard error handler report
+        }
+      }
       const msg = await extractBlobErrorMessage(error);
       throw new Error(msg);
     }

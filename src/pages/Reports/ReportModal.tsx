@@ -13,7 +13,7 @@ import {
 import { useForm, FormProvider } from 'react-hook-form';
 import { RHFInput, RHFSelect, RHFCheckBox } from '@/Components/Common/Forms';
 import { ReportItemDefinition, LookupOption } from '@/types/report/report.types';
-import reportService, { openPdfBlob } from '@/services/reportService';
+import reportService, { openPdfBlob, downloadFileBlob } from '@/services/reportService';
 import toastService from '@/services/toastService';
 import { useAuthStore } from '@/store/useAuthStore';
 import { getNumericEmployeeId, getOwnEmployeeId, getUserFullName } from '@/helpers/userHelper';
@@ -41,6 +41,7 @@ export interface ReportFormData {
   selectedMonth: number;
   selectedYear: number;
   getCurrentYearLeaves: boolean;
+  format?: string;
 }
 
 const formatDateToYMD = (d: Date): string => {
@@ -106,6 +107,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
       selectedMonth: now.getMonth() + 1,
       selectedYear: now.getFullYear(),
       getCurrentYearLeaves: false,
+      format: 'pdf',
     },
   });
 
@@ -133,6 +135,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         selectedMonth: currentDate.getMonth() + 1,
         selectedYear: currentDate.getFullYear(),
         getCurrentYearLeaves: false,
+        format: 'pdf',
       });
       clearErrors();
 
@@ -180,7 +183,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         setProjectList(projs);
       }
 
-      if (['monthly_eval_summary', 'employee_payslip'].includes(key)) {
+      if (['monthly_eval_summary', 'employee_payslip', 'payroll_ledger'].includes(key)) {
         const [yrs, mths] = await Promise.all([reportService.getYears(), reportService.getMonths()]);
         setYearList(yrs);
         setMonthList(mths);
@@ -292,6 +295,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         break;
 
       case 'monthly_eval_summary':
+      case 'payroll_ledger':
         if (!data.selectedMonth) {
           setError('selectedMonth', { message: 'Month is required' });
           isValid = false;
@@ -463,6 +467,21 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           break;
         }
 
+        case 'payroll_ledger': {
+          const mth = Number(data.selectedMonth) || (new Date().getMonth() + 1);
+          const yr = Number(data.selectedYear) || new Date().getFullYear();
+          const fmt = (data.format || 'pdf').toLowerCase();
+          const isExcel = fmt === 'excel' || fmt === 'xlsx';
+          const ext = isExcel ? 'xlsx' : 'pdf';
+          fileName = `EmployeePayoutLedger_${String(mth).padStart(2, '0')}_${yr}.${ext}`;
+          blob = await reportService.downloadEmployeePayoutLedger({
+            month: mth,
+            year: yr,
+            format: fmt,
+          });
+          break;
+        }
+
         default:
           throw new Error('Unsupported report type');
       }
@@ -472,7 +491,18 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         return;
       }
 
-      openPdfBlob(blob, fileName, false);
+      if (
+        key === 'payroll_ledger' &&
+        ((data.format || 'pdf').toLowerCase() === 'excel' || (data.format || 'pdf').toLowerCase() === 'xlsx')
+      ) {
+        downloadFileBlob(
+          blob,
+          fileName,
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+      } else {
+        openPdfBlob(blob, fileName, false);
+      }
       toastService.success(`${report.title} generated successfully.`);
       toggle();
     } catch (err: any) {
@@ -724,6 +754,48 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                     </Row>
                   </>
                 )}
+
+                {/* Payroll Ledger */}
+                {report.key === 'payroll_ledger' && (
+                  <>
+                    <Row>
+                      <Col md={6}>
+                        <RHFSelect<ReportFormData>
+                          name="selectedMonth"
+                          label="Month"
+                          placeholder="Select Month"
+                          required
+                          isClearable={false}
+                          options={monthList.map((m) => ({ value: m.id, label: m.name }))}
+                        />
+                      </Col>
+                      <Col md={6}>
+                        <RHFSelect<ReportFormData>
+                          name="selectedYear"
+                          label="Year"
+                          placeholder="Select Year"
+                          required
+                          isClearable={false}
+                          options={yearList.map((y) => ({ value: y, label: String(y) }))}
+                        />
+                      </Col>
+                    </Row>
+
+                    <Row className="mt-2">
+                      <Col md={12}>
+                        <RHFSelect<ReportFormData>
+                          name="format"
+                          label="Format"
+                          isClearable={false}
+                          options={[
+                            { value: 'pdf', label: 'PDF Document (.pdf)' },
+                            { value: 'excel', label: 'Excel Spreadsheet (.xlsx)' },
+                          ]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
+                )}
               </>
             )}
           </ModalBody>
@@ -742,7 +814,8 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                   <Spinner size="sm" className="me-1" />
                   <span>Generating...</span>
                 </>
-              ) : report.key === 'monthly_invoice_excel' ? (
+              ) : report.key === 'monthly_invoice_excel' ||
+                (report.key === 'payroll_ledger' && (watch('format') === 'excel' || watch('format') === 'xlsx')) ? (
                 'Export Excel'
               ) : (
                 'Generate'

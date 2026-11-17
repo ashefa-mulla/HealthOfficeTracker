@@ -39,6 +39,9 @@ export interface EmployeeAttendanceListItem {
   updatedBy?: number | null;
   updated_date?: string | null;
   updatedDate?: string | null;
+  isApproved?: boolean | null;
+  isapproved?: boolean | null;
+  IsApproved?: boolean | null;
   [key: string]: any;
 }
 
@@ -72,6 +75,9 @@ export interface EmployeeAttendanceModel {
   sl?: number | null;
   updatedBy?: number | null;
   updatedDate?: string | null;
+  isApproved?: boolean | null;
+  isapproved?: boolean | null;
+  IsApproved?: boolean | null;
 }
 
 export interface UploadAttendanceResult {

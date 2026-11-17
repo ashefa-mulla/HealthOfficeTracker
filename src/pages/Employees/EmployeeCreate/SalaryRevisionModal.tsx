@@ -28,6 +28,28 @@ interface SalaryRevisionModalProps {
   nextSeqNo?: number;
 }
 
+const getCaseInsensitive = (obj: any, key: string): any => {
+  if (!obj || typeof obj !== 'object') return undefined;
+  const target = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+  for (const k of Object.keys(obj)) {
+    if (k.toLowerCase().replace(/[^a-z0-9]/g, '') === target) {
+      return obj[k];
+    }
+  }
+  return undefined;
+};
+
+const parseCmmBoolean = (val: any): boolean => {
+  if (val === false || val === 0 || val === '0' || val === 'false') {
+    return false;
+  }
+  if (val === true || val === 1 || val === '1' || val === 'true') {
+    return true;
+  }
+  // Default to true as per backend model: public bool? IsCurrentMonthMatrix { get; set; } = true;
+  return true;
+};
+
 const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
   isOpen,
   toggle,
@@ -44,26 +66,47 @@ const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
   const [toDate, setToDate] = useState<string>('');
   const [seqNo, setSeqNo] = useState<number>(nextSeqNo);
   const [isActive, setIsActive] = useState<boolean>(true);
+  const [isCurrentMonthMatrix, setIsCurrentMonthMatrix] = useState<boolean>(true);
   const [saving, setSaving] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const populate = (data: any) => {
+    const b = data.basic ?? data.Basic;
+    const m = data.matrix ?? data.Matrix;
+    const fd = data.fromDate ?? data.FromDate;
+    const td = data.toDate ?? data.ToDate;
+    const sq = data.seqNo ?? data.SeqNo;
+    const act = data.isActive !== undefined ? data.isActive : data.IsActive;
+    const rawCmm = getCaseInsensitive(data, 'iscurrentmonthmatrix');
+
+    setBasic(b !== undefined && b !== null ? String(b) : '');
+    setMatrix(m !== undefined && m !== null ? String(m) : '');
+    setFromDate(fd ? String(fd).substring(0, 10) : '');
+    setToDate(td ? String(td).substring(0, 10) : '');
+    setSeqNo(sq !== undefined && sq !== null ? Number(sq) : nextSeqNo);
+    setIsActive(act !== undefined && act !== null ? Boolean(act) : true);
+    setIsCurrentMonthMatrix(parseCmmBoolean(rawCmm));
+  };
 
   useEffect(() => {
     if (isOpen) {
       setErrors({});
       if (revision) {
-        const b = revision.basic ?? revision.Basic;
-        const m = revision.matrix ?? revision.Matrix;
-        const fd = revision.fromDate ?? revision.FromDate;
-        const td = revision.toDate ?? revision.ToDate;
-        const sq = revision.seqNo ?? revision.SeqNo;
-        const act = revision.isActive !== undefined ? revision.isActive : revision.IsActive;
+        populate(revision);
 
-        setBasic(b !== undefined && b !== null ? String(b) : '');
-        setMatrix(m !== undefined && m !== null ? String(m) : '');
-        setFromDate(fd ? String(fd).substring(0, 10) : '');
-        setToDate(td ? String(td).substring(0, 10) : '');
-        setSeqNo(sq !== undefined && sq !== null ? Number(sq) : nextSeqNo);
-        setIsActive(act !== undefined && act !== null ? Boolean(act) : true);
+        const revId = Number(revision.id ?? revision.ID ?? 0);
+        if (revId > 0) {
+          salaryRevisionService
+            .getSalaryRevisionById(revId)
+            .then((fullData) => {
+              if (fullData) {
+                populate(fullData);
+              }
+            })
+            .catch((err) => {
+              console.warn('Could not fetch full revision details:', err);
+            });
+        }
       } else {
         setBasic('');
         setMatrix('');
@@ -72,6 +115,7 @@ const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
         setToDate('');
         setSeqNo(nextSeqNo);
         setIsActive(true);
+        setIsCurrentMonthMatrix(true);
       }
     }
   }, [isOpen, revision, nextSeqNo]);
@@ -124,6 +168,8 @@ const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
         SeqNo: Number(seqNo) || 1,
         isActive: isActive,
         IsActive: isActive,
+        isCurrentMonthMatrix: isCurrentMonthMatrix,
+        IsCurrentMonthMatrix: isCurrentMonthMatrix,
       };
 
       await salaryRevisionService.addEditSalaryRevision(model);
@@ -272,7 +318,7 @@ const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
               </FormGroup>
             </Col>
 
-            <Col md={6} className="d-flex align-items-center pt-3">
+            <Col md={6} className="d-flex flex-column justify-content-center gap-2 pt-2">
               <FormGroup check className="mb-0">
                 <Input
                   type="checkbox"
@@ -282,6 +328,18 @@ const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
                 />
                 <Label check for="isActiveRevision" className="fw-semibold text-dark ms-2">
                   Current Active Revision
+                </Label>
+              </FormGroup>
+
+              <FormGroup check className="mb-0">
+                <Input
+                  type="checkbox"
+                  id="isCurrentMonthMatrix"
+                  checked={isCurrentMonthMatrix}
+                  onChange={(e) => setIsCurrentMonthMatrix(e.target.checked)}
+                />
+                <Label check for="isCurrentMonthMatrix" className="fw-semibold text-dark ms-2">
+                  Current Month Matrix
                 </Label>
               </FormGroup>
             </Col>

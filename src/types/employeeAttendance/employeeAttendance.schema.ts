@@ -31,6 +31,7 @@ export const employeeAttendanceFormSchema = z.object({
   pl: numberField(0, "Paid leave must be 0 or more"),
   cl: numberField(0, "Casual leave must be 0 or more"),
   sl: numberField(0, "Sick leave must be 0 or more"),
+  isApproved: z.boolean().default(false),
   updatedBy: z.number().nullable().optional(),
 });
 

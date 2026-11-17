@@ -16,6 +16,7 @@ export const emptyEmployeeAttendanceForm = (): EmployeeAttendanceForm => {
     pl: 0,
     cl: 0,
     sl: 0,
+    isApproved: false,
     updatedBy: null,
   };
 };
@@ -32,6 +33,14 @@ export const toEmployeeAttendanceForm = (data: any): EmployeeAttendanceForm => {
     pl: numOrDefault(data?.pl ?? data?.Pl ?? data?.PL, 0),
     cl: numOrDefault(data?.cl ?? data?.Cl ?? data?.CL, 0),
     sl: numOrDefault(data?.sl ?? data?.Sl ?? data?.SL, 0),
+    isApproved: Boolean(
+      data?.isApproved ??
+      data?.isapproved ??
+      data?.IsApproved ??
+      data?.Isapproved ??
+      data?.is_approved ??
+      false
+    ),
     updatedBy: data?.updatedBy ?? data?.UpdatedBy ?? data?.updated_by ?? null,
   };
 };
@@ -49,6 +58,9 @@ export const toEmployeeAttendanceModel = (
   pl: Number(form.pl || 0),
   cl: Number(form.cl || 0),
   sl: Number(form.sl || 0),
+  isApproved: Boolean(form.isApproved),
+  isapproved: Boolean(form.isApproved),
+  IsApproved: Boolean(form.isApproved),
   updatedBy: currentUserId || (form.updatedBy ? Number(form.updatedBy) : null),
   updatedDate: new Date().toISOString(),
 });
