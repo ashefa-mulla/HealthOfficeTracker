@@ -41,6 +41,7 @@ namespace BusinessApp.Models
         public int? UpdatedBy { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
+        public bool? IsApproved { get; set; }
     }
 }
 

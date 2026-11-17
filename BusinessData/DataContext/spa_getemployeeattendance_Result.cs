@@ -20,6 +20,7 @@ namespace BusinessData.DataContext
         public decimal? PaidDays { get; set; }
         public int? updated_by { get; set; }
         public DateTime? updated_date { get; set; }
+        public bool?  IsApproved { get; set; }
     }
 }
 

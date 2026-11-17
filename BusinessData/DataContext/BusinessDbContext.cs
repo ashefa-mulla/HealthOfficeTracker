@@ -34,6 +34,8 @@ public partial class BusinessDbContext : DbContext
 
     public virtual DbSet<TblAccountCategory> TblAccountCategories { get; set; }
 
+    public virtual DbSet<TblAllowanceMaster> TblAllowanceMasters { get; set; }
+
     public virtual DbSet<TblApplicationActivity> TblApplicationActivities { get; set; }
 
     public virtual DbSet<TblBankDemo> TblBankDemos { get; set; }
@@ -65,6 +67,8 @@ public partial class BusinessDbContext : DbContext
     public virtual DbSet<TblEmployeeHourlyrate> TblEmployeeHourlyrates { get; set; }
 
     public virtual DbSet<TblEmployeeMatrix> TblEmployeeMatrices { get; set; }
+
+    public virtual DbSet<TblEmployeeMonthlyAllowance> TblEmployeeMonthlyAllowances { get; set; }
 
     public virtual DbSet<TblEmployeeSalaryRevision> TblEmployeeSalaryRevisions { get; set; }
 
@@ -287,6 +291,18 @@ public partial class BusinessDbContext : DbContext
             entity.Property(e => e.CreatedAtUtc).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.RegisteredAtUtc).HasDefaultValueSql("(sysutcdatetime())");
+        });
+
+        modelBuilder.Entity<TblAllowanceMaster>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("Tbl_AllowanceMaster");
+        });
+
+        modelBuilder.Entity<TblEmployeeMonthlyAllowance>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("Tbl_Employee_MonthlyAllowance");
         });
 
         modelBuilder.Entity<TblEmployeeAttendance>(entity =>
@@ -661,6 +677,7 @@ public partial class BusinessDbContext : DbContext
         modelBuilder.Entity<sp_getemployeemeetingdetails_Results>().HasNoKey();
         modelBuilder.Entity<sp_GetEmployeePaySlip_Result>().HasNoKey();
         modelBuilder.Entity<sp_GetAllEmployeePayoutLedger_Result>().HasNoKey();
+        modelBuilder.Entity<sp_GetEmployeeMonthlyAllowance_Result>().HasNoKey();
         modelBuilder.Entity<spa_getemployeeattendance_records_Result>().HasNoKey();
         modelBuilder.Entity<spa_getemployeeattendance_Result>().HasNoKey();
         modelBuilder.Entity<spa_getemployeesalaryrevision_records_Result>().HasNoKey();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -47,6 +47,8 @@ public partial class TblAllowanceMaster
 
     public bool IsActive { get; set; }
 
+    public bool IsMonthlyAllowance { get; set; }
+
     public int? CreatedBy { get; set; }
 
     [Column(TypeName = "datetime")]
@@ -57,6 +59,5 @@ public partial class TblAllowanceMaster
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedDate { get; set; }
 
-    [InverseProperty("Allowance")]
-    public virtual ICollection<TblEmployeeMonthlyAllowance> TblEmployeeMonthlyAllowances { get; set; } = new List<TblEmployeeMonthlyAllowance>();
+
 }

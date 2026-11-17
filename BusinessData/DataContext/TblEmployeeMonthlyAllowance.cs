@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,7 +39,5 @@ public partial class TblEmployeeMonthlyAllowance
 
     public bool IsActive { get; set; }
 
-    [ForeignKey("AllowanceId")]
-    [InverseProperty("TblEmployeeMonthlyAllowances")]
-    public virtual TblAllowanceMaster Allowance { get; set; }
+    
 }

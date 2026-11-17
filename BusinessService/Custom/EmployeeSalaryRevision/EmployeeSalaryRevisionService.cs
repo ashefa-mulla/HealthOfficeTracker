@@ -132,6 +132,7 @@ namespace BusinessService.Custom.EmployeeSalaryRevision
                     existing.IsActive = tbl.IsActive;
                     existing.UpdatedBy = tbl.UpdatedBy;
                     existing.UpdatedDate = DateTime.Now;
+                    existing.IsCurrentMonthMatrix = tbl.IsCurrentMonthMatrix;
 
                     // If updated revision is set to active, deactivate/close any other active revisions for this employee
                     if (existing.IsActive)
@@ -153,6 +154,7 @@ namespace BusinessService.Custom.EmployeeSalaryRevision
                     tbl.CreatedDate = existing.CreatedDate;
                     tbl.CreatedBy = existing.CreatedBy;
                     tbl.UpdatedDate = existing.UpdatedDate;
+                    tbl.IsCurrentMonthMatrix = existing.IsCurrentMonthMatrix;
                     return true;
                 }
                 else

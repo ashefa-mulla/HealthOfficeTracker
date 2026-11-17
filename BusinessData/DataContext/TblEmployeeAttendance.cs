@@ -38,5 +38,6 @@ public partial class TblEmployeeAttendance
 
     [Column("updated_date", TypeName = "datetime")]
     public DateTime? UpdatedDate { get; set; }
+    public bool? IsApproved { get; set; }
 }
 

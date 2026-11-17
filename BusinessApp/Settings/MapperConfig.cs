@@ -81,6 +81,17 @@ namespace BusinessApp.Settings
             CreateMap<EvaluationLockModel, TblEvaluationLock>().ReverseMap();
             CreateMap<EmployeeAttendanceModel, TblEmployeeAttendance>().ReverseMap();
             CreateMap<EmployeeSalaryRevisionModel, TblEmployeeSalaryRevision>().ReverseMap();
+
+            CreateMap<EmployeeMonthlyAllowanceModel, TblEmployeeMonthlyAllowance>()
+                .ReverseMap();
+                
+            CreateMap<AllowanceMasterModel, TblAllowanceMaster>().ReverseMap();
+            
+            CreateMap<sp_GetEmployeeMonthlyAllowance_Result, EmployeeMonthlyAllowanceModel>()
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.ID))
+                .ForMember(d => d.AllowanceId, o => o.MapFrom(s => s.AllowanceID))
+                .ForMember(d => d.EmpId, o => o.MapFrom(s => s.EmpID))
+                .ReverseMap();
             
         }
     }

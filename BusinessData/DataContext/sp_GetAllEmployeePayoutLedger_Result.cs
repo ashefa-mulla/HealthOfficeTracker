@@ -46,5 +46,9 @@ namespace BusinessData.DataContext
         public string Website { get; set; }
         public string PrimaryContact { get; set; }
         public string PrimaryEmail { get; set; }
+
+        public bool? IsCurrentMonthMatrix { get; set; }
+        public int? EvaluationMonth { get; set; }
+        public int? EvaluationYear { get; set; }
     }
 }

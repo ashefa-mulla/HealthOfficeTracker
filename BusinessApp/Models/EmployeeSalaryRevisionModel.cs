@@ -41,6 +41,7 @@ namespace BusinessApp.Models
         public DateTime? UpdatedDate { get; set; }
 
         public bool IsActive { get; set; } = true;
+        public bool? IsCurrentMonthMatrix { get; set; } = true;
 
         public bool ShouldSerializeEmpIdUnderscore() => false;
     }
