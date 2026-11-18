@@ -7,6 +7,12 @@ import taskSchedulerLogo from '@/assets/images/apps/task-scheduler.svg';
 import snippingToolLogo from '@/assets/images/apps/snipping-tool.svg';
 import screenshotLogo from '@/assets/images/apps/screenshot.svg';
 import remoteDesktopLogo from '@/assets/images/apps/remote-desktop.svg';
+import antigravityLogo from '@/assets/images/apps/antigravity.svg';
+import azureVpnLogo from '@/assets/images/apps/azure-vpn.svg';
+import stickyNotesLogo from '@/assets/images/apps/sticky-notes.svg';
+import navicatLogo from '@/assets/images/apps/navicat.svg';
+import winrarLogo from '@/assets/images/apps/winrar.svg';
+import calculatorLogo from '@/assets/images/apps/calculator.svg';
 import dashboardService from '@/services/dashboardService';
 import {
   EmployeeActivityDetail,
@@ -44,6 +50,12 @@ const formatSeconds = (total: number): string => {
 const APP_BRANDS: { match: string[]; accent: string; bg: string; fg: string; grad?: string }[] = [
   // File Explorer, or a folder/drive path used as the window name (e.g. "C:\Windows\...") - checked first
   { match: ['explorer', ':\\'], accent: '#f5b400', bg: '#fff6d9', fg: '#8a6500' },
+  // Specific product names - checked before the generic matches below (e.g. 'sql', 'search') so they are not shadowed
+  { match: ['antigravity'], accent: '#4285f4', bg: '#e8f0fe', fg: '#1a56c4' },
+  { match: ['azure vpn', 'azurevpn'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
+  { match: ['sticky notes', 'stickynotes', 'stikynot'], accent: '#f5b800', bg: '#fff6d1', fg: '#8a6500' },
+  { match: ['navicat'], accent: '#14937f', bg: '#def6f1', fg: '#0b6b66' },
+  { match: ['winrar'], accent: '#7b2f93', bg: '#f1e6f6', fg: '#5a2070' },
   { match: ['activepresenter'], accent: '#f26522', bg: '#fdebe2', fg: '#b84712' },
   { match: ['photos'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
   { match: ['calculator', 'calc'], accent: '#0078d4', bg: '#e0effb', fg: '#005a9e' },
@@ -133,6 +145,12 @@ const APP_COLOUR_LOGOS: Record<string, string> = {
   snipping: snippingToolLogo,
   screenshot: screenshotLogo,
   'remote desktop': remoteDesktopLogo,
+  antigravity: antigravityLogo,
+  'azure vpn': azureVpnLogo,
+  'sticky notes': stickyNotesLogo,
+  navicat: navicatLogo,
+  winrar: winrarLogo,
+  calculator: calculatorLogo,
 };
 
 /** No brand logo available: fall back to a generic mdi icon */
