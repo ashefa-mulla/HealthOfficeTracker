@@ -267,7 +267,7 @@ const SalaryRevisionModal: React.FC<SalaryRevisionModalProps> = ({
                   placeholder="Select Date"
                   className={`form-control ${errors.fromDate ? 'is-invalid' : ''}`}
                   options={{
-                    dateFormat: 'Y-m-d',
+                    dateFormat: 'm/d/Y',
                   }}
                 />
                 {errors.fromDate && (

@@ -45,7 +45,7 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
       <li className="menu-item">
         <NavLink
           to="/area/employee/list"
-          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/employee') ? 'active' : ''}`}
+          className={({ isActive }) => `menu-link ${isActive || location.pathname === '/area/employee' || location.pathname.startsWith('/area/employee/') ? 'active' : ''}`}
           onClick={onItemClick}
         >
           <i className="mdi mdi-account-group-outline"></i>
