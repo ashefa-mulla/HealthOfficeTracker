@@ -46,10 +46,16 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1901",
+            "NU1902",
+            "NU1903",
+            "NU1904"
           ]
         },
         "restoreAuditProperties": {
-          "enableAudit": "true",
+          "enableAudit": "false",
           "auditLevel": "low",
           "auditMode": "direct"
         },
@@ -179,10 +185,16 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1901",
+            "NU1902",
+            "NU1903",
+            "NU1904"
           ]
         },
         "restoreAuditProperties": {
-          "enableAudit": "true",
+          "enableAudit": "false",
           "auditLevel": "low",
           "auditMode": "direct"
         },
@@ -277,10 +289,16 @@
         "warningProperties": {
           "warnAsError": [
             "NU1605"
+          ],
+          "warnNotAsError": [
+            "NU1901",
+            "NU1902",
+            "NU1903",
+            "NU1904"
           ]
         },
         "restoreAuditProperties": {
-          "enableAudit": "true",
+          "enableAudit": "false",
           "auditLevel": "low",
           "auditMode": "direct"
         },

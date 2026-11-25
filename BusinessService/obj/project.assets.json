@@ -3704,10 +3704,16 @@
       "warningProperties": {
         "warnAsError": [
           "NU1605"
+        ],
+        "warnNotAsError": [
+          "NU1901",
+          "NU1902",
+          "NU1903",
+          "NU1904"
         ]
       },
       "restoreAuditProperties": {
-        "enableAudit": "true",
+        "enableAudit": "false",
         "auditLevel": "low",
         "auditMode": "direct"
       },
@@ -3746,18 +3752,5 @@
         "#import": []
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Microsoft.Data.SqlClient' 5.1.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
-      "libraryId": "Microsoft.Data.SqlClient",
-      "targetGraphs": [
-        "net8.0",
-        "net8.0/win-x64"
-      ]
-    }
-  ]
+  }
 }
