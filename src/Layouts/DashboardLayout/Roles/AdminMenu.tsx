@@ -13,6 +13,7 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
     clients: location.pathname.startsWith('/area/client') || location.pathname.startsWith('/area/project') || location.pathname.startsWith('/area/category'),
     accounts: location.pathname.startsWith('/area/accountcategory') || location.pathname.startsWith('/area/vendoraccount') || location.pathname.startsWith('/area/bankmaster') || location.pathname.startsWith('/area/purchaseorder') || location.pathname.startsWith('/area/chequerequest'),
     attendance: location.pathname.startsWith('/attendance'),
+    hr: location.pathname.startsWith('/area/leavemanagement') || location.pathname.startsWith('/area/leavetransaction') || location.pathname.startsWith('/area/employeeattendance') || location.pathname.startsWith('/area/allowancemaster'),
     tasks: location.pathname.startsWith('/tasks'),
     reports: location.pathname.startsWith('/reports'),
   });
@@ -207,28 +208,54 @@ const AdminMenu: React.FC<MenuProps> = ({ t = (s: string) => s, collapsed = fals
         </NavLink>
       </li>
 
-      {/* Leave Management (admin: all employees - apply/add, edit, approve, delete) */}
-      <li className="menu-item">
-        <NavLink
-          to="/area/leavemanagement"
-          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/leavemanagement') || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
-          onClick={onItemClick}
+      {/* HR Management with Submenu */}
+      <li className={`menu-item has-submenu ${openSubMenus.hr ? 'mm-active' : ''}`}>
+        <a
+          href="#hr-management"
+          className={`menu-link has-arrow ${openSubMenus.hr ? 'active' : ''}`}
+          onClick={(e) => toggleSubMenu('hr', e)}
+          title={collapsed ? t('HR Management') : undefined}
         >
-          <i className="mdi mdi-calendar-account-outline"></i>
-          <span>{t('Leave Management')}</span>
-        </NavLink>
-      </li>
-
-      {/* Employee Attendance (admin: insert, update, delete) */}
-      <li className="menu-item">
-        <NavLink
-          to="/area/employeeattendance/list"
-          className={({ isActive }) => `menu-link ${isActive || location.pathname.startsWith('/area/employeeattendance') ? 'active' : ''}`}
-          onClick={onItemClick}
-        >
-          <i className="mdi mdi-calendar-clock-outline"></i>
-          <span>{t('Employee Attendance')}</span>
-        </NavLink>
+          <i className="mdi mdi-account-tie-outline"></i>
+          {!collapsed && (
+            <>
+              <span>{t('HR Management')}</span>
+              <i className={`mdi ${openSubMenus.hr ? 'mdi-chevron-down' : 'mdi-chevron-right'} menu-arrow`}></i>
+            </>
+          )}
+        </a>
+        {(openSubMenus.hr || collapsed) && (
+          <ul className="sub-menu">
+            <li className="sub-menu-title">{t('HR Management')}</li>
+            <li>
+              <NavLink
+                to="/area/leavemanagement"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/leavemanagement') || location.pathname.startsWith('/area/leavetransaction') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Leave Management')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/employeeattendance/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/employeeattendance') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Employee Attendance')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/area/allowancemaster/list"
+                className={() => `sub-menu-link ${location.pathname.startsWith('/area/allowancemaster') ? 'active' : ''}`}
+                onClick={onItemClick}
+              >
+                {t('Allowance Master')}
+              </NavLink>
+            </li>
+          </ul>
+        )}
       </li>
   
 

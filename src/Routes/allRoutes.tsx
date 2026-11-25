@@ -13,6 +13,7 @@ import { VendorAccountList, VendorAccountCreate } from '../pages/VendorAccounts'
 import { BankMasterList, BankMasterCreate } from '../pages/BankMasters';
 import { PurchaseOrderList, PurchaseOrderCreate } from '../pages/PurchaseOrders';
 import { ChequeRequestList, ChequeRequestCreate } from '../pages/ChequeRequests';
+import { AllowanceMasterList, AllowanceMasterCreate } from '../pages/AllowanceMasters';
 import { EvaluationList } from '../pages/Evaluation';
 import { EmployeeAttendanceList, EmployeeAttendanceCreate } from '../pages/EmployeeAttendance';
 import Attendance from '../pages/Attendance';
@@ -68,6 +69,9 @@ const authProtectedRoutes: Array<RouteProps> = [
   { path: '/area/chequerequest/list', component: <ChequeRequestList /> },
   { path: '/area/chequerequest/create', component: <ChequeRequestCreate /> },
   { path: '/area/chequerequest/edit/:id', component: <ChequeRequestCreate /> },
+  { path: '/area/allowancemaster/list', component: <AllowanceMasterList /> },
+  { path: '/area/allowancemaster/create', component: <AllowanceMasterCreate /> },
+  { path: '/area/allowancemaster/edit/:id', component: <AllowanceMasterCreate /> },
   { path: '/area/evaluation/list', component: <EvaluationList /> },
   { path: '/area/employeeattendance/list', component: <EmployeeAttendanceList /> },
   { path: '/area/employeeattendance/create', component: <EmployeeAttendanceCreate /> },

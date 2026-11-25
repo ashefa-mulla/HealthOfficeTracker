@@ -265,6 +265,7 @@ const LeaveManagement: React.FC = () => {
           isColumnFilter={false}
           searchPlaceholder="Search employee or date..."
           searchAddLayout={true}
+          addButtonInFilterRow={true}
           isAddButton={true}
           buttonName="+ Add"
           buttonClass="btn-task-add-new"

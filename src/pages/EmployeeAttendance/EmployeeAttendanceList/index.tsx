@@ -441,7 +441,7 @@ const EmployeeAttendanceList: React.FC = () => {
         </div>
 
         {/* Filter Toolbar */}
-        <Card className="border-0 shadow-sm rounded-3 mb-4">
+        <Card className="border-0 shadow-sm rounded-3 mb-2">
           <CardBody className="p-3">
             <Row className="g-3 align-items-end">
               <Col lg={4} md={4} sm={12}>
@@ -533,10 +533,11 @@ const EmployeeAttendanceList: React.FC = () => {
         <TableContainer
           columns={columns}
           data={list || []}
-          isGlobalFilter={true}
+          isGlobalFilter={false}
           isColumnFilter={false}
           searchPlaceholder="Search employee, month, attendance..."
           searchAddLayout={true}
+          addButtonInFilterRow={true}
           isAddButton={true}
           buttonName="+ Add Attendance"
           buttonClass="btn-task-add-new"
